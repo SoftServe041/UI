@@ -4,7 +4,7 @@
     margin:0 auto;
     margin-top: 5px;
     padding-bottom: 20px;
-
+    padding-left: 10%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -19,6 +19,28 @@
     margin-top: 20px;
 }
 
+.DivLocation1{
+    float: left; 
+    width: 50%;
+}
+
+
+.DivLocation2{
+    float: right; 
+    width: 50%;
+}
+
+.DivCargo{
+    padding-top: 20px;
+}
+
+.DivButton{
+ padding-left: 40%;
+ padding-right: 40%;
+
+ padding-top: 20px;
+
+}
 
 .h2{
     color: #2d2929;
@@ -44,7 +66,7 @@
 }
 
 .Button-Search{
-    align-content: center;
+    
     background-color: #ff8e09;
     font-size: 25px;
     color: #2d2929;
@@ -63,4 +85,38 @@
     -o-box-shadow: 0 0 12px #2d2929;
     -ms-box-shadow: 0 0 12px #2d2929;
     -webkit-box-shadow: 0 0 12px #2d2929;
+}
+
+
+.Input1 {
+    font: Microsoft Tai Le Bold;
+    font-size: 16px;
+    color: #2d2929;
+    width: 50%;
+    -webkit-transition: width .35s ease-in-out;
+    transition: width .35s ease-in-out;
+  }
+
+
+.Input1:focus {
+    width: 70%;
+  }
+
+
+  .Input2 {
+    font: Microsoft Tai Le Bold;
+    font-size: 16px;
+    color: #2d2929;
+    width: 8%;
+    -webkit-transition: width .35s ease-in-out;
+    transition: width .35s ease-in-out;
+  }
+
+
+.Input2:focus {
+    width: 10%;
+  }
+
+.Form{
+      width: 100%;
 }
