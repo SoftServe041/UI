@@ -1,4 +1,10 @@
-.App {
+.AppStyle{
+  padding-top: 0px;
+  margin-top: 0px;
+}
+
+
+/*.App {
   text-align: center;
 }
 
@@ -23,6 +29,7 @@
 .App-link {
   color: #61dafb;
 }
+*/
 
 
 /*

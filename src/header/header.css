@@ -1,3 +1,9 @@
+.Div-Absolute{
+    position:absolute;
+    top:0;
+    width: 100%;
+}
+
 .Main-header{
     background-color: #ff8e09;
     width: 100%;
@@ -28,6 +34,7 @@
 
 .a{
     text-decoration: none;
+    color: #2d2929;
 }
 
 .Div-Login{

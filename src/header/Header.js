@@ -5,6 +5,7 @@ import './header.css';
 import AlertDialogSlide from './LogInModule';
 
 //Checking if user is logged in -> show correspondent menu
+
 function Greeting(props) {
     const isLoggedIn = props.isLoggedIn;
     if (isLoggedIn) {
@@ -13,23 +14,25 @@ function Greeting(props) {
     return <NotLogedIn />;
   }
 
+
+
 function NotLogedIn(props) {
   return (
     <div>
       
     <div className="Div-Login" > 
-      <h2 className="h2">LogIn</h2>
+      <h2 >LogIn</h2>
     </div>
 
     <div className="Div-Login" >
 
-      <h2 className="h2">|</h2>
+      <h2 >|</h2>
 
     </div>
 
-    <div className="Div-Login" id="TopNav">
+    <div className="Div-Login" >
     <a className="a" href="/#">
-      <h2 className="h2">SignUp</h2>
+      <h2 >SignUp</h2>
     </a>
     </div>
 
@@ -37,13 +40,15 @@ function NotLogedIn(props) {
   );
 }
 
+
+
 function UserLoggedIn(props) {
     return (
       <div>
         
-      <div className="Div-Login" id="TopNav">
+      <div className="Div-Login" >
       <a className="a" href="/#">
-        <h2 className="h2">My Account</h2>
+        <h2 >My Account</h2>
       </a>
       </div>
   
@@ -75,7 +80,7 @@ class Header extends React.Component{
 
 render(){
     return(
-        <div>
+        <div className="Div-Absolute">
         <header className="Main-header">
           <div className="Div-image">
             <a href="/">
@@ -85,7 +90,7 @@ render(){
         
           <div className="Div-Menu" id="TopNav">
             <a className="a" href="/#">
-            <h2 className="h2">About Us</h2>
+            <h2 >About Us</h2>
           </a>
           </div>
            
