@@ -1,0 +1,32 @@
+
+input {
+    width: 20%;
+    padding: 4px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #ffffff;
+}
+.greyComponent{
+
+    /*margin: 0 auto;
+    background-color: grey;
+    padding: 40px;
+    width: 50%;
+    height: 100%;
+    position: absolute;*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    min-width: 60%;
+    max-width: 500px;
+    min-height: 60%;
+    height: 100%;
+    padding: 0 1em;
+    background-color: grey;
+
+}
