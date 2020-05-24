@@ -83,6 +83,10 @@ function gettingCargoWeight(e) {
     console.log(e.props);
 }
 
+function FormSubmit(){
+   // e.preventDefault();
+    console.log(this.props.name);
+}
 
 class MainPage extends React.Component{
 /*
@@ -104,7 +108,7 @@ render(){
 
         
         <div className="Main-background">
-        <form className="Form">
+        <form className="Form" onSubmit={FormSubmit}>
         
               <h2>Location:</h2>
               <div className="DivLocation1">
@@ -117,7 +121,7 @@ render(){
 
               <div className="DivCargo">
               <h2>Cargo Information:</h2>
-              <input className="Input2" type="text" name="weight" placeholder="Tones"  />
+              <input className="Input2" type="number" name="weight" placeholder="Tones"  />
               </div>
               
               <div className="DivButton">

@@ -1,0 +1,53 @@
+.Form{
+    background-color: #c2c2c2;
+    width: 50%;
+}
+
+.Button{
+    background-color: #ff8e09;
+    font-size: 20px;
+    color: #2d2929;
+    padding: 3px 15px;
+    margin: 15px;
+    cursor: pointer;
+    border: 0px;
+    font: Microsoft Tai Le Bold;
+    box-shadow: 0 0 5px #c2c2c2;
+    width: 10rem;
+    text-align: center;
+    float: right;
+   }
+
+   .DivButton2{
+    background-color: red;
+    float: center;
+    width: 50%;
+   }
+
+.h3{
+    color: #2d2929;
+    font-weight: 10;
+    font-size: 16px;
+    font: Microsoft Tai Le Bold;
+}
+
+
+.DivText{
+    padding-right: 200px;
+}
+
+
+
+.Input {
+    font: Microsoft Tai Le Bold;
+    font-size: 16px;
+    color: #2d2929;
+    width: 30%;
+    -webkit-transition: width .35s ease-in-out;
+    transition: width .35s ease-in-out;
+  }
+
+
+.Input:focus {
+    border: 3px solid #2d2929;
+  }

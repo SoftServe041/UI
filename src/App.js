@@ -1,56 +1,45 @@
-import React from 'react';
+import React, {Suspense, lazy} from 'react';
 
 import Header from "./header/Header";
-import MainPage from "./main_page/Main_page";
 
-/*import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-ReactDOM.render((
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-), document.getElementById('root'))
+const Home = lazy(() => import('./main_page/Main_page'));
 
-
-const App = () => (
-  <div>
-    <Header />
-    <Main />
-  </div>
-)
-
-const Main = () => (
-  <main>
-    <Switch>
-      <Route exact path='/' component={MainPage}/>
-    </Switch>
-  </main>
-)
-*/
+const LoadBody = () => (
+  <Router>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route exact path="/" component={Home}/>
+      </Switch>
+    </Suspense>
+  </Router>
+);
 
 
-/*
-function renderSwitch() {
-  switch() {
-    case '/':
-      return <MainPage />;
-    default:
-      return 'foo';
+
+
+class App extends React.Component{
+  constructor(props){
+    super(props);
+  
+  }
+
+
+  render(){
+    return (
+      <div>
+       <Header />
+
+      <LoadBody />
+
+   
+      </div>
+     );
   }
 }
-{this.renderSwitch()}
-*/
 
-function App() {
-  return (
-   <div>
-    <Header />
-    
-    <MainPage />
 
-   </div>
-  );
-}
 
 
 export default App;
