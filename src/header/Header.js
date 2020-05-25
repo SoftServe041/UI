@@ -1,12 +1,12 @@
 import React, { useState} from 'react';
 
 import PropTypes from 'prop-types'
-import Modal from 'react-modal'
+
 
 import logo from './logo.png';
 import './header.css';
-import Context from './Context'
-import App from '../App';
+import MContext from './Context'
+
 import LogInMenu from './LoginMenu'
 
 
@@ -23,16 +23,27 @@ function Greeting() {
 
 
 
-function NotLogedIn() {
-  const [modalIsOpen, setModalIsOpen] = useState(false)
+function NotLogedIn(props) {
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const modalOpened = e => { 
+    e.preventDefault();
+    setModalIsOpen(true);
+  
+  };
+  // <LogInMenu modalIsOpen={modalIsOpen} handler1={() => this.props.handler1}/>
+  //onClick={()=> {this.props.handler2} } closeModal={() => {this.props.handler1}  
+  //this.state.messageShown
   return (
     <div>
 
-    <div className="Div-Login" onClick={ () => setModalIsOpen(false) }> 
-    <a className="a" href="/#">
-      <h2 >LogIn</h2>
-      <LogInMenu modalIsOpen={true}/>
-      </a>
+    <div className="Div-Login"  onClick={modalOpened } > 
+      <h2  >LogIn</h2>
+      {console.log(modalIsOpen, ' hello from header js')}
+      
+      <LogInMenu modalIsOpen={modalIsOpen} />
+      
+      
     </div>
      
     
@@ -52,6 +63,50 @@ function NotLogedIn() {
 
 
 
+/////////////////////////////onclick does not work -> testing
+
+/*
+const modalIsOpen = true;
+class NotLogedIn extends React.Component {
+  constructor(params){
+    super(params);
+
+    //this.modalIsOpen = true;
+    
+  }
+
+
+
+  
+  render(){
+
+      return (
+    <div>
+
+    <div className="Div-Login" onClick={ () => {this.modalIsOpen = true}}  > 
+      <h2 onClick={() => {this.modalIsOpen = true} } >LogIn</h2>
+      <LogInMenu modalIsOpen={modalIsOpen}/>
+    </div>
+     
+    
+    <div className="Div-Login1" >
+      <h2 >|</h2>
+    </div>
+ 
+    <div className="Div-Login" >
+    <a className="a" href="#">
+      <h2 >SignUp</h2>
+    </a>
+    
+    </div>
+    </div>
+  );}
+}
+*/
+
+////////////////////////////////////////
+
+
 function UserLoggedIn(props) {
     return (
       <div>
@@ -66,13 +121,10 @@ function UserLoggedIn(props) {
     );
   }
 
-//End: Checking if user is logged in -> show correspondent menu
-
-////////////////////////////////////////////////////////////
-
   
 
-//Login Menu when click
+//End: Checking if user is logged in -> show correspondent menu
+
 
 
 
@@ -97,33 +149,95 @@ ifLoginClicked
 class Header extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {clicks: 0};
-    this.handleClick = this.handleClick.bind(this);
-    this.onClickHandler = this.onClickHandler.bind(this);
+
+/*
+    this.Greeting = this.Greeting.bind(this);
+    this.NotLogedIn = this.NotLogedIn.bind(this);
+    this.UserLoggedIn = this.UserLoggedIn(this);
+    */
+    this.handler1 = this.handler1.bind(this);
+    this.handler2 = this.handler2.bind(this);
+    this.state = {
+        messageShown: false
+    };
   }
 
-  handleClick() {
-    this.ifLoginClicked2 = true;
-    console.log(this.ifLoginClicked2)
-    this.setState(state => ({
-      clicks: state.clicks + 1
-    }));
+  
+ handler1() {
+  this.setState({
+      messageShown: false
+  });
+}
+
+handler2() {
+  this.setState({
+      messageShown: true
+  });
+}
+
+/*
+Greeting() {
+  const isLoggedIn = false;
+  if (isLoggedIn) {
+    return (<div> {() => this.UserLoggedIn } </div>);
   }
+  return (<div> {() => this.NotLogedIn } </div>);
+}
 
-  onClickHandler() {
-    this.setState(currentState => ({
-      isOpen: !currentState.isOpen
-    }));
-  }
+NotLogedIn() {
 
-  /*
-      handleClick(e) {
-        this.setState({
-          justClicked: e.target.dataset.letter
-        });
-      }
-      */
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const modalOpened = e => { 
+    e.preventDefault();
+    setModalIsOpen(true);
+  
+  };
+  // <LogInMenu modalIsOpen={modalIsOpen} handler1={() => this.props.handler1}/>
+  //onClick={()=> {this.props.handler2} } closeModal={() => {this.props.handler1}  
+  //this.state.messageShown
+  return (
+    <div>
 
+    <div className="Div-Login"   > 
+      <h2  >LogIn</h2>
+      {console.log(modalIsOpen, ' hello from header js')}
+      
+      <LogInMenu modalIsOpen={modalIsOpen} />
+      
+      
+    </div>
+     
+    
+    <div className="Div-Login1" >
+      <h2 >|</h2>
+    </div>
+ 
+    <div className="Div-Login" >
+    <a className="a" href="#">
+      <h2 >SignUp</h2>
+    </a>
+    
+    </div>
+    </div>
+  );
+}
+
+
+UserLoggedIn() {
+  return (
+    <div>
+      
+    <div className="Div-Login" >
+    <a className="a" href="#">
+      <h2 >My Account</h2>
+    </a>
+    </div>
+
+</div>
+  );
+}
+
+*/
 render(){
   
     return(
@@ -157,8 +271,8 @@ render(){
 
 
 
-NotLogedIn.propTypes = {
-  modalIsOpen: PropTypes.bool.isRequired
+Header.propTypes = {
+  modalIsOpen: PropTypes.bool
 
 }
 

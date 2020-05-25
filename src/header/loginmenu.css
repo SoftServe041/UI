@@ -1,6 +1,11 @@
-.Form{
-    background-color: #c2c2c2;
-    width: 50%;
+.Modal{
+    top                   : 50%;
+    left                  : 50%;
+    right                 : auto;
+    bottom                : auto;
+    margin-right           : -50%;
+    transform             : translate(-50%, -50%);
+
 }
 
 .Button{
@@ -20,7 +25,6 @@
 
    .DivButton2{
     background-color: red;
-    float: center;
     width: 50%;
    }
 
@@ -33,7 +37,11 @@
 
 
 .DivText{
-    padding-right: 200px;
+    align-content : center;
+    font: Microsoft Tai Le Bold;
+    align-items: center;
+    justify-content: center;
+    padding-right: 20%;
 }
 
 
@@ -50,4 +58,10 @@
 
 .Input:focus {
     border: 3px solid #2d2929;
+  }
+
+  .Span{
+    font: Microsoft Tai Le Bold;
+    font-size: 10px;
+    color: red;
   }

@@ -6,7 +6,7 @@ import render from 'react-dropdown';
 import useState from 'react-dropdown';
 import './main_page.css';
 
-
+import axios from 'axios'
 //Testing Drop down
 /*
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
@@ -77,6 +77,20 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
 */
   ///////////////////// <DropMenu />
 
+  const formValid = ({ formErrors, departure, arrival , weight }) => {
+    let valid = true;
+
+    Object.values(formErrors).forEach( val => {
+        val.length > 0 && (valid = false);
+    });
+/*
+    Object.value(rest).forEach(val => {
+      val < 1 && (valid = false);
+  } );
+  */
+
+    return valid;
+}
 
 function gettingCargoWeight(e) {
     e.preventDefault();
@@ -89,6 +103,25 @@ function FormSubmit(){
 }
 
 class MainPage extends React.Component{
+
+  constructor(props){
+    super(props);
+    
+    //const modalsOpen = props.modalsOpen;
+    this.state = {
+        departure: '', 
+        arrival: '',
+        weight: '',
+        
+        formErrors:{
+          departure: "", 
+          arrival: "",
+          weight: ""
+        }
+}
+            
+}
+  
 /*
  gettingCargoWeight = async (e) => {
     console.log(e.weight);
@@ -96,10 +129,65 @@ class MainPage extends React.Component{
         console.log(e.weight);
 }
 */
+submitHandler = e => {
+  const url = 'http://localhost:3000/'
+  e.preventDefault();
+  
 
+  if (formValid(this.state)){
+    console.log(this.state)
+  axios.post(url, this.state)
+  .then(response => {
+      console.log(response)
+      
+  })
+  .catch(error => {
+        console.log(error)
+
+  });
+  
+} else {
+  console.error("Invalid form");
+}
+
+}
+
+
+handleChange = (e) => {
+  //this.setState({[e.target.name]: e.target.value})
+  e.preventDefault();
+  const { name, value } = e.target;
+  let formErrors = this.state.formErrors;
+
+  switch(name) {
+      case 'departure':
+          formErrors.departure = 
+          value.length < 6
+          ? ''
+          : 'Please type correct Hub';
+          break;
+      case 'arrival':
+          formErrors.arrival = 
+          value.length < 6
+          ? ''
+          : 'Please type correct Hub';
+          break;
+      case 'weight':
+          formErrors.weight = value.length === null 
+          ? 'Weight cannot be empty'
+          : "";
+          break;
+      default:
+          break;
+  }
+  this.setState({formErrors, [name]: value}, () => {console.log(this.state)})
+}
 
 
 render(){
+
+  const { formErrors } = this.state;
+
     return(
         <div>
         <div className="Title"> <h1 >Search Routs </h1>
@@ -108,25 +196,30 @@ render(){
 
         
         <div className="Main-background">
-        <form className="Form" onSubmit={FormSubmit}>
+        <form className="Form" onSubmit={this.submitHandler}>
         
               <h2>Location:</h2>
               <div className="DivLocation1">
               <input className="Input1" type="text" name="departure" placeholder="Departure"  />
+              {formErrors.departure.length > 0 && (<span >{formErrors.departure}</span>)}
               </div>
               <div  className="DivLocation2">
-              <input className="Input1" type="text" name="arriva" placeholder="Arrival"  />
+              <input className="Input1" type="text" name="arrival" placeholder="Arrival"  />
+              {formErrors.arrival.length > 0 && (<span >{formErrors.arrival}</span>)}
               </div>
               
-
+              
               <div className="DivCargo">
               <h2>Cargo Information:</h2>
-              <input className="Input2" type="number" name="weight" placeholder="Tones"  />
+              <input className="Input2" type="number" name="weight" min={0} max={100} placeholder="Tones"  />
+              {formErrors.weight.length > 0 && (<span >{formErrors.weight}</span>)}
               </div>
               
               <div className="DivButton">
-              <button className="Button-Search" onClick={gettingCargoWeight}> Search </button>
+              <button className="Button-Search" type="submit" onClick={this.submitHandler}> Search </button>
               </div>
+
+    
              
         </form>
         </div>

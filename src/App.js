@@ -4,6 +4,10 @@ import Header from "./header/Header";
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+
+
+
+
 const Home = lazy(() => import('./main_page/Main_page'));
 
 const LoadBody = () => (
@@ -11,6 +15,11 @@ const LoadBody = () => (
     <Suspense fallback={<div>Loading...</div>}>
       <Switch>
         <Route exact path="/" component={Home}/>
+        <Route exact path="/registration" component={Home}/>
+        {
+          ////to be continued
+        }
+        <Route default component={Home}/>
       </Switch>
     </Suspense>
   </Router>
@@ -20,9 +29,12 @@ const LoadBody = () => (
 
 
 class App extends React.Component{
+
+//dsdf = '';
+
   constructor(props){
     super(props);
-  
+    //this.dsdf = 'testing';
   }
 
 
@@ -30,10 +42,8 @@ class App extends React.Component{
     return (
       <div>
        <Header />
+       <LoadBody/>
 
-      <LoadBody />
-
-   
       </div>
      );
   }
