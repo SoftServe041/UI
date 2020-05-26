@@ -2,35 +2,30 @@ import React, { Component } from 'react';
 import '../main_page/main_page.css';
 import './error.css';
 import Hero from './Hero';
+import Header from '../header/Header';
 
 export default class ErrorBoundary extends Component {
     constructor(props) {
         super(props);
         this.state = {
             hasError: false,
-            info: '**',
+            errorInfo: '**',
         }
     }
-    static getDerivedStateFromError(err) {
-        return {
-            hasError : true,
-        }
+   
+    componentDidCatch(err, info){
+    let errorInformation = Object.values(info);  
+    this.setState({
+            hasError: true,
+            errorInfo: errorInformation,
+    });
     }
-    componentDidCatch(err, infor){
-        // it is necessary to return info to instance var info
-        console.log('err didcatch', JSON.stringify(infor));
-        this.state.info = JSON.stringify(infor);
-        console.log('err didcatch', this.state.info);
-        return {
-            info : JSON.stringify(infor)
-        }
-    };
 
     render() {
         if (this.state.hasError) {   
           return (
               <div>
-                  <p className = 'client-side-error'>Something went wrong {this.state.info}</p>
+                  <p className = 'client-side-error'>{this.state.errorInfo}</p>
               </div>
           );
         } 
@@ -41,6 +36,7 @@ export default class ErrorBoundary extends Component {
 export function TestBoundary() {
     return(
         <div>
+            <Header/>
             <div className="Title"> <h1 >TestBoundary</h1> </div>
             <div className="Main-background">
                 <ErrorBoundary>
