@@ -6,3 +6,8 @@
 .error-image {
     margin: 5% 5% 5% 20%;
 }
+.client-side-error {
+    color: blue;
+    font-size: large;
+    font-style: italic;
+}
