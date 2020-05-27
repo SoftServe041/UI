@@ -13,14 +13,15 @@
     font-size: 20px;
     color: #2d2929;
     padding: 3px 15px;
-    margin: 15px;
+    margin-top: 50px;
+    margin-right: 20px;
     cursor: pointer;
     border: 0px;
     font: Microsoft Tai Le Bold;
     box-shadow: 0 0 5px #c2c2c2;
     width: 10rem;
     text-align: center;
-    float: right;
+    
    }
 
    .DivButton2{
@@ -33,6 +34,7 @@
     font-weight: 10;
     font-size: 16px;
     font: Microsoft Tai Le Bold;
+    padding-right: 3rem;
 }
 
 

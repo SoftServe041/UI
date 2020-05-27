@@ -1,4 +1,4 @@
-import React, {Suspense, lazy} from 'react';
+import React, { Suspense, lazy } from 'react';
 
 import Header from "./header/Header";
 
@@ -14,12 +14,12 @@ const LoadBody = () => (
   <Router>
     <Suspense fallback={<div>Loading...</div>}>
       <Switch>
-        <Route exact path="/" component={Home}/>
-        <Route exact path="/registration" component={Home}/>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/registration" component={Home} />
         {
           ////to be continued
         }
-        <Route default component={Home}/>
+        <Route default component={Home} />
       </Switch>
     </Suspense>
   </Router>
@@ -28,24 +28,41 @@ const LoadBody = () => (
 
 
 
-class App extends React.Component{
+class App extends React.Component {
 
-//dsdf = '';
-
-  constructor(props){
+  constructor(props) {
     super(props);
-    //this.dsdf = 'testing';
+    this.logIn = this.logIn.bind(this);
+    this.logOut = this.logOut.bind(this);
+    this.state = {
+      ifLoggedIn: false,
+    };
+  }
+
+  logIn() {
+    this.setState({
+      ifShowModal: true
+    });
   }
 
 
-  render(){
+  logOut() {
+    this.setState({
+      ifShowModal: false
+    });
+
+  }
+
+
+  render() {
     return (
       <div>
-       <Header />
-       <LoadBody/>
+        <Header ifLoggedIn={this.state.ifLoggedIn} />
+        {console.log('If user logged in in App', this.state.ifLoggedIn)}
+        <LoadBody />
 
       </div>
-     );
+    );
   }
 }
 
