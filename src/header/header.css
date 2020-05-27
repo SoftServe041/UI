@@ -1,5 +1,5 @@
 .Div-Absolute{
-    position:absolute;
+
     top:0;
     width: 100%;
 }
@@ -44,7 +44,7 @@
 
 .Div-Login1{
     float: right;
-    
+    padding-right: 10pt;
 }
 
 .Div-Login:hover{
