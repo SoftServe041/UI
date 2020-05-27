@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../main_page/main_page.css';
 import './error.css';
+import '../index.css';
 import page404 from './page4044.jpg';
 import Header from '../header/Header';
 
@@ -10,7 +11,7 @@ export default class Page404 extends Component {
             <div>
                 <Header/>
                <div className="Title">
-                   <h1>Error</h1>
+                   <h1>Oops! Could not find it!</h1>
                </div>
                <div className="Main-background">
                   <img src={page404} className='error-image' alt="page not found"/>
