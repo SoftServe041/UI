@@ -18,13 +18,13 @@ export default class Modal500 extends Component {
   render(){
        return(
             <div>
-                <Modal show={this.state.show} onHide={this.hideModal} centered = 'true'>
-                    <Modal.Header  closeButton className = "bg-info">
+                 <Modal show={this.state.show} onHide={this.hideModal} animation='true' centered>
+                   <Modal.Header  closeButton className = "bg-warning"> 
                         <Modal.Title >OOPS! Execution time-out</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>At the moment server can't execute your request. Try latter :-(</Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={this.hideModal}>
+                       <Button variant="outline-warning"  block onClick={this.hideModal}>
                             Close
                         </Button>
                     </Modal.Footer>
