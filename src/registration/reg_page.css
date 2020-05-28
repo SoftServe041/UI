@@ -2,16 +2,7 @@
 input {
     width: 200px;
     padding: 4px 20px;
-    /*
-    margin: 8px 0;
-    */
     box-sizing: border-box;
-}
-.lastName{
-  /*  position: absolute;
-    top: 217px;
-    right: -1000px;
-    float: right;*/
 }
 body {
     background-color: #ffffff;
@@ -124,7 +115,11 @@ input.error {
 .email,
 .password,
 .repeatPassword,
-.phone{
+.phone,
+.expDate,
+.cardNumber,
+.csc,
+.address{
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -149,7 +144,6 @@ input.error {
     transition-timing-function: ease-in-out;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: bold;
-
 }
 
 .createAccount button:hover {
