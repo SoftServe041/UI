@@ -4,11 +4,19 @@ import './error.css';
 import '../index.css';
 import {Modal, Button} from 'react-bootstrap';
 
-export default class Modal500 extends Component {
-    state = { show: false };
+export default class ModalError extends Component {
+    state = { 
+      show: false,
+      errorBody : 'At the moment server can\'t execute your request. Try latter :-(',
+    };
   
     showModal = () => {
       this.setState({ show: true });
+      if (this.props.error) {
+        this.setState({
+          errorBody : this.props.error,
+        })
+      }
     };
   
     hideModal = () => {
@@ -20,9 +28,9 @@ export default class Modal500 extends Component {
             <div>
                  <Modal show={this.state.show} onHide={this.hideModal} animation='true' centered>
                    <Modal.Header  closeButton className = "bg-warning"> 
-                        <Modal.Title >OOPS! Execution time-out</Modal.Title>
+                        <Modal.Title >OOPS!</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>At the moment server can't execute your request. Try latter :-(</Modal.Body>
+                    <Modal.Body>{this.state.errorBody}</Modal.Body>
                     <Modal.Footer>
                        <Button variant="outline-warning"  block onClick={this.hideModal}>
                             Close
