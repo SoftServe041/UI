@@ -55,7 +55,7 @@ class Billing extends React.Component{
         e.preventDefault();
 
         if (formValid(this.state)) {
-            axios.post('/user', {
+            axios.post('localhost:8041/auth/register', {
                 firstName: this.props.data.firstName,
                 secondName: this.props.data.lastName,
                 email: this.props.data.email,

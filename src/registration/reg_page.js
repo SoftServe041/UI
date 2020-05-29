@@ -6,7 +6,7 @@ import Billing from "../Billing/billing";
 import ReactDOM from 'react-dom';
 
 const emailRegex = RegExp(
-    /((\w+.*\w+)@(\w+.\w+))/
+    /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+[a-zA-Z0-9-]$/
 );
 const phoneRegex = RegExp(
     /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
