@@ -17,11 +17,27 @@ export default class ModalError extends Component {
           errorBody : this.props.error,
         })
       }
+      console.log('modal error', this.props.error, '  ', this.state.errorBody);
     };
   
     hideModal = () => {
       this.setState({ show: false });
     };
+
+    showModal = (error) => {
+      this.setState({ show: true });
+      if (error) {
+        this.setState({
+          errorBody : error,
+        });
+      }
+      console.log('modal error: ', error, '  :', this.state.errorBody);
+    };
+  
+    hideModal = () => {
+      this.setState({ show: false });
+    };
+
 
   render(){
        return(
