@@ -6,11 +6,10 @@ import Billing from "../Billing/billing";
 import ReactDOM from 'react-dom';
 
 const emailRegex = RegExp(
-    /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+[a-zA-Z0-9-]$/
-);
+    /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+[a-zA-Z0-9-]$/);
 const phoneRegex = RegExp(
-    /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
-);
+    /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/);
+
 const formValid = ({ formErrors, ...rest }) => {
     let valid = true;
 
@@ -39,6 +38,7 @@ class RegPage extends React.Component{
             password: null,
             repeatPassword: null,
             phone: null,
+            validation: false,
             formErrors: {
                 firstName: "",
                 lastName: "",
@@ -63,39 +63,41 @@ class RegPage extends React.Component{
 
     handleChange = e => {
         e.preventDefault();
-        const { name, value } = e.target;
 
-        let formErrors = { ...this.state.formErrors };
+            const {name, value} = e.target;
 
-        switch (name) {
-            case "firstName":
-                formErrors.firstName =
-                    value.length < 3 ? "minimum 3 characters required" : "";
-                break;
-            case "lastName":
-                formErrors.lastName =
-                    value.length < 3 ? "minimum 3 characters required" : "";
-                break;
-            case "email":
-                formErrors.email = emailRegex.test(value)
-                    ? ""
-                    : "invalid email address";
-                break;
-            case "password":
-                formErrors.password =
-                    value.length < 6 ? "minimum 6 characters required" : "";
-                break;
-            case "repeatPassword":
-                formErrors.repeatPassword = this.state.password === value ? "" : "password doesnt match";
-                break;
-            case "phone":
-                formErrors.phone = phoneRegex.test(value)
-                    ? ""
-                    : "invalid phone number";
-                break;
-        }
+            let formErrors = {...this.state.formErrors};
 
-        this.setState({ formErrors, [name]: value });
+            switch (name) {
+                case "firstName":
+                    formErrors.firstName =
+                        value.length < 3 ? "minimum 3 characters required" : "";
+                    break;
+                case "lastName":
+                    formErrors.lastName =
+                        value.length < 3 ? "minimum 3 characters required" : "";
+                    break;
+                case "email":
+                    formErrors.email = emailRegex.test(value)
+                        ? ""
+                        : "invalid email address";
+                    break;
+                case "password":
+                    formErrors.password =
+                        value.length < 6 ? "minimum 6 characters required" : "";
+                    break;
+                case "repeatPassword":
+                    formErrors.repeatPassword = this.state.password === value ? "" : "password doesnt match";
+                    break;
+                case "phone":
+                    formErrors.phone = phoneRegex.test(value)
+                        ? ""
+                        : "invalid phone number";
+                    break;
+            }
+
+            this.setState({formErrors, [name]: value});
+
     };
     render(){
         const { formErrors } = this.state;

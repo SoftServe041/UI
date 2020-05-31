@@ -4,13 +4,14 @@ import "../registration/reg_page.css"
 import Header from "../header/Header.js"
 import "./billing.css"
 import axios from 'axios'
-import Modal500 from "../error/modal500";
+import ModalError from "../error/modalError.js";
 import MainPage from "../main_page/Main_page";
 import Route from 'react-router-dom';
 
 
 const cscRegEx = /\b\d{3}\b/;
 const cardRegEx = /\b\d{16}\b/;
+
 
 
 const formValid = ({ formErrors, ...rest }) => {
@@ -48,16 +49,16 @@ class Billing extends React.Component{
             }
         }
     }
-    accessMod500 = () => {
-       this.refs.mod500.showModal();
+    accessModError = (error) => {
+       this.refs.modError.showModal(error);
     }
     handleSubmit = e => {
         e.preventDefault();
 
         if (formValid(this.state)) {
-            axios.post('localhost:8041/auth/register', {
+            axios.post('https://cargo-testing-board.herokuapp.com/registration/register', {
                 firstName: this.props.data.firstName,
-                secondName: this.props.data.lastName,
+                lastName: this.props.data.lastName,
                 email: this.props.data.email,
                 password: this.props.data.password,
                 cardNumber: this.state.cardNumber,
@@ -65,42 +66,43 @@ class Billing extends React.Component{
                 expDate: this.state.expDate,
                 address: this.state.address,
             })
-/*
-                .then(this.setState({redirect:true}))
-*/
-                .catch(this.accessMod500
-            );
+                .then(response => {window.open('/')})
+                .catch(error => {this.accessModError(error.toString())});
+            /*.then(function(suc) {
+                console.log('Axios sucsess:', suc);})
+            .catch(this.accessModError);*/
         } else {
             console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
         }
     };
 
     handleChange = e => {
-        e.preventDefault();
-        const { name, value } = e.target;
+            e.preventDefault();
+            const {name, value} = e.target;
 
-        let formErrors = { ...this.state.formErrors };
+            let formErrors = {...this.state.formErrors};
 
-        switch (name) {
-            case "cardNumber":
-                formErrors.cardNumber = cardRegEx.test(value)
-                    ? ""
-                    : "Not valid card number";
-                break;
-            case "csc":
-                formErrors.csc = cscRegEx.test(value)
-                    ? ""
-                    : "Not valid csc";
-                break;
-            case "address":
-                formErrors.address =
-                    value.length < 6
-                        ? "minimum 6 characters required"
-                        : "";
-                break;
-        }
+            switch (name) {
+                case "cardNumber":
+                    formErrors.cardNumber = cardRegEx.test(value)
+                        ? ""
+                        : "Not valid card number";
+                    break;
+                case "csc":
+                    formErrors.csc = cscRegEx.test(value)
+                        ? ""
+                        : "Not valid csc";
+                    break;
+                case "address":
+                    formErrors.address =
+                        value.length < 6
+                            ? "minimum 6 characters required"
+                            : "";
+                    break;
+            }
 
-        this.setState({ formErrors, [name]: value } );
+            this.setState({formErrors, [name]: value});
+
     };
     render(){
         const { formErrors } = this.state;
@@ -170,7 +172,7 @@ class Billing extends React.Component{
 
 
                     </div>
-                    <Modal500 ref='mod500'/>
+                    <ModalError ref='modError'/>
                    {/* if (this.state.redirect) {
                         <Route exact path="/" co component={MainPage}/>
                     }*/}
