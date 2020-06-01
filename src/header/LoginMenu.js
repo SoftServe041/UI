@@ -1,9 +1,7 @@
 import React, {lazy, useState} from 'react';
-//import Modal from 'react-modal'
 import Modal from 'react-bootstrap/Modal'
-//import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import Dialog, {Button, Col, Form, Row} from 'react-bootstrap'
-import './loginmenu.css';
+import Dialog, {Button, Col, Container, Form, Row} from 'react-bootstrap'
+//import './loginmenu.css';
 import axios from 'axios'
 import Label from "reactstrap/es/Label";
 
@@ -16,9 +14,7 @@ const formValid = ({ formErrors, email, password }) => {
     Object.values(formErrors).forEach(val => {
         val.length > 0 && (valid = false);
     });
-    /*
-        if (email < 1 | password < 1) valid = false
-        */
+
     if (email.length < 1){valid= false;  return valid}
     if (password.length < 1){valid= false;  return valid}
 
@@ -98,7 +94,7 @@ class LogInMenu extends React.Component {
 
             console.log(this.state)
             console.log(axios.post(url, data
-				))
+            ))
             axios.post(url, this.state)
                 .then(response => {
                     console.log(response)
@@ -128,69 +124,81 @@ class LogInMenu extends React.Component {
     }
 
     render() {
-
         const email = this.email;
         const password = this.password;
         const { formErrors } = this.state;
 
         return (
 
-                <Modal   show={this.props.ifShowModal}
-                         size="lg"
-                         aria-labelledby="contained-modal-title-vcenter"
-                         centered
-
-                         >
-                    { (this.state.ifLoginDetailsIncorrect)  && (<span className="Span">Email or password are incorrect</span>)}
+            <Modal   show={this.props.ifShowModal}
+                     size="lg"
+                     aria-labelledby="contained-modal-title-vcenter"
+                     centered
+            >
+                <Container>
 
                     <Form onSubmit={this.submitHandler}>
 
+                        <Row >
+                            { (this.state.ifLoginDetailsIncorrect)  && (<span className="Span">Email or password are incorrect</span>)}
+                        </Row>
 
-                            <Row >
 
-                                <Label className="h3" >    Login:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </Label>
-
+                        <Row >
+                            <Col md={{ span: 1, offset: 3 }}>
+                                <Label  >    Login: </Label>
+                            </Col>
+                            <Col md={{ span: 0, offset: 1 }}>
                                 <Form.Control value={email} type="email" className="Input"  name="email" placeholder="Type Email"
-                                    onChange={this.handleChange}>
+                                              onChange={this.handleChange}>
                                 </Form.Control>
+                            </Col>
+                        </Row>
 
-                                <Row>{this.state.ifShowFormErrors && (<span className="Span">{formErrors.email}</span>)}</Row>
-                                <br />
+                        <Row>{this.state.ifShowFormErrors && (<span className="Span">{formErrors.email}</span>)}</Row>
 
 
-
-                                <Label className="h3">    Password:      </Label>
-
+                        <Row >
+                            <Col md={{ span: 1, offset: 3 }}>
+                                <Label >    Password:      </Label>
+                            </Col>
+                            <Col md={{ span: 0, offset: 1 }}>
                                 <Form.Control value={password} className="Input" type="password" name="password" placeholder="Type Password"
-                                    onChange={this.handleChange} >
+                                              onChange={this.handleChange} >
                                 </Form.Control>
+                            </Col>
+                        </Row>
 
-                                <Row>{this.state.ifShowFormErrors  && (<span className="Span">{formErrors.password}</span>)}</Row>
-                            </Row>
-                            <Row>
-                                    { (this.state.ifFieldsEmpty)  && (<span className="Span">Please make sure that you have filled all fields</span>)}
 
-                            </Row>
+                        <Row>{this.state.ifShowFormErrors  && (<span className="Span">{formErrors.password}</span>)}</Row>
 
-                            <Row >
 
-                                <Button className="Button" type="submit" onClick={this.submitHandler} >
+                        <Row>
+                            { (this.state.ifFieldsEmpty)  && (<span className="Span">Please make sure that you have filled all fields</span>)}
+                        </Row>
+
+                        <Row >
+                            <Col md={{ span: 1, offset: 2 }}>
+                                <Button variant="primary" type="submit" onClick={this.submitHandler} >
                                     Login
                                 </Button>
+                            </Col>
 
-                                <Button className="Button" type="reset" onClick={this.props.disableModal}   >
+                            <Col md={{ span: 3, offset: 4 }}>
+                                <Button  type="reset" variant="secondary"  onClick={this.props.disableModal}   >
                                     Cancel
                                 </Button>
+                            </Col>
+                        </Row>
 
 
-                            </Row>
                     </Form>
+                </Container>
+            </Modal>
 
-                </Modal>
 
-            
         )
-        
+
     }
 
 }

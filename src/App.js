@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import Header from "./header/Header";
+import HeaderButtons from "./header/HeaderButtons";
 import Footer from "./Footer/footer";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {Container} from 'react-bootstrap';
@@ -56,23 +57,22 @@ class App extends React.Component {
 
   render() {
     return (
-      <Container fluid id='body'>
-        <div id='header'>
+      <div fluid id='body'>
+
           <Header/>
-        </div>
-        {/* <div id='frame-body' className='fluid'> */}
-          <div id='load-body'>
+            <HeaderButtons ifLoggedIn={this.state.ifLoggedIn} setToken={this.state.setToken}/>
+
+
             <LoadBody/> 
-          </div>
-        {/* </div> */}
-       
-        <div id='footer'>
+
+
+
            <Footer/>
-        </div>
+
         
         
         
-      </Container>
+      </div>
       
     );
   }
