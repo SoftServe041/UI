@@ -118,25 +118,28 @@ class MainPage extends React.Component{
          
                 <Form>
                 <Container fluid>
-                    <Row className='mt-3'>
-                        <Col className='mb-2 col-2 mt-2 colspan-2'>
+                    <Row className='mt-2'>
+                        <Col className='mb-2 col-2 mt-2 '>
                            <h2 className='text-right body-text align-middle'>Location</h2>
                         </Col>
-                        <Col className='mb-2 col-5'>
+                        <Col className='mb-2 col-3'>
                            <Form.Control placeholder="departure"/> 
                         </Col>
-                        <Col className='mb-2 col-5'>
+                        <Col className='mb-2 col-3'>
                              <Form.Control placeholder="arrival"/>
                         </Col>
+                    </Row>
+                    <Row className='mt-2'>
                         <Col className='col-2'>
                             <h2 className='text-right body-text align-middle mt-2'>Cargo Information</h2>
                         </Col>
-                        <Col>
+                        <Col className='col-2'>
                              <Form.Control placeholder="tonnes"/>
                         </Col>
-                        {/* <Col></Col>
-                        <Col></Col> */}
-                        <Col>
+                    </Row>
+                    <Row className='mt-2'>
+                        <Col sm={2}></Col>
+                        <Col className='col-2'>
                             <Button size="sm" variant="outline-secondary" block>
                                 <span className='body-text'>Search</span>
                             </Button>

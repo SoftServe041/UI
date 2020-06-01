@@ -1,15 +1,16 @@
 import React, { Suspense, lazy } from 'react';
-import Header from "./header/Header";
-import Footer from "./Footer/footer";
+import Header from "./header/bootstap_header/Header.js";
+import Footer from "./Footer/footer_bootstrap/footer.js";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {Container} from 'react-bootstrap';
 import './App.css';
+import './index.css';
 
 
 
 
 
-const Home = lazy(() => import('./main_page/Main_page'));
+const Home = lazy(() => import('./main_page/Main_page2'));
 const RegPage = lazy(() => import('./registration/reg_page'));
 const Page404 = lazy(() => import('./error/page404'));
 
