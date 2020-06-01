@@ -6,7 +6,7 @@ import axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import {Button} from "react-bootstrap";
+import {Button, Container} from "react-bootstrap";
 
 import Dropdown from "react-bootstrap/Dropdown";
 import FormControl from "react-bootstrap/FormControl";
@@ -116,16 +116,25 @@ submitHandler = e => {
 
   if (formValid(this.state)){
       console.log(this.state)
-      axios.get(url, this.state)
+      axios.post(url, this.state)
   .then(response => {
       console.log(response)
-      if(response.status == 200){
+      if(response.status === 200){
+
           window.location = "/search";
+      }
+      if(response.status === 404){
+          window.location = "/error"
+
       }
   })
   .catch(error => {
         console.log(error)
-        window.location = "/error"
+      if(error.status === 404){
+         window.location = "/error"
+
+      }
+        //window.location = "/error"
   });
   
 } else {
@@ -152,51 +161,66 @@ handleChange = (e) => {
 render(){
 
     return(
-        <div>
+        <Container>
 
-            <Row> Search Routs  </Row>
-
-        <Form  onSubmit={this.submitHandler} onChange={this.handleChange}>
-
-                <Form.Label column sm={2}>
-                    Location:
-                </Form.Label>
-
-                <Form.Group  as={Row}>
-                <Col sm={10}>
-              <Form.Control className="Input1" type="text" name="departure" placeholder="Departure"  />
-
-              <Form.Control className="Input1" type="text" name="arrival" placeholder="Arrival"  />
-                </Col>
-                </Form.Group>
+        <Row>
+            <Col md={{ span: 5, offset: 5 }}>
+                <h2> Search Routs  </h2>
+            </Col>
+        </Row>
 
 
+        <Row >
+            <Col md={{ span: 5, offset: 3 }}>
+                <Form  onSubmit={this.submitHandler} onChange={this.handleChange}>
+                    <Row>
+                        <Form.Label column sm={5}>
+                            Location:
+                        </Form.Label>
+                    </Row>
+
+                    <Row>
+                        <Col >
+                            <Form.Control className="Input1" type="text" name="departure" placeholder="Departure"  />
+                        </Col>
+                        <Col >
+                            <Form.Control className="Input1" type="text" name="arrival" placeholder="Arrival"  />
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Form.Label column sm={5}>
+                            Cargo Information:
+                        </Form.Label>
+                    </Row>
+
+                    <Row>
+                        <Col md={{ span: 5, offset: 0 }}>
+                            <Form.Control type="number" name="weight"  placeholder="Ton"  />
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col >
+                            {(this.state.ifFormIncorrect) && (<p>Please make sure that you have filled all details</p>)}
+                        </Col>
+                    </Row>
+
+                    <Row >
+                        <Col md={{ span: 3, offset: 5 }}>
+                        <Button type="submit" onClick={this.submitHandler}> Search </Button>
+                        </Col>
+                    </Row>
+
+                        {
+                        //  <CitiesList/>
+                        }
 
 
-
-              <Form.Label column sm={2}>Cargo Information:</Form.Label>
-            <br/>
-              <Form.Control className="Input2" type="number" name="weight" min={0} max={100} placeholder="Tones"  />
-
-
-
-            {(this.state.ifFormIncorrect) && (<h3>Please make sure that you have filled all details</h3>)}
-
-            <br/>
-              <Button type="submit" onClick={this.submitHandler}> Search </Button>
-
-
-            {
-          //  <CitiesList/>
-
-            }
-
-        </Form>
-
-
-
-
-     </div>
+                </Form>
+            </Col>
+        </Row>
+     </Container>
     );
     }
 }

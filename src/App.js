@@ -7,11 +7,14 @@ import 'react-bootstrap';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import LoginMenu from "./header/LoginMenu";
 
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 const Home = lazy(() => import('./main_page/Main_page'));
 //const RegPage = lazy(() => import('./registration/reg_page'));
 //const Billing = lazy(() => import('./Billing/billing'));
 //const NotFound = lazy(() => import('./error/page404'));
+
+
+
 
 const LoadBody = () => (
     <Router>
