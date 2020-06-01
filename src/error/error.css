@@ -1,0 +1,33 @@
+.Main-background{
+    margin-top: opx;
+    margin-left: 5%;
+    padding: 10%;
+    text-align: center;
+    position: absolute;
+    height: 71.7%;
+}
+.error-image {
+    /* position: absolute; */
+    margin: -10% 5% 5% 20%;
+}
+.client-side-error-bg {
+    margin-top: 15%;
+    margin-left: 5%;
+    width: 80%;
+    height: 30%;
+    background: radial-gradient(circle, rgba(187,177,177,0.4332107843137255) 0%, 
+              rgba(190,224,190,0.32396708683473385) 32%, rgba(201,237,240,1) 61%, rgba(187,177,177,1) 100%);
+    opacity: 0.90;
+    border-radius: 5%;
+}
+
+.client-side-error-mg {
+    margin-top: 5%;
+    margin-left: 10%;
+    text-align: center;
+    width: 80%;
+    height: 80%;
+    color: brown;
+    font-size: 2em;
+    opacity: 0.99;
+}
