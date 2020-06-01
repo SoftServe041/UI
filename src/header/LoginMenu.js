@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal'
 import Dialog, {Button, Col, Container, Form, Row} from 'react-bootstrap'
 //import './loginmenu.css';
 import axios from 'axios'
-import Label from "reactstrap/es/Label";
+
 import '../App.css';
 
 
@@ -148,7 +148,7 @@ class LogInMenu extends React.Component {
 
                         <Row >
                             <Col md={{ span: 1, offset: 3 }}>
-                                <Label  >    Login: </Label>
+                                <h3  >    Login: </h3>
                             </Col>
                             <Col md={{ span: 0, offset: 1 }}>
                                 <Form.Control value={email} type="email" className="Input"  name="email" placeholder="Type Email"
@@ -166,7 +166,7 @@ class LogInMenu extends React.Component {
 
                         <Row >
                             <Col md={{ span: 1, offset: 3 }}>
-                                <Label >    Password:      </Label>
+                                <h3 >    Password:      </h3>
                             </Col>
                             <Col md={{ span: 0, offset: 1 }}>
                                 <Form.Control value={password} className="Input" type="password" name="password" placeholder="Type Password"

@@ -5,7 +5,7 @@ import './header.css';
 import icon from './user-icon1.png';
 
 
-import {  Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+
 import './loginmenu.css';
 import axios from 'axios'
 
