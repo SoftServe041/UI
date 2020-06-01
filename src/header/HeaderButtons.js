@@ -4,7 +4,7 @@ import LogInMenu from './LoginMenu';
 import './header.css';
 import icon from './user-icon1.png';
 
-import Modal from 'react-modal'
+
 import {  Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import './loginmenu.css';
 import axios from 'axios'
@@ -51,6 +51,7 @@ class NotLogedIn extends React.Component {
             position: 'absolute',
             top: '0',
             right: '0',
+            paddingTop: '15px',
 
         }
     }
@@ -59,7 +60,7 @@ class NotLogedIn extends React.Component {
       <div style={style.divAbsolute}>
 
         <div className="Div-Login" >
-          <h2 onClick={this.enableModal}  >LogIn</h2>
+          <h2 onClick={this.enableModal} className="h2" >LogIn</h2>
           {
               <LogInMenu ifShowModal={this.state.ifShowModal} disableModal={this.disableModal}  setToken={this.props.setToken}/>
           }

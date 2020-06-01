@@ -4,6 +4,7 @@ import Dialog, {Button, Col, Container, Form, Row} from 'react-bootstrap'
 //import './loginmenu.css';
 import axios from 'axios'
 import Label from "reactstrap/es/Label";
+import '../App.css';
 
 
 
@@ -127,19 +128,20 @@ class LogInMenu extends React.Component {
         const email = this.email;
         const password = this.password;
         const { formErrors } = this.state;
-
         return (
 
-            <Modal   show={this.props.ifShowModal}
+            <Modal
+                     show={this.props.ifShowModal}
                      size="lg"
                      aria-labelledby="contained-modal-title-vcenter"
                      centered
+
             >
-                <Container>
+                <Container id="modal-window">
 
                     <Form onSubmit={this.submitHandler}>
 
-                        <Row >
+                        <Row id="space-between-rows">
                             { (this.state.ifLoginDetailsIncorrect)  && (<span className="Span">Email or password are incorrect</span>)}
                         </Row>
 
@@ -155,7 +157,11 @@ class LogInMenu extends React.Component {
                             </Col>
                         </Row>
 
-                        <Row>{this.state.ifShowFormErrors && (<span className="Span">{formErrors.email}</span>)}</Row>
+                        <Row id="space-between-rows">
+                            <Col md={{  offset: 5 }}>
+                            {this.state.ifShowFormErrors && (<span className="Span">{formErrors.email}</span>)}
+                            </Col>
+                        </Row>
 
 
                         <Row >
@@ -170,22 +176,27 @@ class LogInMenu extends React.Component {
                         </Row>
 
 
-                        <Row>{this.state.ifShowFormErrors  && (<span className="Span">{formErrors.password}</span>)}</Row>
+                        <Row id="space-between-rows">
+                            <Col md={{  offset: 5 }}>
+                                {this.state.ifShowFormErrors  && (<span className="Span">{formErrors.password}</span>)}
+                            </Col>
+                        </Row>
 
 
-                        <Row>
+                        <Row id="space-between-rows">
+                            <Col md={{  offset: 5 }}>
                             { (this.state.ifFieldsEmpty)  && (<span className="Span">Please make sure that you have filled all fields</span>)}
+                            </Col>
                         </Row>
 
                         <Row >
-                            <Col md={{ span: 1, offset: 2 }}>
-                                <Button variant="primary" type="submit" onClick={this.submitHandler} >
+                            <Col md={{  offset: 3 }}>
+                                <Button id="body-button" variant="primary" type="submit" onClick={this.submitHandler} >
                                     Login
                                 </Button>
                             </Col>
-
-                            <Col md={{ span: 3, offset: 4 }}>
-                                <Button  type="reset" variant="secondary"  onClick={this.props.disableModal}   >
+                            <Col >
+                                <Button id="body-button" type="reset" variant="secondary"  onClick={this.props.disableModal}   >
                                     Cancel
                                 </Button>
                             </Col>

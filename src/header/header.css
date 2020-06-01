@@ -22,11 +22,14 @@
     padding-left: 2rem;
     float: left;
     padding-right: 2rem;
+    padding-top: 15px;
 }
 
-.Div-Menu:hover{
+/*.Div-Menu:hover{
     background-color: #c2c2c2;
 }
+
+ */
 
 
 .Div-image{
@@ -37,9 +40,18 @@
     color: #2d2929;
 }
 
+.h2:hover{
+    color: #999999;
+}
+
 .a{
     text-decoration: none;
     color: #2d2929;
+}
+
+.a:hover{
+    text-decoration: none;
+    color: #999999;
 }
 
 .Div-Login1{
@@ -47,9 +59,12 @@
 
 }
 
+/*
 .Div-Login:hover{
     background-color: #c2c2c2;
 }
+
+ */
 
 .Div-Login{
     float: right;
