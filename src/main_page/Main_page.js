@@ -1,228 +1,203 @@
-import React from 'react';
-import Dropdown from 'react-dropdown';
-import FormControl from 'react-dropdown';
-import setValue from 'react-dropdown';
-import render from 'react-dropdown';
-import useState from 'react-dropdown';
-import './main_page.css';
+import React, {useState} from 'react';
+//import './main_page.css';
+import  cities from './cities.json';
+import 'react-bootstrap';
+import axios from 'axios';
+import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import {Button} from "react-bootstrap";
 
-import axios from 'axios'
-//Testing Drop down
-/*
-const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
-    <a
-      href=""
-      ref={ref}
-      onClick={(e) => {
-        e.preventDefault();
-        onClick(e);
-      }}
-    >
-      {children}
-      &#x25bc;
-    </a>
-  ));
+import Dropdown from "react-bootstrap/Dropdown";
+import FormControl from "react-bootstrap/FormControl";
+import {forEach} from "react-bootstrap/cjs/ElementChildren";
 
-  // forwardRef again here!
-  // Dropdown needs access to the DOM of the Menu to measure it
-  const CustomMenu = React.forwardRef(
-    ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
-      const [value, setValue] = useState('');
 
-      return (
-        <div
-          ref={ref}
-          style={style}
-          className={className}
-          aria-labelledby={labeledBy}
-        >
-          <FormControl
-            autoFocus
-            className="mx-3 my-2 w-auto"
-            placeholder="Type to filter..."
-            onChange={(e) => setValue(e.target.value)}
-            value={value}
-          />
-          <ul className="list-unstyled">
-            {React.Children.toArray(children).filter(
-              (child) =>
-                !value || child.props.children.toLowerCase().startsWith(value),
-            )}
-          </ul>
-        </div>
-      );
-    },
-  );
-  <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-  Custom toggle
-</Dropdown.Toggle>
-      <Dropdown.Menu as={CustomMenu}>
 
- function DropMenu() {
-     return (
-    <Dropdown>
 
-      <Dropdown.Menu >
-        <Dropdown.Item eventKey="1">Red</Dropdown.Item>
-        <Dropdown.Item eventKey="2">Blue</Dropdown.Item>
-        <Dropdown.Item eventKey="3" active>Orange</Dropdown.Item>
-        <Dropdown.Item eventKey="1">Red-Orange</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-     );
-}
-*/
-///////////////////// <DropMenu />
-
-const formValid = ({ formErrors, departure, arrival , weight }) => {
+  const formValid = ({ departure, arrival , weight }) => {
     let valid = true;
 
-    Object.values(formErrors).forEach( val => {
-        val.length > 0 && (valid = false);
-    });
-    /*
-        Object.value(rest).forEach(val => {
-          val < 1 && (valid = false);
-      } );
-      */
+
+    if (departure.length < 3 ) {valid= false; return valid}
+    if (arrival.length < 3 ) {valid= false; return valid}
+    if (weight.length < 1 ) {valid= false; return valid}
+
 
     return valid;
 }
 
-function gettingCargoWeight(e) {
-    e.preventDefault();
-    console.log(e.props);
+/*
+const CitiesList = Object.values( cities).forEach( city => {
+    return (<p>{city.name}</p>)
+
+})
+
+ */
+
+
+function CitiesList() {
+    let count = 0;
+    Object.values(cities.city).forEach(s => {
+        return (
+            <div>
+                  <p>${s.name}</p>
+                {//Object.values(cities.city).forEach(s => (<p> s.name </p>))
+                }
+                {//Object.values(cities.city).forEach(s => (console.log(s.name)))
+                     }
+                {  //console.log(cities.city[2].name)
+                }
+                { //console.log(cities.city)
+                }
+            </div>
+        );
+    })
 }
 
-function FormSubmit(){
-    // e.preventDefault();
-    console.log(this.props.name);
-}
+/*
+        return(
+            <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    Dropdown Button
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+            {Object.values(cities).forEach(s => (<Dropdown.Item>{s[0].name} </Dropdown.Item>))
+
+            }
+                    {
+                     /*   <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+
+
+                    }
+                    </Dropdown.Menu>
+
+
+            </Dropdown>
+
+    );
+
+*/
+
+
+
+
+
 
 class MainPage extends React.Component{
 
-    constructor(props){
-        super(props);
-
-        //const modalsOpen = props.modalsOpen;
-        this.state = {
-            departure: '',
-            arrival: '',
-            weight: '',
-
-            formErrors:{
-                departure: "",
-                arrival: "",
-                weight: ""
-            }
-        }
-
-    }
-
-    /*
-     gettingCargoWeight = async (e) => {
+  constructor(props){
+    super(props);
+    
+    this.state = {
+        departure: '', 
+        arrival: '',
+        weight: '',
+        
+        ifFormIncorrect: false,
+}
+            
+}
+  
+/*
+ gettingCargoWeight = async (e) => {
+    console.log(e.weight);
+    e.preventDefault();
         console.log(e.weight);
-        e.preventDefault();
-            console.log(e.weight);
-    }
-    */
-    submitHandler = e => {
-        const url = 'http://localhost:3000/'
-        e.preventDefault();
+}
+*/
+submitHandler = e => {
+  const url = 'http://localhost:3000/'
+  e.preventDefault();
+  
+
+  if (formValid(this.state)){
+      console.log(this.state)
+      axios.get(url, this.state)
+  .then(response => {
+      console.log(response)
+      if(response.status == 200){
+          window.location = "/search";
+      }
+  })
+  .catch(error => {
+        console.log(error)
+        window.location = "/error"
+  });
+  
+} else {
+  this.setState({ifFormIncorrect: true})
+  console.error("Invalid form");
+}
+
+}
 
 
-        if (formValid(this.state)){
-            console.log(this.state)
-            axios.post(url, this.state)
-                .then(response => {
-                    console.log(response)
+handleChange = (e) => {
+  this.setState({[e.target.name]: e.target.value})
+  e.preventDefault();
+  this.setState({ifFormIncorrect: false})
 
-                })
-                .catch(error => {
-                    console.log(error)
-
-                });
-
-        } else {
-            console.error("Invalid form");
-        }
-
-    }
-
-
-    handleChange = (e) => {
-        //this.setState({[e.target.name]: e.target.value})
-        e.preventDefault();
-        const { name, value } = e.target;
-        let formErrors = this.state.formErrors;
-
-        switch(name) {
-            case 'departure':
-                formErrors.departure =
-                    value.length < 6
-                        ? ''
-                        : 'Please type correct Hub';
-                break;
-            case 'arrival':
-                formErrors.arrival =
-                    value.length < 6
-                        ? ''
-                        : 'Please type correct Hub';
-                break;
-            case 'weight':
-                formErrors.weight = value.length === null
-                    ? 'Weight cannot be empty'
-                    : "";
-                break;
-            default:
-                break;
-        }
-        this.setState({formErrors, [name]: value}, () => {console.log(this.state)})
-    }
-
-
-    render(){
-
-        const { formErrors } = this.state;
-
-        return(
-            <div>
-                <div className="Title"> <h1 >Search Routs </h1>
-                </div>
+}
 
 
 
-                <div className="Main-background">
-                    <form className="Form" onSubmit={this.submitHandler}>
-
-                        <h2>Location:</h2>
-                        <div className="DivLocation1">
-                            <input className="Input1" type="text" name="departure" placeholder="Departure"  />
-                            {formErrors.departure.length > 0 && (<span >{formErrors.departure}</span>)}
-                        </div>
-                        <div  className="DivLocation2">
-                            <input className="Input1" type="text" name="arrival" placeholder="Arrival"  />
-                            {formErrors.arrival.length > 0 && (<span >{formErrors.arrival}</span>)}
-                        </div>
-
-
-                        <div className="DivCargo">
-                            <h2>Cargo Information:</h2>
-                            <input className="Input2" type="number" name="weight" min={0} max={100} placeholder="Tones"  />
-                            {formErrors.weight.length > 0 && (<span >{formErrors.weight}</span>)}
-                        </div>
-
-                        <div className="DivButton">
-                            <button className="Button-Search" type="submit" onClick={this.submitHandler}> Search </button>
-                        </div>
 
 
 
-                    </form>
-                </div>
 
-            </div>
-        );
+render(){
+
+    return(
+        <div>
+
+            <Row> Search Routs  </Row>
+
+        <Form  onSubmit={this.submitHandler} onChange={this.handleChange}>
+
+                <Form.Label column sm={2}>
+                    Location:
+                </Form.Label>
+
+                <Form.Group  as={Row}>
+                <Col sm={10}>
+              <Form.Control className="Input1" type="text" name="departure" placeholder="Departure"  />
+
+              <Form.Control className="Input1" type="text" name="arrival" placeholder="Arrival"  />
+                </Col>
+                </Form.Group>
+
+
+
+
+
+              <Form.Label column sm={2}>Cargo Information:</Form.Label>
+            <br/>
+              <Form.Control className="Input2" type="number" name="weight" min={0} max={100} placeholder="Tones"  />
+
+
+
+            {(this.state.ifFormIncorrect) && (<h3>Please make sure that you have filled all details</h3>)}
+
+            <br/>
+              <Button type="submit" onClick={this.submitHandler}> Search </Button>
+
+
+            {
+          //  <CitiesList/>
+
+            }
+
+        </Form>
+
+
+
+
+     </div>
+    );
     }
 }
 
