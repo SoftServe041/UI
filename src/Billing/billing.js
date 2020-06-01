@@ -56,7 +56,7 @@ class Billing extends React.Component{
         e.preventDefault();
 
         if (formValid(this.state)) {
-            axios.post('https://cargo-testing-board.herokuapp.com/registration/register', {
+            /*axios.post('https://cargo-testing-board.herokuapp.com/registration/register', {
                 firstName: this.props.data.firstName,
                 lastName: this.props.data.lastName,
                 email: this.props.data.email,
@@ -65,8 +65,22 @@ class Billing extends React.Component{
                 csc: this.state.csc,
                 expDate: this.state.expDate,
                 address: this.state.address,
-            })
-                .then(response => {window.open('/')})
+            })*/
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ firstName: this.props.data.firstName,
+                    lastName: this.props.data.lastName,
+                    email: this.props.data.email,
+                    password: this.props.data.password,
+                    cardNumber: this.state.cardNumber,
+                    csc: this.state.csc,
+                    expDate: this.state.expDate,
+                    address: this.state.address, })
+            };
+            fetch('https://cargo-testing-board.herokuapp.com/registration/register', requestOptions)
+                /*.then(response => {window.open('/')})*/
+                .then(response => {console.log(response)})
                 .catch(error => {this.accessModError(error.toString())});
             /*.then(function(suc) {
                 console.log('Axios sucsess:', suc);})
