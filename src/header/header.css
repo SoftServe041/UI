@@ -7,13 +7,13 @@
 .Main-header{
     background-color: #ff8e09;
     width: 100%;
-    height: 70px;
+    height: 60px;
     float: left;
 }
 
 .Logo{
     padding-left: 20px;
-    height: 70px;
+    height: 60px;
     pointer-events: none;
 }
 
@@ -25,22 +25,15 @@
     padding-top: 15px;
 }
 
-/*.Div-Menu:hover{
-    background-color: #c2c2c2;
-}
-
- */
-
-
 .Div-image{
     float: left;
 }
 
-.h2{
+.h4{
     color: #2d2929;
 }
 
-.h2:hover{
+.h4:hover{
     color: #999999;
 }
 

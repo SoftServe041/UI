@@ -56,7 +56,7 @@ class NotLogedIn extends React.Component {
       <div style={style.divAbsolute}>
 
         <div className="Div-Login" >
-          <h2 onClick={this.enableModal} className="h2" >LogIn</h2>
+          <h4 onClick={this.enableModal} className="h4" >LogIn</h4>
           {
               <LogInMenu ifShowModal={this.state.ifShowModal} disableModal={this.disableModal}
                          handleToken={this.props.handleToken}/>
@@ -64,12 +64,12 @@ class NotLogedIn extends React.Component {
 
         </div>
         <div className="Div-Login1" >
-          <h2 >|</h2>
+          <h4 >|</h4>
         </div>
 
         <div className="Div-Login" >
           <a className="a" href="/registration">
-            <h2 >SignUp</h2>
+            <h4 >SignUp</h4>
           </a>
         </div>
       </div>
@@ -80,7 +80,7 @@ class NotLogedIn extends React.Component {
 const style = {
     divAbsolute: {
         position: 'absolute',
-        top: '0',
+        top: '5px',
         right: '0',
 
     }

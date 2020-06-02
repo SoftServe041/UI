@@ -18,7 +18,7 @@ function Header(props) {
 
         <div className="Div-Menu" id="TopNav">
           <a className="a" href="/about-our-company">
-            <h2 >About Us</h2>
+            <h4 >About Us</h4>
           </a>
         </div>
       </header>
