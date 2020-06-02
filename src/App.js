@@ -35,9 +35,17 @@ class App extends React.Component {
     super(props);
     this.logIn = this.logIn.bind(this);
     this.logOut = this.logOut.bind(this);
+    this.handleToken = this.handleToken.bind(this);
     this.state = {
       ifLoggedIn: false,
+      token: '',
+      userId: 0,
     };
+  }
+
+  handleToken(e) {
+    this.setState({token: e.target.token});
+    {console.log(this.state.token,'token from App')}
   }
 
   logIn() {
@@ -57,14 +65,12 @@ class App extends React.Component {
 
   render() {
     return (
-      <div fluid id='body'>
+      <div id='body'>
 
           <Header/>
-            <HeaderButtons ifLoggedIn={this.state.ifLoggedIn} setToken={this.state.setToken}/>
+            <HeaderButtons ifLoggedIn={this.state.ifLoggedIn} handleToken={this.state.handleToken} />
 
-
-            <LoadBody/> 
-
+            <LoadBody/>
 
 
            <Footer/>

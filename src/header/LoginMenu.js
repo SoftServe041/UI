@@ -32,6 +32,7 @@ const emailRegex = RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+[a-zA-Z0
 class LogInMenu extends React.Component {
     constructor(props) {
         super(props);
+        this.parseHits = this.parseHits.bind(this);
         this.state = {
             email: '',
             password: '',
@@ -42,8 +43,15 @@ class LogInMenu extends React.Component {
             },
             ifFieldsEmpty: false,
             ifLoginDetailsIncorrect: false,
+            hits: [],
         }
 
+    }
+
+    parseHits = (e) => {
+        e.preventDefault();
+        console.log(e.toString())
+        void this.props.handleToken;
     }
 
     handleChange = (e) => {
@@ -73,7 +81,7 @@ class LogInMenu extends React.Component {
             default:
                 break;
         }
-        this.setState({ formErrors, [name]: value }, () => { console.log(this.state) })
+        this.setState({ formErrors, [name]: value }, () => { console.log('this.state') })
 
     }
 
@@ -81,7 +89,7 @@ class LogInMenu extends React.Component {
 //this.state
 
     submitHandler = e => {
-        const url = 'https://cargo-testing-board.herokuapp.com/login'
+        const url = 'http://localhost:3000'
         if (this.state.email.length < 1){ this.setState({ifFieldsEmpty: true}) }
         if (this.state.password.length < 1){this.setState({ifFieldsEmpty: true}) }
         e.preventDefault()
@@ -93,24 +101,21 @@ class LogInMenu extends React.Component {
 
         if (formValid(this.state)) {
 
-            console.log(this.state)
-            console.log(axios.post(url, data
-            ))
-            axios.post(url, this.state)
+            //console.log(axios.post(url, data))
+
+            axios.post(url, data)
                 .then(response => {
                     console.log(response)
 
+                    this.setState({hits: response.data.hits })
 
                 })
                 .catch(error => {
                     console.log(error)
                     this.setState({ifLoginDetailsIncorrect: true})
-                    /*
-                    {function setToken()
-                    { return(error)}
-
-                    }
-                    */
+                    
+                    //console.log(e.target.email)
+                    //void this.parseHits;
 
                 });
 
@@ -142,16 +147,18 @@ class LogInMenu extends React.Component {
                     <Form onSubmit={this.submitHandler}>
 
                         <Row id="space-between-rows">
+                            <Col md={{  offset: 5 }}>
                             { (this.state.ifLoginDetailsIncorrect)  && (<span className="Span">Email or password are incorrect</span>)}
+                            </Col>
                         </Row>
 
 
                         <Row >
                             <Col md={{ span: 1, offset: 3 }}>
-                                <h3  >    Login: </h3>
+                                <p  >    Login: </p>
                             </Col>
                             <Col md={{ span: 0, offset: 1 }}>
-                                <Form.Control value={email} type="email" className="Input"  name="email" placeholder="Type Email"
+                                <Form.Control value={email}  type="email" className="Input"  name="email" placeholder="Type Email"
                                               onChange={this.handleChange}>
                                 </Form.Control>
                             </Col>
@@ -166,10 +173,10 @@ class LogInMenu extends React.Component {
 
                         <Row >
                             <Col md={{ span: 1, offset: 3 }}>
-                                <h3 >    Password:      </h3>
+                                <p >    Password:      </p>
                             </Col>
                             <Col md={{ span: 0, offset: 1 }}>
-                                <Form.Control value={password} className="Input" type="password" name="password" placeholder="Type Password"
+                                <Form.Control  className="Input" type="password" name="password" placeholder="Type Password"
                                               onChange={this.handleChange} >
                                 </Form.Control>
                             </Col>

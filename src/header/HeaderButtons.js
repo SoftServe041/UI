@@ -7,10 +7,6 @@ import icon from './user-icon1.png';
 
 
 import './loginmenu.css';
-import axios from 'axios'
-
-import ReactDOM from 'react-dom';
-import logo from "./logo.png";
 
 
 
@@ -18,11 +14,11 @@ function Greeting(props) {
   if (props.ifLoggedIn) {
     return <UserLoggedIn />;
   }
-  return <NotLogedIn setToken={props.setToken}/>;
+  return <NotLogedIn handleToken={props.handleToken}/>;
 }
 
 
-//Modal.setAppElement('#loginmodule')
+
 
 class NotLogedIn extends React.Component {
   constructor(props) {
@@ -62,7 +58,8 @@ class NotLogedIn extends React.Component {
         <div className="Div-Login" >
           <h2 onClick={this.enableModal} className="h2" >LogIn</h2>
           {
-              <LogInMenu ifShowModal={this.state.ifShowModal} disableModal={this.disableModal}  setToken={this.props.setToken}/>
+              <LogInMenu ifShowModal={this.state.ifShowModal} disableModal={this.disableModal}
+                         handleToken={this.props.handleToken}/>
           }
 
         </div>

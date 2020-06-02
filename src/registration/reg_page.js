@@ -103,7 +103,7 @@ class RegPage extends React.Component{
         const { formErrors } = this.state;
 
         return (
-            <div className="App">
+            <div >
                 <div className="Title"> <h1 >Registration</h1>
                 </div>
 
