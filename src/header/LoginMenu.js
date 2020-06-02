@@ -113,7 +113,7 @@ class LogInMenu extends React.Component {
                 .catch(error => {
                     console.log(error)
                     this.setState({ifLoginDetailsIncorrect: true})
-                    
+
                     //console.log(e.target.email)
                     //void this.parseHits;
 
