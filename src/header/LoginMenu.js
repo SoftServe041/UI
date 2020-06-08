@@ -106,17 +106,13 @@ class LogInMenu extends React.Component {
             axios.post(url, data)
                 .then(response => {
                     console.log(response)
-
                     this.setState({hits: response.data.hits })
-
                 })
                 .catch(error => {
                     console.log(error)
                     this.setState({ifLoginDetailsIncorrect: true})
-
                     //console.log(e.target.email)
                     //void this.parseHits;
-
                 });
 
         } else {
