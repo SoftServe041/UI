@@ -1,3 +1,4 @@
+/*
 .Main-background{
     background-color: #c2c2c2;
     width: 80%;
@@ -20,13 +21,13 @@
 }
 
 .DivLocation1{
-    float: left; 
+    float: left;
     width: 50%;
 }
 
 
 .DivLocation2{
-    float: right; 
+    float: right;
     width: 50%;
 }
 
@@ -49,7 +50,7 @@
 }
 
 .Title{
-    
+
     background-color: #2d2929;
     width: 100%;
     display: flex;
@@ -66,7 +67,7 @@
 }
 
 .Button-Search{
-    
+
     background-color: #ff8e09;
     font-size: 25px;
     color: #2d2929;
@@ -119,4 +120,4 @@
 
 .Form{
       width: 100%;
-}
+}*/
