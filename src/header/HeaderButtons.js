@@ -13,7 +13,7 @@ function Greeting(props) {
   if (props.ifLoggedIn) {
     return <UserLoggedIn />;
   }
-  return <NotLogedIn handleToken={props.handleToken}/>;
+  return <NotLogedIn handleToken={props.handleToken} />;
 }
 
 
@@ -31,34 +31,35 @@ class NotLogedIn extends React.Component {
 
 
   disableModal() {
-    this.setState( {ifShowModal: false} );
+    this.setState({ ifShowModal: false });
     void console.log('ifShowModal is , disable clicked ', this.state.ifShowModal)
   }
 
   enableModal() {
-    this.setState({ ifShowModal: true  });
+    this.setState({ ifShowModal: true });
     void console.log('ifShowModal is , enable clicked', this.state.ifShowModal)
   }
 
   render() {
     const style = {
-        divAbsolute: {
-            position: 'absolute',
-            top: '0',
-            right: '0',
-            paddingTop: '15px',
+      divAbsolute: {
+        position: 'absolute',
+        top: '0',
+        right: '0',
+        paddingTop: '15px',
 
-        }
+      }
     }
     return (
-      
+
       <div style={style.divAbsolute}>
 
         <div className="Div-Login" >
           <h4 onClick={this.enableModal} className="h4" >LogIn</h4>
           {
-              <LogInMenu ifShowModal={this.state.ifShowModal} disableModal={this.disableModal}
-                         handleToken={this.props.handleToken}/>
+            <LogInMenu ifShowModal={this.state.ifShowModal}
+              disableModal={this.disableModal}
+              handleToken={this.props.handleToken} />
           }
 
         </div>
@@ -77,28 +78,28 @@ class NotLogedIn extends React.Component {
 }
 
 const style = {
-    divAbsolute: {
-        position: 'absolute',
-        top: '5px',
-        right: '0',
+  divAbsolute: {
+    position: 'absolute',
+    top: '5px',
+    right: '0',
 
-    }
+  }
 }
 
 
 function UserLoggedIn(props) {
-    return (
-        <div style={style.divAbsolute}>
+  return (
+    <div style={style.divAbsolute}>
 
-            <div className="Div-Login" >
-                <a className="a" href="/account">
-                    <img src={icon} className="User" alt="icon" />
+      <div className="Div-Login" >
+        <a className="a" href="/account">
+          <img src={icon} className="User" alt="icon" />
 
-                </a>
-            </div>
+        </a>
+      </div>
 
-        </div>
-    );
+    </div>
+  );
 }
 
 
