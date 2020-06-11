@@ -72,12 +72,8 @@ class App extends React.Component {
 
             <LoadBody/>
 
-
            <Footer/>
 
-        
-        
-        
       </div>
       
     );
