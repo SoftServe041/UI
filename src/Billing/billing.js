@@ -8,15 +8,14 @@ import HeaderButtons from "../header/HeaderButtons";
 import axios from 'axios'
 import ModalError from "../error/modalError.js";
 import MainPage from "../main_page/Main_page";
-import {Route} from 'react-router-dom';
+import {Link, BrowserRouter} from 'react-router-dom';
 import './billing.css'
 
 const cscRegEx = /\b\d{3}\b/;
 const cardRegEx = /\b\d{16}\b/;
 
 
-
-const formValid = ({ formErrors, ...rest }) => {
+const formValid = ({formErrors, ...rest}) => {
     let valid = true;
 
 
@@ -31,8 +30,19 @@ const formValid = ({ formErrors, ...rest }) => {
 
     return valid;
 };
-
-class Billing extends React.Component{
+async function sampleFunc(toInput) {
+    const response = await fetch("https://cargo-testing-board.herokuapp.com/registration/register", {
+        method: "POST",
+        mode: "no-cors",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(toInput), header: "Content-Type"
+    }).then(response => {console.log(response)})
+        .catch(error => {this.accessModError(error.toString())});
+}
+class Billing extends React.Component {
 
 
     constructor(props) {
@@ -51,14 +61,16 @@ class Billing extends React.Component{
             }
         }
     }
+
+
     accessModError = (error) => {
-       this.refs.modError.showModal(error);
+        this.refs.modError.showModal(error);
     }
     handleSubmit = e => {
         e.preventDefault();
 
         if (formValid(this.state)) {
-            axios.post('https://cargo-testing-board.herokuapp.com/registration/register', {
+            const toInput = {
                 firstName: this.props.data.firstName,
                 lastName: this.props.data.lastName,
                 email: this.props.data.email,
@@ -67,50 +79,63 @@ class Billing extends React.Component{
                 csc: this.state.csc,
                 expDate: this.state.expDate,
                 address: this.state.address,
-            })
+            }
+            sampleFunc(toInput)
+          /*  axios.post('https://cargo-testing-board.herokuapp.com/registration/register', {
+                firstName: this.props.data.firstName,
+                lastName: this.props.data.lastName,
+                email: this.props.data.email,
+                password: this.props.data.password,
+                cardNumber: this.state.cardNumber,
+                csc: this.state.csc,
+                expDate: this.state.expDate,
+                address: this.state.address,
+            })*/
             /*.then(function(suc) {
                 console.log('Axios sucsess:', suc);})
             .catch(this.accessModError);*/
         } else {
-            console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
+            //console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
         }
     };
 
     handleChange = e => {
-            e.preventDefault();
-            const {name, value} = e.target;
+        e.preventDefault();
+        const {name, value} = e.target;
 
-            let formErrors = {...this.state.formErrors};
+        let formErrors = {...this.state.formErrors};
 
-            switch (name) {
-                case "cardNumber":
-                    formErrors.cardNumber = cardRegEx.test(value)
-                        ? ""
-                        : "Not valid card number";
-                    break;
-                case "csc":
-                    formErrors.csc = cscRegEx.test(value)
-                        ? ""
-                        : "Not valid csc";
-                    break;
-                case "address":
-                    formErrors.address =
-                        value.length < 6
-                            ? "minimum 6 characters required"
-                            : "";
-                    break;
-            }
+        switch (name) {
+            case "cardNumber":
+                formErrors.cardNumber = cardRegEx.test(value)
+                    ? ""
+                    : "Not valid card number";
+                break;
+            case "csc":
+                formErrors.csc = cscRegEx.test(value)
+                    ? ""
+                    : "Not valid csc";
+                break;
+            case "address":
+                formErrors.address =
+                    value.length < 6
+                        ? "minimum 6 characters required"
+                        : "";
+                break;
+        }
 
-            this.setState({formErrors, [name]: value});
+        this.setState({formErrors, [name]: value});
 
     };
-    render(){
-        const { formErrors } = this.state;
+
+    render() {
+        const {formErrors} = this.state;
 
         return (
+            <BrowserRouter>
             <div id='body'>
                 <Header/>
-                <HeaderButtons ifLoggedIn={this.state.ifLoggedIn} handleToken={this.state.handleToken} />
+                <HeaderButtons ifLoggedIn={this.state.ifLoggedIn} handleToken={this.state.handleToken}/>
                 <Row id="title-row">
                     <Col md={{span: 3, offset: 5}}>
                         <h2 className="title-text"> Billing </h2>
@@ -124,7 +149,7 @@ class Billing extends React.Component{
                                 <Row>
                                     <Col>
                                         <Form.Label column sm={8}>
-                                           Card number
+                                            Card number
                                         </Form.Label>
                                     </Col>
                                 </Row>
@@ -203,15 +228,17 @@ class Billing extends React.Component{
                                         )}
                                     </Col>
                                 </Row>
-                                <Row >
+                                <Row>
                                     <Col md={{span: 3, offset: 5}}>
-                                        <Button id="body-button" type="submit"
-                                                onClick={this.handleSubmit}> Submit </Button>
+                                        <Link to = "/">
+                                            <Button id="body-button" type="submit"
+                                                    onClick={this.handleSubmit}> Submit </Button>
+                                        </Link>
                                     </Col>
                                 </Row>
                             </Form>
                             <ModalError ref='modError'/>
-                             {/*if (this.state.redirect) {
+                            {/*if (this.state.redirect) {
                             <Route exact path="/" to component={MainPage}/>
                                 }*/}
                         </Col>
@@ -219,8 +246,9 @@ class Billing extends React.Component{
                 </Container>
 
 
-            <Footer/>
+                <Footer/>
             </div>
+            </BrowserRouter>
         );
     }
 }
