@@ -22,7 +22,7 @@
     background-color: #c2c2c2;
     margin-top: 0.2% ;
     padding-top: 20px;
-    padding-bottom: 50px;
+    padding-bottom: 20px;
     margin-bottom: 10%;
     border-radius: 0.8%;
 }
@@ -32,7 +32,6 @@
 }
 
 #title-row {
-
     background-color: #2d2929;
     padding: 1rem;
 }

@@ -92,7 +92,7 @@ function UserLoggedIn(props) {
     <div style={style.divAbsolute}>
 
       <div className="Div-Login" >
-        <a className="a" href="/account">
+        <a className="a" href="/profile">
           <img src={icon} className="User" alt="icon" />
 
         </a>

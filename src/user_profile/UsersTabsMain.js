@@ -46,8 +46,8 @@ export default class UsersTabsMain extends React.Component {
     <Container id="load-body" >
     <Tabs className="myClass"
           activeKey={this.state.selectedTab}
-          onSelect={(key) => {this.handleSelectedTab(key)}} >
-        <Tab eventKey="profile" title="Profile" >
+          onSelect={(key) => {this.handleSelectedTab(key)}}  >
+        <Tab eventKey="profile" title="Profile"  >
             <Profile data={this.props.data}/>
         </Tab>
         <Tab eventKey="orders" title="Orders">
