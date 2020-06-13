@@ -23,5 +23,3 @@ yarn-debug.log*
 yarn-error.log*
 .idea/
 src/2/
-package-lock.json
-package.json

@@ -55,7 +55,7 @@ class RegPage extends React.Component {
         e.preventDefault();
 
         if (formValid(this.state)) {
-            ReactDOM.render(<Billing data={this.state}/>,
+            ReactDOM.render(<Billing data={this.state} token = {this.context}/>,
                 document.getElementById('root'));
         } else {
             console.error("FORM INVALID - DISPLAY ERROR MESSAGE");

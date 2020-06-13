@@ -4,12 +4,14 @@ import {Row, Col, Form, Container, Button} from 'react-bootstrap';
 
 import Header from "../header/Header";
 import HeaderButtons from "../header/HeaderButtons";
+import ReactDOM from 'react-dom';
 
 import axios from 'axios'
 import ModalError from "../error/modalError.js";
 import MainPage from "../main_page/Main_page";
-import {Link, BrowserRouter} from 'react-router-dom';
+import {Link, BrowserRouter, Route, Redirect} from 'react-router-dom';
 import './billing.css'
+import App from "../App";
 
 const cscRegEx = /\b\d{3}\b/;
 const cardRegEx = /\b\d{16}\b/;
@@ -30,17 +32,27 @@ const formValid = ({formErrors, ...rest}) => {
 
     return valid;
 };
-async function sampleFunc(toInput) {
+
+async function sampleFunc(toInput, token) {
     const response = await fetch("https://cargo-testing-board.herokuapp.com/registration/register", {
+        myError: null,
         method: "POST",
         mode: "no-cors",
         credentials: "same-origin",
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json;charset=utf-8'
         },
-        body: JSON.stringify(toInput), header: "Content-Type"
-    }).then(response => {console.log(response)})
-        .catch(error => {this.accessModError(error.toString())});
+        body: JSON.stringify(toInput),
+        redirect: "follow",
+        referrerPolicy: "no-referrer"
+    }).then(response => {console.log(response)});
+        //.catch(error => {this.accessModError(error.toString())});
+    let body = await response.json();
+    console.log(body.id);
+    if(response.ok){
+        window.location = "/";
+
+    }
 }
 class Billing extends React.Component {
 
@@ -50,9 +62,9 @@ class Billing extends React.Component {
         this.state = {
             cardNumber: null,
             csc: null,
-            expDate: null,
+            expDate: '2000-03-21',
             address: null,
-            redirect: false,
+            redirect: true,
             formErrors: {
                 cardNumber: "",
                 csc: "",
@@ -66,6 +78,8 @@ class Billing extends React.Component {
     accessModError = (error) => {
         this.refs.modError.showModal(error);
     }
+
+
     handleSubmit = e => {
         e.preventDefault();
 
@@ -79,9 +93,19 @@ class Billing extends React.Component {
                 csc: this.state.csc,
                 expDate: this.state.expDate,
                 address: this.state.address,
+                phone: this.props.data.phone
             }
-            sampleFunc(toInput)
-          /*  axios.post('https://cargo-testing-board.herokuapp.com/registration/register', {
+                //sampleFunc(toInput)
+            console.log('data: ', this.props.data.firstName,
+                this.props.data.lastName,
+                this.props.data.email,
+                this.props.data.password,
+                this.state.cardNumber,
+                this.state.csc,
+                this.state.expDate,
+                this.state.address,
+                this.state.phone)
+            axios.post('https://cargo-testing-board.herokuapp.com/registration/register', {
                 firstName: this.props.data.firstName,
                 lastName: this.props.data.lastName,
                 email: this.props.data.email,
@@ -90,10 +114,14 @@ class Billing extends React.Component {
                 csc: this.state.csc,
                 expDate: this.state.expDate,
                 address: this.state.address,
-            })*/
-            /*.then(function(suc) {
-                console.log('Axios sucsess:', suc);})
-            .catch(this.accessModError);*/
+            }).then(response => {
+                console.log('resp: ', response);
+                if(response.ok){
+                    window.location = "/";
+                    this.props.token(response)
+                }
+            })
+                .catch(error => {this.accessModError(error.toString())});
         } else {
             //console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
         }
@@ -230,17 +258,17 @@ class Billing extends React.Component {
                                 </Row>
                                 <Row>
                                     <Col md={{span: 3, offset: 5}}>
-                                        <Link to = "/">
+
                                             <Button id="body-button" type="submit"
                                                     onClick={this.handleSubmit}> Submit </Button>
-                                        </Link>
+
                                     </Col>
                                 </Row>
                             </Form>
                             <ModalError ref='modError'/>
-                            {/*if (this.state.redirect) {
-                            <Route exact path="/" to component={MainPage}/>
-                                }*/}
+
+                            {this.state.redirect && (<Route exact path="/" to component={MainPage}/>)}
+
                         </Col>
                     </Row>
                 </Container>
