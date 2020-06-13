@@ -1,5 +1,5 @@
-import React, { lazy, useState } from 'react';
-import Dialog, { Button, Col, Container, Form, Row } from 'react-bootstrap'
+import React from 'react';
+import  { Button, Col, Form, Row } from 'react-bootstrap'
 import axios from 'axios'
 
 import '../App.css';
@@ -157,7 +157,7 @@ class Profile extends React.Component {
 
     render() {
         const email = this.email;
-        const password = this.password;
+        //const password = this.password;
         const firstName = this.firstName;
         const lastName = this.lastName;
         const address = this.address;

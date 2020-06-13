@@ -42,6 +42,7 @@ class App extends React.Component {
 
   handleToken(data) {
      this.setState({token: data.token, id: data.id, userEmail: data.email, ifAdmin: data.admin});
+     console.log(data);
      this.logIn();
   }
 

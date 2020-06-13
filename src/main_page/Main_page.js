@@ -1,10 +1,10 @@
-import React, { useState, setState } from 'react';
+import React from 'react';
 import cities from './cities.json';
 import axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import { Button, Container , FormControl, Dropdown} from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import '../App.css';
 import DropDownDeparture from './DropDownDeparture';
 import DropDownArrival from "./DropDownArrival";
@@ -43,6 +43,7 @@ class MainPage extends React.Component {
             ifFormIncorrect: false,
             ifSameHubSelected: false,
             routes: [],
+            citiesList: [], //to be used instead of cities import json
         }
         this.handleSelectedDeparture = this.handleSelectedDeparture.bind(this);
         this.handleSelectedArrival = this.handleSelectedArrival.bind(this);
@@ -83,9 +84,8 @@ class MainPage extends React.Component {
             axios.get(url, this.state)
                 .then(response => {
                     console.log(response)
-                    if (response.status === 201) {
                         this.handleReceivedRouts(response.data)
-                    }
+
                 })
                 .catch(error => {
                     console.log(error)
@@ -114,8 +114,14 @@ class MainPage extends React.Component {
         this.setState({ arrival: e });
     }
 
-    handleSwitch(arrival) {
+    handleSwitch(arrival, departure) {
         const tempReplace = arrival;
+        if ( arrival === "Arrival" && departure === "Departure") {}
+        else if (arrival === "Arrival") {
+            this.setState({ arrival: departure, departure: "Departure" });}
+        else if (departure === "Departure") {
+            this.setState({ arrival: "Arrival", departure: arrival });
+        } else
         this.setState({ arrival: this.state.departure, departure: tempReplace });
     }
 
@@ -124,9 +130,16 @@ class MainPage extends React.Component {
     }
 
 
-    componentDidMount() {
-        
-        this.setState({ departure: cities.cities.city[0].name, arrival: cities.cities.city[1].name });
+    async componentDidMount() {
+       /* let result = axios.get(`http://localhost:8041`)
+            .then(res => {this.setState({citiesList: res.data})
+            console.log(res.data)
+
+            })
+            //.catch(error => alert('Axios failed ' + error));
+            .catch(error => console.log('Axios failed on Main_page.js' + error));
+
+        */
     }
 
 
@@ -165,7 +178,7 @@ class MainPage extends React.Component {
                                     <Col md={{  offset: 1 }}>
                                         <Button type="button"
                                                 style={{backgroundColor: '#ff8e09', borderColor: '#999999'}}
-                                                onClick={() => {this.handleSwitch(this.state.arrival)}}>
+                                                onClick={() => {this.handleSwitch(this.state.arrival, this.state.departure)}}>
                                             &#8644;
                                         </Button>
                                     </Col>

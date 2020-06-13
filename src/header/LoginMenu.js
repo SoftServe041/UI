@@ -71,11 +71,8 @@ class LogInMenu extends React.Component {
 
     }
 
-
-    //this.state
-
     submitHandler = e => {
-        const url = 'http://localhost:3000'
+        const url = 'http://localhost:8041/'
         if (this.state.email.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.password.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         e.preventDefault()
@@ -93,7 +90,7 @@ class LogInMenu extends React.Component {
 
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.log('axios error in LoginMenu.js', error);
                     this.setState({ ifLoginDetailsIncorrect: true });
                     
 
