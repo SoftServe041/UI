@@ -50,15 +50,11 @@ class App extends React.Component {
       ifShowModal: true
     });}
 
-
-
   logOut() {
     this.setState({
       ifShowModal: false
     });
-
   }
-
 
   render() {
     return (

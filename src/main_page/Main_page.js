@@ -13,20 +13,23 @@ import DropDownArrival from "./DropDownArrival";
 //import FormControl from "react-bootstrap/FormControl";
 
 
+/*
 
-
-const formValid = ({ departure, arrival, weight }) => {
+const formValid = ({ departure, arrival, weight, ifSameHubSelected }) => {
     let valid = true;
 
+    if (departure === arrival){
+         this.setState({ifSameHubSelected: false})
+     } else {
+         this.setState({ifSameHubSelected: false})
+     }
 
-    if (departure.length < 3) { valid = false; return valid }
-    if (arrival.length < 3) { valid = false; return valid }
+
     if (weight.length < 1) { valid = false; return valid }
-
 
     return valid;
 }
-
+*/
 
 
 class MainPage extends React.Component {
@@ -37,8 +40,9 @@ class MainPage extends React.Component {
             departure: 'Departure',
             arrival: 'Arrival',
             weight: '',
-
             ifFormIncorrect: false,
+            ifSameHubSelected: false,
+            routes: [],
         }
         this.handleSelectedDeparture = this.handleSelectedDeparture.bind(this);
         this.handleSelectedArrival = this.handleSelectedArrival.bind(this);
@@ -46,40 +50,54 @@ class MainPage extends React.Component {
 
     }
 
+    formValid = ({ departure, arrival, weight }) => {
+        let valid = true;
+
+        if (departure === arrival){
+            this.setState({ifSameHubSelected: true})
+            console.log('this.setState({ifSameHubSelected: true})')
+            valid = false;
+        } else {
+            this.setState({ifSameHubSelected: false})
+            console.log('this.setState({ifSameHubSelected: false})')
+            valid = true;
+        }
+
+        if (departure === "Departure" || arrival === "Arrival"){
+            valid = false;
+        }
+
+        if (weight.length < 1) { valid = false; return valid }
+
+        return valid;
+    }
+
     submitHandler = e => {
-        const url = 'http://localhost:3000/'
+        const url = 'http://localhost:8080/'
         e.preventDefault();
+        this.setState({ ifFormIncorrect: false, ifSameHubSelected: false });
 
 
-        if (formValid(this.state)) {
+        if (this.formValid(this.state)) {
             console.log(this.state)
-            axios.post(url, this.state)
+            axios.get(url, this.state)
                 .then(response => {
                     console.log(response)
                     if (response.status === 201) {
-
-
-                    }
-                    if (response.status === 404) {
-
-
+                        this.handleReceivedRouts(response.data)
                     }
                 })
                 .catch(error => {
                     console.log(error)
                     if (error.status === 404) {
                         window.location = "/error"
-
                     }
                 });
-
         } else {
-            this.setState({ ifFormIncorrect: true })
+            this.setState({ ifFormIncorrect: true });
             console.error("Invalid form");
         }
-
     }
-
 
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
@@ -87,9 +105,6 @@ class MainPage extends React.Component {
         this.setState({ ifFormIncorrect: false })
 
     }
-
-
-
 
     handleSelectedDeparture(e) {
         this.setState({ departure: e });
@@ -99,11 +114,21 @@ class MainPage extends React.Component {
         this.setState({ arrival: e });
     }
 
-/*
-    async componentDidMount() {
+    handleSwitch(arrival) {
+        const tempReplace = arrival;
+        this.setState({ arrival: this.state.departure, departure: tempReplace });
+    }
+
+    handleReceivedRouts(routs){
+        this.setState({routs: routs})
+    }
+
+
+    componentDidMount() {
+        
         this.setState({ departure: cities.cities.city[0].name, arrival: cities.cities.city[1].name });
     }
-    */
+
 
 
 
@@ -120,7 +145,7 @@ class MainPage extends React.Component {
                 </Row>
 
                 <Container id="load-body" >
-                    <Row >
+                    <Row style={{width: '100%'}}>
                         <Col md={{ span: 5, offset: 3 }}>
                             <Form onSubmit={this.submitHandler} onChange={this.handleChange}>
                                 <Row>
@@ -129,13 +154,20 @@ class MainPage extends React.Component {
                                 </Form.Label>
                                 </Row>
 
-                                <Row>
+                                <Row >
                                     <Col >
                                         <DropDownDeparture handleSelectedDeparture={this.handleSelectedDeparture}
                                                            cities={cities}
                                                            departure={this.state.departure}
                                         >
                                         </DropDownDeparture>
+                                    </Col>
+                                    <Col md={{  offset: 1 }}>
+                                        <Button type="button"
+                                                style={{backgroundColor: '#ff8e09', borderColor: '#999999'}}
+                                                onClick={() => {this.handleSwitch(this.state.arrival)}}>
+                                            &#8644;
+                                        </Button>
                                     </Col>
                                     <Col >
                                         <DropDownArrival handleSelectedArrival={this.handleSelectedArrival}
@@ -162,7 +194,8 @@ class MainPage extends React.Component {
 
                                 <Row>
                                     <Col >
-                                        {(this.state.ifFormIncorrect) && (<p>Please make sure that you have filled all details</p>)}
+                                        {(this.state.ifFormIncorrect) && (<p>Please make sure that you have filled all details correctly</p>)}
+
                                     </Col>
                                 </Row>
 
