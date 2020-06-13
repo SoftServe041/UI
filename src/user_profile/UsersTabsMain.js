@@ -26,15 +26,6 @@ export default class UsersTabsMain extends React.Component {
      }
 
     render() {
-        const style = {
-            navtabs: {
-            backgroundColor: '#161616',
-            },
-            tabContent:{
-            backgroundColor: '#303136',
-            color: '#fff',
-        },
-        }
     return(
     <>
         <Row id="title-row">
@@ -44,16 +35,16 @@ export default class UsersTabsMain extends React.Component {
         </Row>
 
     <Container id="load-body" >
-    <Tabs className="myClass"
+    <Tabs class="nav nav-fill nav-tabs"
           activeKey={this.state.selectedTab}
           onSelect={(key) => {this.handleSelectedTab(key)}}  >
-        <Tab eventKey="profile" title="Profile"  >
+        <Tab class="nav-item" eventKey="profile" title="Profile"  >
             <Profile data={this.props.data}/>
         </Tab>
-        <Tab eventKey="orders" title="Orders">
+        <Tab class="nav-item" eventKey="orders" title="Orders">
             <p>In progress</p>
         </Tab>
-        <Tab eventKey="billing" title="Billing Details" >
+        <Tab class="nav-item" eventKey="billing" title="Billing Details" >
             <p>In progress</p>
         </Tab>
     </Tabs>

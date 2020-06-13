@@ -1,13 +1,8 @@
-import React, { lazy, useState } from 'react';
-import Modal from 'react-bootstrap/Modal'
-import Dialog, { Button, Col, Container, Form, Row } from 'react-bootstrap'
-//import './loginmenu.css';
-import axios from 'axios'
-
+import React from 'react';
+import Modal from 'react-bootstrap/Modal';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import axios from 'axios';
 import '../App.css';
-
-
-
 
 const formValid = ({ formErrors, email, password }) => {
     let valid = true;
@@ -90,23 +85,10 @@ class LogInMenu extends React.Component {
             password: this.state.password
         }
 
-       
-        //var MockAdapter = require("axios");
-
-        // This sets the mock adapter on the default instance
-        //var mock = new MockAdapter(axios);
-
-        // Mock any GET request to /users
-        // arguments for reply are (status, data, headers)
-       /* MockAdapter.onGet("/users").reply(200, {
-            users: [{ id: 1, token: "thisistoken" }],
-        });
-        */
-
         if (formValid(this.state)) {
             axios.post(url, data)
                 .then(response => {
-                    this.props.handleToken('fadsgsdagsdgdas');
+                    this.props.handleToken(response.data);
                     this.props.disableModal();
 
                 })
@@ -129,7 +111,6 @@ class LogInMenu extends React.Component {
 
     render() {
         const email = this.email;
-        const password = this.password;
         const { formErrors } = this.state;
         return (
 

@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, setState } from 'react';
 import cities from './cities.json';
-import 'react-bootstrap';
 import axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container , FormControl, Dropdown} from "react-bootstrap";
 import '../App.css';
+import DropDownDeparture from './DropDownDeparture';
+import DropDownArrival from "./DropDownArrival";
 
-import Dropdown from "react-bootstrap/Dropdown";
-import FormControl from "react-bootstrap/FormControl";
+//import Dropdown from "react-bootstrap/Dropdown";
+//import FormControl from "react-bootstrap/FormControl";
 
 
 
@@ -26,41 +27,22 @@ const formValid = ({ departure, arrival, weight }) => {
     return valid;
 }
 
-/*
-const CitiesList = Object.values( cities).forEach( city => {
-    return (<p>{city.name}</p>)
-
-})
-
- */
-
-
-function CitiesList() {
-    let count = 0;
-    Object.values(cities.city).forEach(s => {
-        return (
-            <div>
-                <p>${s.name}</p>
-            </div>
-        );
-    })
-}
-
-
 
 
 class MainPage extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
-            departure: '',
-            arrival: '',
+            departure: 'Departure',
+            arrival: 'Arrival',
             weight: '',
 
             ifFormIncorrect: false,
         }
+        this.handleSelectedDeparture = this.handleSelectedDeparture.bind(this);
+        this.handleSelectedArrival = this.handleSelectedArrival.bind(this);
+        //this.componentDidMount = this.componentDidMount.bind(this);
 
     }
 
@@ -109,10 +91,24 @@ class MainPage extends React.Component {
 
 
 
+    handleSelectedDeparture(e) {
+        this.setState({ departure: e });
+    }
+
+    handleSelectedArrival(e) {
+        this.setState({ arrival: e });
+    }
+
+/*
+    async componentDidMount() {
+        this.setState({ departure: cities.cities.city[0].name, arrival: cities.cities.city[1].name });
+    }
+    */
 
 
 
     render() {
+
 
         return (
             <div>
@@ -135,10 +131,20 @@ class MainPage extends React.Component {
 
                                 <Row>
                                     <Col >
-                                        <Form.Control className="Input1" type="text" name="departure" placeholder="Departure" />
+                                        <DropDownDeparture handleSelectedDeparture={this.handleSelectedDeparture}
+                                                           cities={cities}
+                                                           departure={this.state.departure}
+                                        >
+                                        </DropDownDeparture>
                                     </Col>
                                     <Col >
-                                        <Form.Control className="Input1" type="text" name="arrival" placeholder="Arrival" />
+                                        <DropDownArrival handleSelectedArrival={this.handleSelectedArrival}
+                                                           cities={cities}
+                                                           arrival={this.state.arrival}
+                                        >
+                                        </DropDownArrival>
+                                        {//<Form.Control className="Input1" type="text" name="arrival" placeholder="Arrival" />
+                                        }
                                     </Col>
                                 </Row>
 
@@ -166,10 +172,6 @@ class MainPage extends React.Component {
 
                                     </Col>
                                 </Row>
-
-                                {
-                                    //  <CitiesList/>
-                                }
 
 
                             </Form>

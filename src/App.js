@@ -6,7 +6,6 @@ import UsersTabsMain from "./user_profile/UsersTabsMain";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 
-
 const Home = lazy(() => import('./main_page/Main_page'));
 const RegPage = lazy(() => import('./registration/reg_page'));
 const Page404 = lazy(() => import('./error/page404'));
@@ -25,11 +24,6 @@ function LoadBody(props) {
   </Router>);
 }
 
-
-
-
-
-
 class App extends React.Component {
 
   constructor(props) {
@@ -40,16 +34,15 @@ class App extends React.Component {
     this.state = {
       ifLoggedIn: false,
       token: '',
-      userId: 0,
-      ifAdmin: false,
+      userId: '',
+      ifAdmin: '',
+      userEmail: '',
     };
   }
 
-  handleToken(token1) {
-   //console.log('token from app: ', token);
-     this.setState({token: token1});
+  handleToken(data) {
+     this.setState({token: data.token, id: data.id, userEmail: data.email, ifAdmin: data.admin});
      this.logIn();
-    // {console.log(this.state.token,'token from App')}
   }
 
   logIn() {
@@ -70,20 +63,10 @@ class App extends React.Component {
   render() {
     return (
       <div id='body'>
-        {
-          console.log('effect app', this.state)
-        }
           <Header/>
             <HeaderButtons ifLoggedIn={this.state.ifLoggedIn} handleToken={this.handleToken} />
-
             <LoadBody data={this.state}/>
-
-
            <Footer/>
-
-        
-        
-        
       </div>
       
     );
