@@ -62,7 +62,7 @@ class Billing extends React.Component {
         this.state = {
             cardNumber: null,
             csc: null,
-            expDate: '2000-03-21',
+            expDate: null,
             address: null,
             redirect: true,
             formErrors: {
@@ -104,22 +104,27 @@ class Billing extends React.Component {
                 this.state.csc,
                 this.state.expDate,
                 this.state.address,
-                this.state.phone)
-            axios.post('https://cargo-testing-board.herokuapp.com/registration/register', {
+                this.state.phoneNumber)
+            //https://cargo-testing-board.herokuapp.com/registration/register
+            axios.post('http://localhost:8041/registration/register', {
                 firstName: this.props.data.firstName,
                 lastName: this.props.data.lastName,
                 email: this.props.data.email,
                 password: this.props.data.password,
-                cardNumber: this.state.cardNumber,
-                csc: this.state.csc,
-                expDate: this.state.expDate,
+                phoneNumber: this.props.data.phoneNumber,
                 address: this.state.address,
+                billingDetails: {
+                    cardNumber: this.state.cardNumber,
+                    nameOnCard: this.props.data.firstName,
+                    csc: this.state.csc,
+                    expirationMonth: this.state.expDate.month+1,
+                    expirationYear:  this.state.expDate.getFullYear(),
+                    billingAddress: this.state.address
+                },
             }).then(response => {
                 console.log('resp: ', response);
-                if(response.ok){
-                    window.location = "/";
-                    this.props.token(response)
-                }
+                window.location = "/";
+                this.props.token(response)
             })
                 .catch(error => {this.accessModError(error.toString())});
         } else {
@@ -227,7 +232,7 @@ class Billing extends React.Component {
                                     <Col md={{span: 6, offset: 0}}>
                                         <Form.Control
                                             placeholder="expDate"
-                                            type="month"
+                                            type="date"
                                             name="expDate"
                                             onChange={this.handleChange}
                                         />

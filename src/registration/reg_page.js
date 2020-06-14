@@ -38,7 +38,7 @@ class RegPage extends React.Component {
             email: null,
             password: null,
             repeatPassword: null,
-            phone: null,
+            phoneNumber: null,
             validation: false,
             formErrors: {
                 firstName: "",
@@ -46,7 +46,7 @@ class RegPage extends React.Component {
                 email: "",
                 password: "",
                 repeatPassword: "",
-                phone: "",
+                phoneNumber: "",
             }
         }
     }
@@ -181,11 +181,11 @@ class RegPage extends React.Component {
                                         <Form.Control
                                             placeholder="Phone number"
                                             type="phone"
-                                            name="phone"
+                                            name="phoneNumber"
                                             onChange={this.handleChange}
                                         />
-                                        {formErrors.phone.length > 0 && (
-                                            <span className="errorMessage">{formErrors.phone}</span>
+                                        {formErrors.phoneNumber.length > 0 && (
+                                            <span className="errorMessage">{formErrors.phoneNumber}</span>
                                         )}
                                     </Col>
                                 </Row>
