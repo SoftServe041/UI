@@ -7,10 +7,18 @@ export default class Admin extends Component {
 
     constructor(props) {
         super(props);
+         this.state = {
+            key: 'users',
+        }
+
     }
     render() {
         return (
-            <div><div/>
+               <Tab.Container>
+                <Button block>
+                    <h1 className='font-weight-bold'>Adminstator's page</h1>
+                </Button>
+            </Tab.Container>
         );
     }
 }
