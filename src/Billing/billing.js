@@ -106,21 +106,21 @@ class Billing extends React.Component {
                 this.state.address,
                 this.state.phoneNumber)
             //https://cargo-testing-board.herokuapp.com/registration/register
-            axios.post('http://localhost:8041/registration/register', {
+            axios.post('http://localhost:8041/registration', {
                 firstName: this.props.data.firstName,
                 lastName: this.props.data.lastName,
                 email: this.props.data.email,
                 password: this.props.data.password,
                 phoneNumber: this.props.data.phoneNumber,
                 address: this.state.address,
-                billingDetails: {
+                billingDetails: [{
                     cardNumber: this.state.cardNumber,
                     nameOnCard: this.props.data.firstName,
                     csc: this.state.csc,
-                    expirationMonth: this.state.expDate.month+1,
-                    expirationYear:  this.state.expDate.getFullYear(),
+                    expirationMonth: (this.state.expDate.slice(5,7)),
+                    expirationYear:  this.state.expDate.slice(0, this.state.expDate.length - 6),
                     billingAddress: this.state.address
-                },
+                }],
             }).then(response => {
                 console.log('resp: ', response);
                 window.location = "/";
