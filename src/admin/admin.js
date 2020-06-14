@@ -18,6 +18,11 @@ export default class Admin extends Component {
                 <Button block>
                     <h1 className='font-weight-bold'>Adminstator's page</h1>
                 </Button>
+                <Nav fill>
+                    <Nav.Item className='col-md-2 h4 font-weight-bold'>
+                        <Nav.Link eventKey="users">Users</Nav.Link>
+                    </Nav.Item>
+                </Nav>
             </Tab.Container>
         );
     }
