@@ -20,8 +20,14 @@ export default class Admin extends Component {
                 </Button>
                 <Nav fill>
                     <Nav.Item className='col-md-2 h4 font-weight-bold'>
-                        <Nav.Link eventKey="users">Users</Nav.Link>
+                        <Nav.Link className='title-text mb-1 mt-1' eventKey="users">Users</Nav.Link>
                     </Nav.Item>
+       
+		    <Tab.Content>
+	                <Tab.Pane eventKey="users">
+                           <Users />
+	               </Tab.Pane>
+               	    </Tab.Content>
                 </Nav>
             </Tab.Container>
         );
