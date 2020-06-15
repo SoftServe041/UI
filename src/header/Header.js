@@ -8,12 +8,11 @@ function Header(props) {
   return (
     <div className="Div-Absolute">
       <header className="Main-header">
-      <a href="/">
-        <div className="Div-image">
-          
+        
+        <a href="/">
+          <div className="Div-image">
             <img src={logo} className="Logo" alt="logo" />
-          
-        </div>
+          </div>
         </a>
 
         <div className="Div-Menu" id="TopNav">

@@ -9,15 +9,18 @@ export const MContext = React.createContext();  //exporting context object
 
 class MyProvider extends React.Component {
 
-state = {modalIsOpenedContext: false}
+    state = { modalIsOpenedContext: false }
 
-render() {
+    render() {
         return (
             <MContext.Provider value={
-            {   state: this.state,
-                setMessage: (value) => this.setState({
-                            message: value })}}>
-            {this.props.children}   
+                {
+                    state: this.state,
+                    setMessage: (value) => this.setState({
+                        message: value
+                    })
+                }}>
+                {this.props.children}
             </MContext.Provider>)
     }
 }

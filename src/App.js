@@ -11,63 +11,70 @@ const RegPage = lazy(() => import('./registration/reg_page'));
 const Page404 = lazy(() => import('./error/page404'));
 
 function LoadBody(props) {
-  return(
-      <Router>
-      <Suspense fallback={<div>Loading...</div>}>
-      <Switch>
-        <Route exact path="/" render={() => <Home />} />
-        <Route exact path="/registration" render={() => <RegPage />} />
-        <Route exact path="/profile" render={() => <UsersTabsMain data={props.data} />} />
-        <Route default component={Page404} />
-      </Switch>
-    </Suspense>
-  </Router>);
+    return (
+        <Router>
+            <Suspense fallback={<div>Loading...</div>}>
+                <Switch>
+                    <Route exact path="/" render={() => <Home />} />
+                    <Route exact path="/registration" render={() => <RegPage />} />
+                    <Route exact path="/profile" render={() => <UsersTabsMain data={props.data} />} />
+                    <Route default component={Page404} />
+                </Switch>
+            </Suspense>
+        </Router>);
 }
 
 class App extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.logIn = this.logIn.bind(this);
-    this.logOut = this.logOut.bind(this);
-    this.handleToken = this.handleToken.bind(this);
-    this.state = {
-      ifLoggedIn: false,
-      token: '',
-      userId: '',
-      ifAdmin: '',
-      userEmail: '',
-    };
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            ifLoggedIn: false,
+            token: '',
+            userId: '',
+            ifAdmin: '',
+            userEmail: '',
+        };
+        this.logIn = this.logIn.bind(this);
+        this.logOut = this.logOut.bind(this);
+        this.handleToken = this.handleToken.bind(this);
+    }
 
-  handleToken(data) {
-     this.setState({token: data.token, id: data.id, userEmail: data.email, ifAdmin: data.admin});
-     console.log(data);
-     this.logIn();
-  }
+    handleToken(data) {
+        this.setState({
+            token: data.token,
+            userId: data.id,
+            userEmail: data.email,
+            ifAdmin: data.admin,
+            ifLoggedIn: true
+        });
+        console.log(this.state);
+    }
 
-  logIn() {
-    this.setState({
-      ifShowModal: true
-    });}
+    logIn() {
+        this.setState({
+            ifShowModal: true
+        });
+    }
 
-  logOut() {
-    this.setState({
-      ifShowModal: false
-    });
-  }
+    logOut() {
+        this.setState({
+            ifShowModal: false
+        });
+    }
 
-  render() {
-    return (
-      <div id='body'>
-          <Header/>
-            <HeaderButtons ifLoggedIn={this.state.ifLoggedIn} handleToken={this.handleToken} />
-            <LoadBody data={this.state}/>
-           <Footer/>
-      </div>
-      
-    );
-  }
+    render() {
+        return (
+            <div id='body'>
+                <Header />
+                <HeaderButtons ifLoggedIn={this.state.ifLoggedIn}
+                    handleToken={this.handleToken} />
+                <LoadBody data={this.state} />
+                <Footer />
+            </div>
+
+        );
+    }
 }
 
 

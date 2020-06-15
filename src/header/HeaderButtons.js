@@ -32,12 +32,10 @@ class NotLogedIn extends React.Component {
 
   disableModal() {
     this.setState({ ifShowModal: false });
-    void console.log('ifShowModal is , disable clicked ', this.state.ifShowModal)
   }
 
   enableModal() {
     this.setState({ ifShowModal: true });
-    void console.log('ifShowModal is , enable clicked', this.state.ifShowModal)
   }
 
   render() {

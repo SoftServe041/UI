@@ -67,7 +67,7 @@ class LogInMenu extends React.Component {
             default:
                 break;
         }
-        this.setState({ formErrors, [name]: value  })
+        this.setState({ formErrors, [name]: value })
 
     }
 
@@ -90,17 +90,13 @@ class LogInMenu extends React.Component {
 
                 })
                 .catch(error => {
-                    console.log('axios error in LoginMenu.js', error);
                     this.setState({ ifLoginDetailsIncorrect: true });
-                    
+
 
                 });
 
         } else {
             this.setState({ ifShowFormErrors: true })
-            console.error("Invalid form");
-
-
 
         }
 

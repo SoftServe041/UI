@@ -40,6 +40,9 @@ class MainPage extends React.Component {
             departure: 'Departure',
             arrival: 'Arrival',
             weight: '',
+            height: '',
+            width: '',
+            length: '',
             ifFormIncorrect: false,
             ifSameHubSelected: false,
             routes: [],
@@ -51,24 +54,27 @@ class MainPage extends React.Component {
 
     }
 
-    formValid = ({ departure, arrival, weight }) => {
+    formValid = ({ departure, arrival, weight, length, width, height }) => {
         let valid = true;
 
-        if (departure === arrival){
-            this.setState({ifSameHubSelected: true})
+        if (departure === arrival) {
+            this.setState({ ifSameHubSelected: true })
             console.log('this.setState({ifSameHubSelected: true})')
             valid = false;
         } else {
-            this.setState({ifSameHubSelected: false})
+            this.setState({ ifSameHubSelected: false })
             console.log('this.setState({ifSameHubSelected: false})')
             valid = true;
         }
 
-        if (departure === "Departure" || arrival === "Arrival"){
+        if (departure === "Departure" || arrival === "Arrival") {
             valid = false;
         }
 
         if (weight.length < 1) { valid = false; return valid }
+        if (height.length < 1) { valid = false; return valid }
+        if (length.length < 1) { valid = false; return valid }
+        if (width.length < 1) { valid = false; return valid }
 
         return valid;
     }
@@ -84,7 +90,7 @@ class MainPage extends React.Component {
             axios.get(url, this.state)
                 .then(response => {
                     console.log(response)
-                        this.handleReceivedRouts(response.data)
+                    this.handleReceivedRouts(response.data)
 
                 })
                 .catch(error => {
@@ -116,37 +122,37 @@ class MainPage extends React.Component {
 
     handleSwitch(arrival, departure) {
         const tempReplace = arrival;
-        if ( arrival === "Arrival" && departure === "Departure") {}
+        if (arrival === "Arrival" && departure === "Departure") { }
         else if (arrival === "Arrival") {
-            this.setState({ arrival: departure, departure: "Departure" });}
+            this.setState({ arrival: departure, departure: "Departure" });
+        }
         else if (departure === "Departure") {
             this.setState({ arrival: "Arrival", departure: arrival });
         } else
-        this.setState({ arrival: this.state.departure, departure: tempReplace });
+            this.setState({ arrival: this.state.departure, departure: tempReplace });
     }
 
-    handleReceivedRouts(routs){
-        this.setState({routs: routs})
+    handleReceivedRouts(routs) {
+        this.setState({ routs: routs })
     }
 
 
     async componentDidMount() {
-       /* let result = axios.get(`http://localhost:8041`)
-            .then(res => {this.setState({citiesList: res.data})
-            console.log(res.data)
-
-            })
-            //.catch(error => alert('Axios failed ' + error));
-            .catch(error => console.log('Axios failed on Main_page.js' + error));
-
-        */
+        /* let result = axios.get(`http://localhost:8041`)
+             .then(res => {this.setState({citiesList: res.data})
+             console.log(res.data)
+ 
+             })
+             //.catch(error => alert('Axios failed ' + error));
+             .catch(error => console.log('Axios failed on Main_page.js' + error));
+ 
+         */
     }
 
 
 
 
     render() {
-
 
         return (
             <div>
@@ -158,34 +164,36 @@ class MainPage extends React.Component {
                 </Row>
 
                 <Container id="load-body" >
-                    <Row style={{width: '100%'}}>
+                    <Row style={{ width: '100%' }}>
                         <Col md={{ span: 5, offset: 3 }}>
                             <Form onSubmit={this.submitHandler} onChange={this.handleChange}>
-                                <Row>
-                                    <Form.Label column sm={5}>
-                                        Location:
-                                </Form.Label>
+                                <Row style={{ paddingTop: '15px' }}>
+                                    <Col>
+                                        <Form.Label >
+                                            <h5>Location:</h5>
+                                        </Form.Label>
+                                    </Col>
                                 </Row>
 
                                 <Row >
                                     <Col >
                                         <DropDownDeparture handleSelectedDeparture={this.handleSelectedDeparture}
-                                                           cities={cities}
-                                                           departure={this.state.departure}
+                                            cities={cities}
+                                            departure={this.state.departure}
                                         >
                                         </DropDownDeparture>
                                     </Col>
-                                    <Col md={{  offset: 1 }}>
+                                    <Col md={{ offset: 1 }}>
                                         <Button type="button"
-                                                style={{backgroundColor: '#ff8e09', borderColor: '#999999'}}
-                                                onClick={() => {this.handleSwitch(this.state.arrival, this.state.departure)}}>
+                                            style={{ backgroundColor: '#ff8e09', borderColor: '#999999' }}
+                                            onClick={() => { this.handleSwitch(this.state.arrival, this.state.departure) }}>
                                             &#8644;
                                         </Button>
                                     </Col>
                                     <Col >
                                         <DropDownArrival handleSelectedArrival={this.handleSelectedArrival}
-                                                           cities={cities}
-                                                           arrival={this.state.arrival}
+                                            cities={cities}
+                                            arrival={this.state.arrival}
                                         >
                                         </DropDownArrival>
                                         {//<Form.Control className="Input1" type="text" name="arrival" placeholder="Arrival" />
@@ -193,15 +201,65 @@ class MainPage extends React.Component {
                                     </Col>
                                 </Row>
 
-                                <Row>
-                                    <Form.Label column sm={5}>
-                                        Cargo Information:
-                                </Form.Label>
+                                <Row style={{ paddingTop: '15px' }}>
+                                    <Col>
+                                        <Form.Label  >
+                                            <h5>Cargo Information:</h5>
+                                        </Form.Label>
+                                    </Col>
                                 </Row>
 
                                 <Row>
                                     <Col md={{ span: 5, offset: 0 }}>
-                                        <Form.Control type="number" name="weight" placeholder="Ton" />
+                                        <Form.Control type="number" name="weight" placeholder="kg" onInput={(e) => {
+                                            if (parseInt(e.target.value) < 22000) {
+                                                e.target.value = Math.max(0, parseInt(e.target.value)).toString()
+                                            }
+                                            else {
+                                                e.target.value = 22000
+                                            }
+                                        }} />
+                                    </Col>
+                                </Row>
+
+                                <Row style={{ paddingTop: '15px' }}>
+                                    <Col>
+                                        <Form.Label >
+                                            Specify volume in cm:
+                                </Form.Label>
+                                    </Col>
+                                </Row>
+
+                                <Row id="space-between-rows">
+                                    <Col >
+                                        <Form.Control type="number" name="length" placeholder="Length" onInput={(e) => {
+                                            if (parseInt(e.target.value) < 3000) {
+                                                e.target.value = Math.max(0, parseInt(e.target.value)).toString()
+                                            }
+                                            else {
+                                                e.target.value = 3000
+                                            }
+                                        }} />
+                                    </Col>
+                                    <Col >
+                                        <Form.Control type="number" name="width" placeholder="Width" onInput={(e) => {
+                                            if (parseInt(e.target.value) < 3000) {
+                                                e.target.value = Math.max(0, parseInt(e.target.value)).toString()
+                                            }
+                                            else {
+                                                e.target.value = 3000
+                                            }
+                                        }} />
+                                    </Col>
+                                    <Col >
+                                        <Form.Control type="number" name="height" placeholder="Height" onInput={(e) => {
+                                            if (parseInt(e.target.value) < 3000) {
+                                                e.target.value = Math.max(0, parseInt(e.target.value)).toString()
+                                            }
+                                            else {
+                                                e.target.value = 3000
+                                            }
+                                        }} />
                                     </Col>
                                 </Row>
 

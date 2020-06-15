@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import {  FormControl, Dropdown} from "react-bootstrap";
+import { FormControl, Dropdown } from "react-bootstrap";
 
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <a
-        style={{color: 'black'}}
+        style={{ color: 'black' }}
         href=""
         ref={ref}
         onClick={(e) => {
@@ -73,11 +73,11 @@ export default class DropDownArrival extends React.Component {
         super(props);
     }
 
-    render(){
+    render() {
 
-        return(
+        return (
 
-            <Dropdown onSelect={this.props.handleSelectedArrival} style={{backgroundColor: 'white', padding: '7px', borderRadius: '5px'}}>
+            <Dropdown onSelect={this.props.handleSelectedArrival} style={{ backgroundColor: 'white', padding: '7px', borderRadius: '5px' }}>
                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" >
                     {this.props.arrival}
                 </Dropdown.Toggle>
@@ -85,4 +85,5 @@ export default class DropDownArrival extends React.Component {
 
             </Dropdown>
         );
-    }}
+    }
+}

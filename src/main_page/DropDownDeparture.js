@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { FormControl, Dropdown} from "react-bootstrap";
+import { FormControl, Dropdown } from "react-bootstrap";
 
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <a
-        style={{color: 'black'}}
+        style={{ color: 'black' }}
         href=""
         ref={ref}
         onClick={(e) => {
@@ -50,40 +50,41 @@ const CustomMenu = React.forwardRef(
 
 
 
- function GenerateDropDownRows(cities) {
+function GenerateDropDownRows(cities) {
 
-        const departureList = cities.cities.city.map((c) =>
-            <Dropdown.Item key={c.name} eventKey={c.name}>
-                {c.name}
-            </Dropdown.Item>
-        );
-        return (
-            <Dropdown.Menu as={CustomMenu}>
-                {departureList}
-            </Dropdown.Menu>
-        );
+    const departureList = cities.cities.city.map((c) =>
+        <Dropdown.Item key={c.name} eventKey={c.name}>
+            {c.name}
+        </Dropdown.Item>
+    );
+    return (
+        <Dropdown.Menu as={CustomMenu}>
+            {departureList}
+        </Dropdown.Menu>
+    );
 
-    }
+}
 
 
 
 
 export default class DropDownDeparture extends React.Component {
-     constructor(props) {
-         super(props);
-     }
+    constructor(props) {
+        super(props);
+    }
 
-    render(){
+    render() {
 
-        return(
+        return (
 
-<Dropdown onSelect={this.props.handleSelectedDeparture} style={{backgroundColor: 'white', padding: '7px', borderRadius: '5px'}}>
-<Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" >
-    {this.props.departure}
-</Dropdown.Toggle>
-    {console.log('in depart', this.props.cities)}
-<GenerateDropDownRows cities={this.props.cities} />
+            <Dropdown onSelect={this.props.handleSelectedDeparture} style={{ backgroundColor: 'white', padding: '7px', borderRadius: '5px' }}>
+                <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" >
+                    {this.props.departure}
+                </Dropdown.Toggle>
+                {console.log('in depart', this.props.cities)}
+                <GenerateDropDownRows cities={this.props.cities} />
 
-</Dropdown>
+            </Dropdown>
         );
-}}
+    }
+}
