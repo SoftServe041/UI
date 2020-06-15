@@ -4,14 +4,12 @@ import {Row, Col, Form, Container, Button} from 'react-bootstrap';
 
 import Header from "../header/Header";
 import HeaderButtons from "../header/HeaderButtons";
-import ReactDOM from 'react-dom';
 
 import axios from 'axios'
 import ModalError from "../error/modalError.js";
 import MainPage from "../main_page/Main_page";
 import {Link, BrowserRouter, Route, Redirect} from 'react-router-dom';
 import './billing.css'
-import App from "../App";
 
 const cscRegEx = /\b\d{3}\b/;
 const cardRegEx = /\b\d{16}\b/;
@@ -33,27 +31,6 @@ const formValid = ({formErrors, ...rest}) => {
     return valid;
 };
 
-async function sampleFunc(toInput, token) {
-    const response = await fetch("https://cargo-testing-board.herokuapp.com/registration/register", {
-        myError: null,
-        method: "POST",
-        mode: "no-cors",
-        credentials: "same-origin",
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(toInput),
-        redirect: "follow",
-        referrerPolicy: "no-referrer"
-    }).then(response => {console.log(response)});
-        //.catch(error => {this.accessModError(error.toString())});
-    let body = await response.json();
-    console.log(body.id);
-    if(response.ok){
-        window.location = "/";
-
-    }
-}
 class Billing extends React.Component {
 
 
@@ -84,28 +61,7 @@ class Billing extends React.Component {
         e.preventDefault();
 
         if (formValid(this.state)) {
-            const toInput = {
-                firstName: this.props.data.firstName,
-                lastName: this.props.data.lastName,
-                email: this.props.data.email,
-                password: this.props.data.password,
-                cardNumber: this.state.cardNumber,
-                csc: this.state.csc,
-                expDate: this.state.expDate,
-                address: this.state.address,
-                phone: this.props.data.phone
-            }
-                //sampleFunc(toInput)
-            console.log('data: ', this.props.data.firstName,
-                this.props.data.lastName,
-                this.props.data.email,
-                this.props.data.password,
-                this.state.cardNumber,
-                this.state.csc,
-                this.state.expDate,
-                this.state.address,
-                this.state.phoneNumber)
-            //https://cargo-testing-board.herokuapp.com/registration/register
+
             axios.post('http://localhost:8041/registration', {
                 firstName: this.props.data.firstName,
                 lastName: this.props.data.lastName,
@@ -117,18 +73,17 @@ class Billing extends React.Component {
                     cardNumber: this.state.cardNumber,
                     nameOnCard: this.props.data.firstName,
                     csc: this.state.csc,
-                    expirationMonth: (this.state.expDate.slice(5,7)),
-                    expirationYear:  this.state.expDate.slice(0, this.state.expDate.length - 6),
+                    expirationMonth: (this.state.expDate.slice(5, 7)),
+                    expirationYear: this.state.expDate.slice(0, this.state.expDate.length - 6),
                     billingAddress: this.state.address
                 }],
             }).then(response => {
                 console.log('resp: ', response);
                 window.location = "/";
-                this.props.token(response)
             })
-                .catch(error => {this.accessModError(error.toString())});
-        } else {
-            //console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
+                .catch(error => {
+                    this.accessModError(error.toString())
+                });
         }
     };
 
@@ -166,121 +121,121 @@ class Billing extends React.Component {
 
         return (
             <BrowserRouter>
-            <div id='body'>
-                <Header/>
-                <HeaderButtons ifLoggedIn={this.state.ifLoggedIn} handleToken={this.state.handleToken}/>
-                <Row id="title-row">
-                    <Col md={{span: 3, offset: 5}}>
-                        <h2 className="title-text"> Billing </h2>
-                    </Col>
-                </Row>
+                <div id='body'>
+                    <Header/>
+                    <HeaderButtons ifLoggedIn={this.state.ifLoggedIn} handleToken={this.state.handleToken}/>
+                    <Row id="title-row">
+                        <Col md={{span: 3, offset: 5}}>
+                            <h2 className="title-text"> Billing </h2>
+                        </Col>
+                    </Row>
 
-                <Container id="load-body">
-                    <Row>
-                        <Col md={{span: 5, offset: 3}}>
-                            <Form onSubmit={this.handleSubmit} onChange={this.handleChange}>
-                                <Row>
-                                    <Col>
-                                        <Form.Label column sm={8}>
-                                            Card number
-                                        </Form.Label>
-                                    </Col>
-                                </Row>
+                    <Container id="load-body">
+                        <Row>
+                            <Col md={{span: 5, offset: 3}}>
+                                <Form onSubmit={this.handleSubmit} onChange={this.handleChange}>
+                                    <Row>
+                                        <Col>
+                                            <Form.Label column sm={8}>
+                                                Card number
+                                            </Form.Label>
+                                        </Col>
+                                    </Row>
 
-                                <Row>
-                                    <Col md={{span: 6, offset: 0}}>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="Card Number"
-                                            name="cardNumber"
-                                            onChange={this.handleChange}
-                                        />
-                                        {formErrors.cardNumber.length > 0 && (
-                                            <span className="errorMessage">{formErrors.cardNumber}</span>
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <Form.Label column sm={8}>
-                                            CSC
-                                        </Form.Label>
-                                    </Col>
-                                </Row>
+                                    <Row>
+                                        <Col md={{span: 6, offset: 0}}>
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Card Number"
+                                                name="cardNumber"
+                                                onChange={this.handleChange}
+                                            />
+                                            {formErrors.cardNumber.length > 0 && (
+                                                <span className="errorMessage">{formErrors.cardNumber}</span>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <Form.Label column sm={8}>
+                                                CSC
+                                            </Form.Label>
+                                        </Col>
+                                    </Row>
 
-                                <Row>
-                                    <Col md={{span: 6, offset: 0}}>
-                                        <Form.Control
-                                            type="password"
-                                            placeholder="csc"
-                                            name="csc"
-                                            onChange={this.handleChange}
-                                        />
-                                        {formErrors.csc.length > 0 && (
-                                            <span className="errorMessage">{formErrors.csc}</span>
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <Form.Label column sm={8}>
-                                            Expiration date
-                                        </Form.Label>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col md={{span: 6, offset: 0}}>
-                                        <Form.Control
-                                            placeholder="expDate"
-                                            type="date"
-                                            name="expDate"
-                                            onChange={this.handleChange}
-                                        />
-                                        {formErrors.expDate.length > 0 && (
-                                            <span className="errorMessage">{formErrors.expDate}</span>
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <Form.Label column sm={8}>
-                                            Address
-                                        </Form.Label>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col md={{span: 6, offset: 0}}>
-                                        <Form.Control
-                                            placeholder="Address"
-                                            type="text"
-                                            name="address"
-                                            onChange={this.handleChange}
-                                        />
-                                        {formErrors.address.length > 0 && (
-                                            <span className="errorMessage">{formErrors.phone}</span>
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col md={{span: 3, offset: 5}}>
+                                    <Row>
+                                        <Col md={{span: 6, offset: 0}}>
+                                            <Form.Control
+                                                type="password"
+                                                placeholder="csc"
+                                                name="csc"
+                                                onChange={this.handleChange}
+                                            />
+                                            {formErrors.csc.length > 0 && (
+                                                <span className="errorMessage">{formErrors.csc}</span>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <Form.Label column sm={8}>
+                                                Expiration date
+                                            </Form.Label>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col md={{span: 6, offset: 0}}>
+                                            <Form.Control
+                                                placeholder="expDate"
+                                                type="date"
+                                                name="expDate"
+                                                onChange={this.handleChange}
+                                            />
+                                            {formErrors.expDate.length > 0 && (
+                                                <span className="errorMessage">{formErrors.expDate}</span>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <Form.Label column sm={8}>
+                                                Address
+                                            </Form.Label>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col md={{span: 6, offset: 0}}>
+                                            <Form.Control
+                                                placeholder="Address"
+                                                type="text"
+                                                name="address"
+                                                onChange={this.handleChange}
+                                            />
+                                            {formErrors.address.length > 0 && (
+                                                <span className="errorMessage">{formErrors.phone}</span>
+                                            )}
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col md={{span: 3, offset: 5}}>
 
                                             <Button id="body-button" type="submit"
                                                     onClick={this.handleSubmit}> Submit </Button>
 
-                                    </Col>
-                                </Row>
-                            </Form>
-                            <ModalError ref='modError'/>
+                                        </Col>
+                                    </Row>
+                                </Form>
+                                <ModalError ref='modError'/>
 
-                            {this.state.redirect && (<Route exact path="/" to component={MainPage}/>)}
+                                {this.state.redirect && (<Route exact path="/" to component={MainPage}/>)}
 
-                        </Col>
-                    </Row>
-                </Container>
+                            </Col>
+                        </Row>
+                    </Container>
 
 
-                <Footer/>
-            </div>
+                    <Footer/>
+                </div>
             </BrowserRouter>
         );
     }

@@ -14,12 +14,10 @@ const phoneRegex = RegExp(
 const formValid = ({formErrors, ...rest}) => {
     let valid = true;
 
-    // validate form errors being empty
     Object.values(formErrors).forEach(val => {
         val.length > 0 && (valid = false);
     });
 
-    // validate the form was filled out
     Object.values(rest).forEach(val => {
         val === null && (valid = false);
     });
@@ -55,10 +53,8 @@ class RegPage extends React.Component {
         e.preventDefault();
 
         if (formValid(this.state)) {
-            ReactDOM.render(<Billing data={this.state} token = {this.context}/>,
+            ReactDOM.render(<Billing data={this.state} token={this.context}/>,
                 document.getElementById('root'));
-        } else {
-            console.error("FORM INVALID - DISPLAY ERROR MESSAGE");
         }
     };
 
@@ -229,7 +225,7 @@ class RegPage extends React.Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row >
+                                <Row>
                                     <Col md={{span: 3, offset: 5}}>
                                         <Button id="body-button" type="submit"
                                                 onClick={this.handleSubmit}> Billings </Button>
