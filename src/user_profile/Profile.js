@@ -73,8 +73,8 @@ class Profile extends React.Component {
                 this.setState({ ifShowFormErrors: false })
                 break;
             case 'password':
-                formErrors.password = value.length < 6
-                    ? 'Password should be at least 6 characters'
+                formErrors.password = value.length < 5
+                    ? 'Password should be at least 5 characters'
                     : "";
                 this.setState({ ifShowFormErrors: false })
                 break;

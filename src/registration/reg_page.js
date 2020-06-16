@@ -81,7 +81,7 @@ class RegPage extends React.Component {
                 break;
             case "password":
                 formErrors.password =
-                    value.length < 6 ? "minimum 6 characters required" : "";
+                    value.length < 5 ? "minimum 5 characters required" : "";
                 break;
             case "repeatPassword":
                 formErrors.repeatPassword = this.state.password === value ? "" : "password doesnt match";
