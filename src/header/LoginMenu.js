@@ -83,7 +83,7 @@ class LogInMenu extends React.Component {
         }
 
         if (formValid(this.state)) {
-            axios.post(url, data)
+           await axios.post(url, data)
                 .then(response => {
                     this.props.handleToken(response.data);
                     this.props.disableModal();
