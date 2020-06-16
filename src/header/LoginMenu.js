@@ -72,7 +72,7 @@ class LogInMenu extends React.Component {
     }
 
     submitHandler = e => {
-        const url = 'http://localhost:8041/'
+        const url = 'http://localhost:8041/login'
         if (this.state.email.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.password.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         e.preventDefault()
@@ -87,14 +87,10 @@ class LogInMenu extends React.Component {
                 .then(response => {
                     this.props.handleToken(response.data);
                     this.props.disableModal();
-
                 })
                 .catch(error => {
                     this.setState({ ifLoginDetailsIncorrect: true });
-
-
                 });
-
         } else {
             this.setState({ ifShowFormErrors: true })
 

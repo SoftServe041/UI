@@ -1,9 +1,10 @@
-import React, { Suspense, lazy } from 'react';
+import React, {Suspense, lazy} from 'react';
 import Header from "./header/Header";
 import HeaderButtons from "./header/HeaderButtons";
 import Footer from "./Footer/footer";
 import UsersTabsMain from "./user_profile/UsersTabsMain";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {Container} from 'react-bootstrap';
 import './App.css';
 
 const Home = lazy(() => import('./main_page/Main_page'));
@@ -80,4 +81,4 @@ class App extends React.Component {
 
 
 
-export default App;
+    export default App;
