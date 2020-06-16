@@ -65,13 +65,16 @@ class App extends React.Component {
     }
 
     render() {
+      const TokenContext = React.createContext(this.handleToken);
         return (
             <div id='body'>
+              <TokenContext.Provider>
                 <Header />
                 <HeaderButtons ifLoggedIn={this.state.ifLoggedIn}
                     handleToken={this.handleToken} />
                 <LoadBody data={this.state} />
                 <Footer />
+                </TokenContext.Provider>
             </div>
 
         );
