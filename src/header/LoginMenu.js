@@ -1,13 +1,8 @@
-import React, {lazy, useState} from 'react';
-import Modal from 'react-bootstrap/Modal'
-import Dialog, {Button, Col, Container, Form, Row} from 'react-bootstrap'
-//import './loginmenu.css';
-import axios from 'axios'
-
+import React from 'react';
+import Modal from 'react-bootstrap/Modal';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import axios from 'axios';
 import '../App.css';
-
-
-
 
 const formValid = ({ formErrors, email, password }) => {
     let valid = true;
@@ -16,8 +11,8 @@ const formValid = ({ formErrors, email, password }) => {
         val.length > 0 && (valid = false);
     });
 
-    if (email.length < 1){valid= false;  return valid}
-    if (password.length < 1){valid= false;  return valid}
+    if (email.length < 1) { valid = false; return valid }
+    if (password.length < 1) { valid = false; return valid }
 
     return valid;
 }
@@ -32,7 +27,6 @@ const emailRegex = RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+[a-zA-Z0
 class LogInMenu extends React.Component {
     constructor(props) {
         super(props);
-        this.parseHits = this.parseHits.bind(this);
         this.state = {
             email: '',
             password: '',
@@ -43,23 +37,15 @@ class LogInMenu extends React.Component {
             },
             ifFieldsEmpty: false,
             ifLoginDetailsIncorrect: false,
-            hits: [],
+
         }
 
     }
 
-    parseHits = (e) => {
-        e.preventDefault();
-        console.log(e.toString())
-        void this.props.handleToken;
-    }
-
     handleChange = (e) => {
-        //this.setState({[e.target.name]: e.target.value})
-
         e.preventDefault();
-        this.setState({ifFieldsEmpty: false})
-        this.setState({ifLoginDetailsIncorrect: false})
+        this.setState({ ifFieldsEmpty: false })
+        this.setState({ ifLoginDetailsIncorrect: false })
         const { name, value } = e.target;
         let formErrors = this.state.formErrors;
 
@@ -73,53 +59,40 @@ class LogInMenu extends React.Component {
                 this.setState({ ifShowFormErrors: false })
                 break;
             case 'password':
-                formErrors.password = value.length < 6
-                    ? 'Password should be at least 6 characters'
+                formErrors.password = value.length < 5
+                    ? 'Password should be at least 5 characters'
                     : "";
                 this.setState({ ifShowFormErrors: false })
                 break;
             default:
                 break;
         }
-        this.setState({ formErrors, [name]: value }, () => { console.log('this.state') })
+        this.setState({ formErrors, [name]: value })
 
     }
 
-
-//this.state
-
     submitHandler = e => {
-        const url = 'http://localhost:3000'
-        if (this.state.email.length < 1){ this.setState({ifFieldsEmpty: true}) }
-        if (this.state.password.length < 1){this.setState({ifFieldsEmpty: true}) }
+        const url = 'http://localhost:8041/login'
+        if (this.state.email.length < 1) { this.setState({ ifFieldsEmpty: true }) }
+        if (this.state.password.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         e.preventDefault()
 
         const data = {
-            email : this.state.email,
+            email: this.state.email,
             password: this.state.password
         }
 
         if (formValid(this.state)) {
-
-            //console.log(axios.post(url, data))
-
-            axios.post(url, data)
+           axios.post(url, data)
                 .then(response => {
-                    console.log(response)
-                    this.setState({hits: response.data.hits })
+                    this.props.handleToken(response.data);
+                    this.props.disableModal();
                 })
                 .catch(error => {
-                    console.log(error)
-                    this.setState({ifLoginDetailsIncorrect: true})
-                    //console.log(e.target.email)
-                    //void this.parseHits;
+                    this.setState({ ifLoginDetailsIncorrect: true });
                 });
-
         } else {
             this.setState({ ifShowFormErrors: true })
-            console.error("Invalid form");
-
-
 
         }
 
@@ -127,15 +100,14 @@ class LogInMenu extends React.Component {
 
     render() {
         const email = this.email;
-        const password = this.password;
         const { formErrors } = this.state;
         return (
 
             <Modal
-                     show={this.props.ifShowModal}
-                     size="lg"
-                     aria-labelledby="contained-modal-title-vcenter"
-                     centered
+                show={this.props.ifShowModal}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
 
             >
                 <Container id="modal-window">
@@ -143,8 +115,8 @@ class LogInMenu extends React.Component {
                     <Form onSubmit={this.submitHandler}>
 
                         <Row id="space-between-rows">
-                            <Col md={{  offset: 5 }}>
-                            { (this.state.ifLoginDetailsIncorrect)  && (<span className="Span">Email or password are incorrect</span>)}
+                            <Col md={{ offset: 5 }}>
+                                {(this.state.ifLoginDetailsIncorrect) && (<span className="Span">Email or password are incorrect</span>)}
                             </Col>
                         </Row>
 
@@ -154,15 +126,15 @@ class LogInMenu extends React.Component {
                                 <p  >    Login: </p>
                             </Col>
                             <Col md={{ span: 0, offset: 1 }}>
-                                <Form.Control value={email}  type="email" className="Input"  name="email" placeholder="Type Email"
-                                              onChange={this.handleChange}>
+                                <Form.Control value={email} type="email" className="Input" name="email" placeholder="Type Email"
+                                    onChange={this.handleChange}>
                                 </Form.Control>
                             </Col>
                         </Row>
 
                         <Row id="space-between-rows">
-                            <Col md={{  offset: 5 }}>
-                            {this.state.ifShowFormErrors && (<span className="Span">{formErrors.email}</span>)}
+                            <Col md={{ offset: 5 }}>
+                                {this.state.ifShowFormErrors && (<span className="Span">{formErrors.email}</span>)}
                             </Col>
                         </Row>
 
@@ -172,34 +144,34 @@ class LogInMenu extends React.Component {
                                 <p >    Password:      </p>
                             </Col>
                             <Col md={{ span: 0, offset: 1 }}>
-                                <Form.Control  className="Input" type="password" name="password" placeholder="Type Password"
-                                              onChange={this.handleChange} >
+                                <Form.Control className="Input" type="password" name="password" placeholder="Type Password"
+                                    onChange={this.handleChange} >
                                 </Form.Control>
                             </Col>
                         </Row>
 
 
                         <Row id="space-between-rows">
-                            <Col md={{  offset: 5 }}>
-                                {this.state.ifShowFormErrors  && (<span className="Span">{formErrors.password}</span>)}
+                            <Col md={{ offset: 5 }}>
+                                {this.state.ifShowFormErrors && (<span className="Span">{formErrors.password}</span>)}
                             </Col>
                         </Row>
 
 
                         <Row id="space-between-rows">
-                            <Col md={{  offset: 5 }}>
-                            { (this.state.ifFieldsEmpty)  && (<span className="Span">Please make sure that you have filled all fields</span>)}
+                            <Col md={{ offset: 5 }}>
+                                {(this.state.ifFieldsEmpty) && (<span className="Span">Please make sure that you have filled all fields</span>)}
                             </Col>
                         </Row>
 
                         <Row >
-                            <Col md={{  offset: 3 }}>
+                            <Col md={{ offset: 3 }}>
                                 <Button id="body-button" variant="primary" type="submit" onClick={this.submitHandler} >
                                     Login
                                 </Button>
                             </Col>
                             <Col >
-                                <Button id="body-button" type="reset" variant="secondary"  onClick={this.props.disableModal}   >
+                                <Button id="body-button" type="reset" variant="secondary" onClick={this.props.disableModal}   >
                                     Cancel
                                 </Button>
                             </Col>
