@@ -5,7 +5,7 @@ import axios from 'axios';
 import './admin.css';
 
 function Hubs(props) {
- let url = 'http://localhost:8080/location/';
+    let url = 'http://localhost:8080/location/';
     let urlForReltion = 'http://localhost:8080/location/relation/';
     const [existedHubs, setExistedHubs] = useState([]);
     const [flag, setFlag] = useState(true);
@@ -76,7 +76,7 @@ function Hubs(props) {
             console.log('erroring from create Hub: ', error);
         });
     }
-      function handleUpdateHubAction(hubToUpdate) {
+    function handleUpdateHubAction(hubToUpdate) {
         setCurrentHub(hubToUpdate);
         setUpdateHubFlag(true);
     }
@@ -124,9 +124,87 @@ function Hubs(props) {
             console.log('erroring from remove Hub: ', error);
         });
     }
+    function handleShowRelation(hub) {
+        setCurrentHub(hub);
+        showRelationForCurrentHub(hub);
+    }
+    function showRelationForCurrentHub(hub) {
+        console.log('showRelation', hub);
+        axios({
+            'method': 'GET',
+            'url': urlForReltion + hub.name,
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                'Fazliddin': 'molodec 222',
+            },
+        }).then(response => {
+            console.log('responsing from getExistedHubs: ', response);
+        }).catch(error => {
+            console.log('erroring from getExistedHubs: ', error);
+            initialiseRelationForCurrentHub([
+                "Dubna", "Chernovci", "Uzhgorod", "Kyiv", "Lviv"
+            ]
+            );
+        });
+    }
+    function initialiseRelationForCurrentHub(relations) {
+        setRelationListForCurrentHub(relations);
+        setRelationFlag(true);
+    }
+    function createRelation() {
+        console.log('create relational hub', newHubName);
+        axios({
+            'method': 'POST',
+            'url': urlForReltion + currentHub.name,
+            'headers': {
+                'content-type': 'application/octet-stream',
+                'Fazliddin': 'sends hello to remove',
+            },
+            data:
+            {
+                name: newHubName,
+            },
+        }).then(response => {
+            console.log('responsing from create relation', response.status);
+            if (response.status === 200) {
+                
+            }
+        }).catch(error => {
+            console.log('erroring from create relation: ', error);
+            showRelationForCurrentHub(currentHub);
+        });   
+    }
+    function removeRelation(relationHubName) {
+        console.log('remove relational hub', relationHubName);
+        axios({
+            'method': 'DELETE',
+            'url': urlForReltion + currentHub.name,
+            'headers': {
+                'content-type': 'application/octet-stream',
+                'Fazliddin': 'sends hello to remove',
+            },
+
+        }).then(response => {
+            console.log('responsing from remove relation', response.status);
+            if (response.status === 200) {
+                
+            }
+        }).catch(error => {
+            console.log('erroring from remove relation: ', error);
+            showRelationForCurrentHub(currentHub);
+        });   
+    }
+    useEffect(() => {
+        console.log('hubs effect', newHubName);
+        if (flag) {
+            console.log('inside effect hub');
+            getExistedHubs();
+        }
+    });
     return (
         <div className='component'>
-             <Table variant='dark' size='md' striped bordered hover >
+            <Table variant='dark' size='md' striped bordered hover >
                 <thead>
                     <tr>
                         <th className='text-center aling-middle'>Hub name</th>
@@ -159,6 +237,125 @@ function Hubs(props) {
             <div class="col text-right">
                 <Button id='new-hub-img' variant="light" onClick={() => setCreateHubFlag(true)} />
             </div>
+
+            <Modal show={updateHubFlag} onHide={() => setUpdateHubFlag(false)} animation='true'>
+                <Modal.Header closeButton>
+                    <Modal.Title className="font-weight-bold ml-3">Update hub</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group as={Row}>
+                            <Form.Label className='pl-4' column sm="4">
+                                Current name
+                            </Form.Label>
+                            <Col sm="7">
+                                <Form.Control type="text" value={currentHub.name} />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row}>
+                            <Form.Label className='pl-4' column sm="4">
+                                New name
+                            </Form.Label>
+                            <Col sm="7">
+                                <Form.Control as="select" onChange={(e) => setNewHubName(e.target.value)}>
+                                    <option>Choose city</option>
+                                    {
+                                        cities.filter(city => !existedHubs.some(existedCity => existedCity.name === city)).map((city, index) =>
+                                            <option>
+                                                {city}
+                                            </option>
+                                        )
+                                    }
+                                </Form.Control>
+                            </Col>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button className='col-md-5 mr-3' onClick={() => updateHub()}>update</Button>
+                    <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setUpdateHubFlag(false)}>cancel</Button>
+
+                </Modal.Footer>
+            </Modal>
+            <Modal show={createHubFlag} onHide={() => setCreateHubFlag(false)} animation='true'>
+                <Modal.Header closeButton>
+                    <Modal.Title className="font-weight-bold ml-3">Create hub</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group as={Row}>
+                            <Form.Label className='pl-4' column sm="4">
+                                New hub
+                            </Form.Label>
+                            <Col sm="8">
+                                <Form.Control as="select" onChange={(e) => setNewHubName(e.target.value)}>
+                                    <option>Choose city</option>
+                                    {
+                                        cities.filter(city => !existedHubs.some(existedCity => existedCity.name === city)).map((city, index) =>
+                                            <option>
+                                                {city}
+                                            </option>
+                                        )
+                                    }
+                                </Form.Control>
+                            </Col>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button className='col-md-5 mr-3' onClick={() => createHub()}>Create</Button>
+                    <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setCreateHubFlag(false)}>cancel</Button>
+
+                </Modal.Footer>
+            </Modal>
+            <Modal show={relationFlag} onHide={() => setRelationFlag(false)} animation='true'>
+                <Modal.Header closeButton>
+                    <Modal.Title className="font-weight-bold ml-3">Create relations to {currentHub.name}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        {
+                            relationListForCurrentHub.map((city, index) =>
+                                <Form.Group as={Row}>
+                                    <Form.Label className='pl-5 text-center' column sm="2">
+                                        {
+                                            (index + 1)
+                                        }
+                                    </Form.Label>
+                                    <Form.Label className='pl-5' column sm="5">
+                                        {
+                                            city
+                                        }
+                                    </Form.Label>
+                                    <Col className='text-center' sm="4">
+                                        <Button variant='danger' onClick = {() => removeRelation(city)}><strong>-</strong></Button>
+                                    </Col>
+                                </Form.Group>
+                            )
+                        }
+                        <Form.Group as={Row}>
+                            <Col className="pl-5" sm="7">
+                                <Form.Control as="select" onChange={(e) => setNewHubName(e.target.value)}>
+                                    <option>Choose city for new relation</option>
+                                    {
+                                        cities.filter(city => !relationListForCurrentHub.includes(city)).map((city, index) =>
+                                            <option>
+                                                {city}
+                                            </option>
+                                        )
+                                    }
+                                </Form.Control>
+                            </Col>
+                            <Col className='text-center' sm="4">
+                                <Button onClick = {() => createRelation()}><strong>+</strong></Button>
+                            </Col>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button className='mr-3 ml-3' variant='secondary' onClick={() => setRelationFlag(false)} block>cancel</Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 }
