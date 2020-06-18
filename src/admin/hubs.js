@@ -76,11 +76,54 @@ function Hubs(props) {
             console.log('erroring from create Hub: ', error);
         });
     }
-    function handleUpdateHubAction(hubToUpdate) {
+      function handleUpdateHubAction(hubToUpdate) {
         setCurrentHub(hubToUpdate);
         setUpdateHubFlag(true);
     }
-   
+    function updateHub() {
+        axios({
+            method: 'PUT',
+            url: url + currentHub.name, // need to discuss
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+            },
+            data:
+            {
+                id: currentHub.id,
+                name: currentHub.name,
+                newName: newHubName,
+            },
+        }).then(response => {
+            console.log('responsing from update Hub: ', response);
+            if (response.status === 200) {
+                setUpdateHubFlag(false);
+                setFlag(true);
+            }
+        }).catch(error => {
+            console.log('erroring from update Hub: ', error);
+            setUpdateHubFlag(false);
+            setFlag(true);
+        });
+    }
+    function removeHub(hub) {
+        axios({
+            'method': 'DELETE',
+            'url': url + hub.name,
+            'headers': {
+                'content-type': 'application/octet-stream',
+                'Fazliddin': 'sends hello to remove',
+            },
+
+        }).then(response => {
+            console.log('responsing from remove Hub: ', response.status);
+            if (response.status === 200) {
+                setFlag(true);
+            }
+        }).catch(error => {
+            console.log('erroring from remove Hub: ', error);
+        });
+    }
     return (
         <div className='component'>
              <Table variant='dark' size='md' striped bordered hover >
