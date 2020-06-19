@@ -10,21 +10,7 @@ import './App.css';
 const Home = lazy(() => import('./main_page/Main_page'));
 const RegPage = lazy(() => import('./registration/reg_page'));
 const Page404 = lazy(() => import('./error/page404'));
-/*
-function LoadBody(props) {
-    return (
-        <Router>
-            <Suspense fallback={<div>Loading...</div>}>
-                <Switch>
-                    <Route exact path="/" component={() => <Home />} />
-                    <Route exact path="/registration" component={() => <RegPage />} />
-                    <Route exact path="/profile" component={() => <UsersTabsMain data={props.data} />} />
-                    <Route default component={Page404} />
-                </Switch>
-            </Suspense>
-        </Router>);
-}
-*/
+
 class App extends React.Component {
 
     constructor(props) {
