@@ -5,8 +5,8 @@ import axios from 'axios';
 import './admin.css';
 
 function Hubs(props) {
-    let url = 'http://localhost:8080/location/';
-    let urlForReltion = 'http://localhost:8080/location/relation/';
+    let url = 'http://localhost:8080/admin/hub';
+    let urlForReltion = 'http://localhost:8080/admin/hub/relation';
     const [existedHubs, setExistedHubs] = useState([]);
     const [flag, setFlag] = useState(true);
     const [createHubFlag, setCreateHubFlag] = useState(false);
@@ -71,9 +71,11 @@ function Hubs(props) {
             console.log('responsing from create Hub: ', response.status);
             if (response.status === 201) {
                 setFlag(true);
+                setCreateHubFlag(false);
             }
         }).catch(error => {
             console.log('erroring from create Hub: ', error);
+            setCreateHubFlag(false);
         });
     }
     function handleUpdateHubAction(hubToUpdate) {
@@ -83,7 +85,7 @@ function Hubs(props) {
     function updateHub() {
         axios({
             method: 'PUT',
-            url: url + currentHub.name, // need to discuss
+            url: url,
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
@@ -109,11 +111,15 @@ function Hubs(props) {
     function removeHub(hub) {
         axios({
             'method': 'DELETE',
-            'url': url + hub.name,
+            'url': url,
             'headers': {
                 'content-type': 'application/octet-stream',
                 'Fazliddin': 'sends hello to remove',
             },
+            data: {
+                id: currentHub.id,
+                name: currentHub.name,
+            }
 
         }).then(response => {
             console.log('responsing from remove Hub: ', response.status);
@@ -132,12 +138,16 @@ function Hubs(props) {
         console.log('showRelation', hub);
         axios({
             'method': 'GET',
-            'url': urlForReltion + hub.name,
+            'url': urlForReltion,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
                 'Fazliddin': 'molodec 222',
             },
+            data: {
+                id: hub.id,
+                name: hub.name,
+            }
         }).then(response => {
             console.log('responsing from getExistedHubs: ', response);
         }).catch(error => {
@@ -156,44 +166,50 @@ function Hubs(props) {
         console.log('create relational hub', newHubName);
         axios({
             'method': 'POST',
-            'url': urlForReltion + currentHub.name,
+            'url': urlForReltion,
             'headers': {
                 'content-type': 'application/octet-stream',
                 'Fazliddin': 'sends hello to remove',
             },
-            data:
-            {
-                name: newHubName,
-            },
+            data: {
+                id: currentHub.id,
+                name: currentHub.name,
+                relation: newHubName,
+            }
         }).then(response => {
             console.log('responsing from create relation', response.status);
             if (response.status === 200) {
-                
+
             }
         }).catch(error => {
             console.log('erroring from create relation: ', error);
             showRelationForCurrentHub(currentHub);
-        });   
+        });
     }
     function removeRelation(relationHubName) {
         console.log('remove relational hub', relationHubName);
         axios({
             'method': 'DELETE',
-            'url': urlForReltion + currentHub.name,
+            'url': urlForReltion,
             'headers': {
                 'content-type': 'application/octet-stream',
                 'Fazliddin': 'sends hello to remove',
             },
+            data: {
+                id: currentHub.id,
+                name: currentHub.name,
+                relation: relationHubName,
+            }
 
         }).then(response => {
             console.log('responsing from remove relation', response.status);
             if (response.status === 200) {
-                
+
             }
         }).catch(error => {
             console.log('erroring from remove relation: ', error);
             showRelationForCurrentHub(currentHub);
-        });   
+        });
     }
     useEffect(() => {
         console.log('hubs effect', newHubName);
@@ -328,7 +344,7 @@ function Hubs(props) {
                                         }
                                     </Form.Label>
                                     <Col className='text-center' sm="4">
-                                        <Button variant='danger' onClick = {() => removeRelation(city)}><strong>-</strong></Button>
+                                        <Button variant='danger' onClick={() => removeRelation(city)}><strong>-</strong></Button>
                                     </Col>
                                 </Form.Group>
                             )
@@ -347,7 +363,7 @@ function Hubs(props) {
                                 </Form.Control>
                             </Col>
                             <Col className='text-center' sm="4">
-                                <Button onClick = {() => createRelation()}><strong>+</strong></Button>
+                                <Button onClick={() => createRelation()}><strong>+</strong></Button>
                             </Col>
                         </Form.Group>
                     </Form>
