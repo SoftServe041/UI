@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import LogInMenu from './LoginMenu';
 import './header.css';
 import icon from './user-icon1.png';
+import {Link} from 'react-router-dom';
 
 
 import './loginmenu.css';
@@ -66,9 +67,9 @@ class NotLogedIn extends React.Component {
         </div>
 
         <div className="Div-Login" >
-          <a className="a" href="/registration">
+          <Link className="a" to="/registration">
             <h4 >SignUp</h4>
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -90,10 +91,10 @@ function UserLoggedIn(props) {
     <div style={style.divAbsolute}>
 
       <div className="Div-Login" >
-        <a className="a" href="/profile">
+        <Link className="a" to="/profile">
           <img src={icon} className="User" alt="icon" />
 
-        </a>
+        </Link>
       </div>
 
     </div>

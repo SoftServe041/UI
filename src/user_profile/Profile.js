@@ -56,6 +56,21 @@ class Profile extends React.Component {
 
     }
 
+    async componentDidMount(){
+        await axios.get('http://localhost:8041//user/profile?id=2&token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb…TAwfQ.l1LX4kKs0YM3PdMFm6Heit10359yj9bcSJfcpiAPN8M')//, (this.props.id, this.props.token))
+        .then(result => {this.setState({
+            firstName: result.data.firstName,
+            lastName: result.data.lastName,
+            email: result.data.email,
+            address: result.data.address,
+            phone: result.data.phoneNumber,
+        })
+        console.log('componentDidMount profile', result)})
+        .catch(error => alert('Something went wrong ' + error));
+        
+    }
+    
+
     handleChange = (e) => {
         e.preventDefault();
         this.setState({ ifFieldsEmpty: false })
@@ -115,7 +130,7 @@ class Profile extends React.Component {
 
 
     submitHandler = e => {
-        const url = 'http://localhost:3000'
+        const url = 'http://localhost:8041/updateuser'
         if (this.state.email.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.password.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.firstName.length < 1) { this.setState({ ifFieldsEmpty: true }) }
@@ -156,12 +171,12 @@ class Profile extends React.Component {
     }
 
     render() {
-        const email = this.email;
+        //const email = this.email;
         //const password = this.password;
-        const firstName = this.firstName;
-        const lastName = this.lastName;
-        const address = this.address;
-        const phone = this.phone;
+        //const firstName = this.firstName;
+        //const lastName = this.lastName;
+        //const address = this.address;
+        //const phone = this.phone;
         const { formErrors } = this.state;
         return (
 
@@ -180,7 +195,8 @@ class Profile extends React.Component {
                                 <p  >    First Name: </p>
                             </Col>
                             <Col md={{ span: 0, offset: 0 }}>
-                                <Form.Control value={firstName} type="text" className="Input" name="firstName" placeholder={'replace me'}
+                                <Form.Control value={this.state.firstName} type="text" className="Input" name="firstName" 
+                                
                                               onChange={this.handleChange}>
                                 </Form.Control>
                             </Col>
@@ -198,7 +214,7 @@ class Profile extends React.Component {
                                 <p  >    Last Name: </p>
                             </Col>
                             <Col md={{ span: 0, offset: 0 }}>
-                                <Form.Control value={lastName} type="text" className="Input" name="lastName" placeholder={'replace me'}
+                                <Form.Control value={this.state.lastName} type="text" className="Input" name="lastName" placeholder={'replace me'}
                                               onChange={this.handleChange}>
                                 </Form.Control>
                             </Col>
@@ -216,7 +232,7 @@ class Profile extends React.Component {
                                 <p  >    Email: </p>
                             </Col>
                             <Col md={{ span: 0, offset: 0 }}>
-                                <Form.Control value={email} type="email" className="Input" name="email" placeholder={'replace me'}
+                                <Form.Control value={this.state.email} type="email" className="Input" name="email" placeholder={'replace me'}
                                               onChange={this.handleChange}>
                                 </Form.Control>
                             </Col>
@@ -235,7 +251,7 @@ class Profile extends React.Component {
                                 <p  >    Phone: </p>
                             </Col>
                             <Col md={{ span: 0, offset: 0 }}>
-                                <Form.Control value={phone} type="text" className="Input" name="phone" placeholder={'replace me'}
+                                <Form.Control value={this.state.phone} type="text" className="Input" name="phone" placeholder={'replace me'}
                                               onChange={this.handleChange}>
                                 </Form.Control>
                             </Col>
@@ -253,7 +269,7 @@ class Profile extends React.Component {
                                 <p  >    Address: </p>
                             </Col>
                             <Col md={{ span: 0, offset: 0 }}>
-                                <Form.Control value={address} type="text" className="Input" name="address" placeholder={'replace me'}
+                                <Form.Control value={this.state.address} type="text" className="Input" name="address" placeholder={'replace me'}
                                               onChange={this.handleChange}>
                                 </Form.Control>
                             </Col>
