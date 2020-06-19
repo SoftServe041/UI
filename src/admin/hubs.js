@@ -60,7 +60,7 @@ function Hubs(props) {
             'url': url,
             'headers': {
                 'content-type': 'application/octet-stream',
-                'Fazliddin': 'sends hello to remove',
+                'Fazliddin': 'sends hello to create',
             },
             data:
             {
@@ -344,7 +344,9 @@ function Hubs(props) {
                                         }
                                     </Form.Label>
                                     <Col className='text-center' sm="4">
-                                        <Button variant='danger' onClick={() => removeRelation(city)}><strong>-</strong></Button>
+                                        <Button variant='danger' style={{borderRadius:30, width:50}} onClick={() => removeRelation(city)}>
+                                            <strong>-</strong>
+                                        </Button>
                                     </Col>
                                 </Form.Group>
                             )
@@ -363,7 +365,9 @@ function Hubs(props) {
                                 </Form.Control>
                             </Col>
                             <Col className='text-center' sm="4">
-                                <Button onClick={() => createRelation()}><strong>+</strong></Button>
+                                <Button style={{borderRadius:30, width:50}}  onClick={() => createRelation()}>
+                                    <strong>+</strong>
+                                </Button>
                             </Col>
                         </Form.Group>
                     </Form>
