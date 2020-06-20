@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import Header from "./header/Header";
 import HeaderButtons from "./header/HeaderButtons";
 import Footer from "./Footer/footer";
-import UsersTabsMain from "./user_profile/UsersTabsMain";
+//import UsersTabsMain from "./user_profile/UsersTabsMain";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import './App.css';
@@ -10,6 +10,7 @@ import './App.css';
 const Home = lazy(() => import('./main_page/Main_page'));
 const RegPage = lazy(() => import('./registration/reg_page'));
 const Page404 = lazy(() => import('./error/page404'));
+const UsersTabsMain = lazy(() => import('./user_profile/UsersTabsMain'));
 
 class App extends React.Component {
 
@@ -36,7 +37,7 @@ class App extends React.Component {
             ifAdmin: data.admin,
             ifLoggedIn: true
         });
-        console.log(this.state);
+   //     console.log(this.state);
     }
 
     logIn() {
@@ -52,9 +53,8 @@ class App extends React.Component {
     }
 
     render() {
-
-        console.log('this state in App.js', this.state)
         const TokenContext = React.createContext(this.handleToken);
+        console.log('App js state', this.state)
         return (
             <div id='body'>
                 <TokenContext.Provider>
@@ -67,7 +67,7 @@ class App extends React.Component {
                             <Switch>
                                 <Route exact path="/" component={() => <Home />} />
                                 <Route exact path="/registration" component={() => <RegPage />} />
-                                <Route exact path="/profile" component={() => <UsersTabsMain data={this.state.data} />} />
+                                <Route exact path="/profile" render={() => <UsersTabsMain data={this.state} />} />
                                 <Route default component={Page404} />
                             </Switch>
                             <Footer />
