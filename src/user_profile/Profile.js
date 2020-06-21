@@ -15,7 +15,6 @@ const formValid = ({ formErrors, email, password }) => {
     });
 
     if (email.length < 1) { valid = false; return valid }
-    if (password.length < 1) { valid = false; return valid }
 
     return valid;
 }
@@ -57,36 +56,10 @@ class Profile extends React.Component {
     }
 
     async componentDidMount(props) {
-
-        //  console.log('log in Mount', this.props, 'and', `http://localhost:8041/user/profile/${this.props.data.userId}`);
-
-
-        /*let headers = new Headers();  
-        headers.append('Content-Type', 'application/json');
-        headers.append(Accept: 'application/json');
-        
-        const config = {
-            headers: {
-                // Authorization: `Bearer ${this.props.token}`,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            }
-        };
-*/
-        /*    const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${this.props.data}`,
-                },
-                data: {},
-            };
-            */
-
-        //await axios.get(`http://localhost:8041/user/profile/${this.props.data.userId}`, headers)\
         let data = JSON.stringify({
         })
 
-        axios.get('http://localhost:8041/user/profile/3', {
+        axios.get(`http://localhost:8041/user/profile/${this.props.data.userId}`, {
             data: {},
             headers: {
                 'Content-Type': 'application/json',
@@ -100,9 +73,8 @@ class Profile extends React.Component {
                     address: result.data.address,
                     phone: result.data.phoneNumber,
                 })
-                console.log('componentDidMount profile', result.data)
+                //console.log('componentDidMount profile', result.data)
             })
-            //.catch(error => alert('Something went wrong ' + error));
             .catch(error => console.log('Profile componentDidMount failed' + error));
 
     }
@@ -164,38 +136,68 @@ class Profile extends React.Component {
         this.setState({ formErrors, [name]: value })
 
     }
-
+    
 
     submitHandler = e => {
-        const url = 'http://localhost:8041/updateuser'
+        const urlUpdateUser = `http://localhost:8041/user/profile/${this.props.data.userId}`;
+        const urlUpdatePassword = `http://localhost:8041/user/profile/reset-password/${this.props.data.userId}`;
+
         if (this.state.email.length < 1) { this.setState({ ifFieldsEmpty: true }) }
-        if (this.state.password.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.firstName.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.lastName.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.address.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.phone.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         e.preventDefault()
 
-        const data = {
+        const userInformation = {
             email: this.state.email,
-            password: this.state.password,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             address: this.state.address,
-            phone: this.state.phone,
+            phoneNumber: this.state.phone,
         }
 
+        const password = {
+            password: this.state.password
+        }
+
+        console.log( urlUpdateUser, userInformation);
 
         if (formValid(this.state)) {
-            axios.post(url, data)
+            axios.put(urlUpdateUser, {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.email,
+                address: this.state.address,
+                phoneNumber: this.state.phone
+              },{
+              headers: new Headers({
+                'Content-Type': 'application/json; charset=UTF-8'
+          
+              })})
                 .then(response => {
                     console.log(response);
                 })
                 .catch(error => {
-                    console.log(error);
-
-
+                    alert('Something went wrong ' + error);
                 });
+
+                if(this.state.password.length > 4 && this.state.password === this.state.passwordRepeat){
+                    axios.put(urlUpdatePassword, {
+                        password: this.state.password
+                      },{
+                      headers: new Headers({
+                        'Content-Type': 'application/json; charset=UTF-8'
+                  
+                      })})
+                    .then(response => {
+                        console.log(response);
+                    })
+                    .catch(error => {
+                        alert('Something went wrong ' + error);
+                    });
+
+                }
 
         } else {
             this.setState({ ifShowFormErrors: true })
@@ -208,12 +210,7 @@ class Profile extends React.Component {
     }
 
     render() {
-        //const email = this.email;
-        //const password = this.password;
-        //const firstName = this.firstName;
-        //const lastName = this.lastName;
-        //const address = this.address;
-        //const phone = this.phone;
+        
         const { formErrors } = this.state;
 
         return (

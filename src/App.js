@@ -26,7 +26,6 @@ class App extends React.Component {
         this.logIn = this.logIn.bind(this);
         this.logOut = this.logOut.bind(this);
         this.handleToken = this.handleToken.bind(this);
-        console.log("Hello app");
     }
 
     handleToken(data) {
@@ -37,7 +36,6 @@ class App extends React.Component {
             ifAdmin: data.admin,
             ifLoggedIn: true
         });
-   //     console.log(this.state);
     }
 
     logIn() {
@@ -54,7 +52,6 @@ class App extends React.Component {
 
     render() {
         const TokenContext = React.createContext(this.handleToken);
-        console.log('App js state', this.state)
         return (
             <div id='body'>
                 <TokenContext.Provider>

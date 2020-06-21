@@ -1,20 +1,9 @@
 import React from 'react';
 import logo from './logo.png';
 import './header.css';
-import {Link, Route} from 'react-router-dom';
-
-
+import {Link} from 'react-router-dom';
 
 function Header(props) {
-
-  /*
-  function handleClick(e) {
-    e.preventDefault();
-    console.log('The link was clicked.');
-  }
-  */
-  
-
   return (
     <div className="Div-Absolute">
       <header className="Main-header">

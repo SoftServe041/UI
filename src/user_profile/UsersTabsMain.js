@@ -22,7 +22,6 @@ export default class UsersTabsMain extends React.Component {
         ]);
         this.setState({ selectedTab: key, headerText: tabMap.get(key) })
 
-        console.log('tabs console', this.state)
     }
 
     render() {
