@@ -56,13 +56,15 @@ class Profile extends React.Component {
     }
 
     async componentDidMount(props) {
-        let data = JSON.stringify({
-        })
+        let data = JSON.stringify({})
+
+        console.log("here is my token", this.props.data.token);
 
         axios.get(`http://localhost:8041/user/profile/${this.props.data.userId}`, {
             data: {},
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer_${this.props.data.token}`
             }
         })
             .then(result => {
@@ -73,7 +75,6 @@ class Profile extends React.Component {
                     address: result.data.address,
                     phone: result.data.phoneNumber,
                 })
-                //console.log('componentDidMount profile', result.data)
             })
             .catch(error => console.log('Profile componentDidMount failed' + error));
 
@@ -136,9 +137,9 @@ class Profile extends React.Component {
         this.setState({ formErrors, [name]: value })
 
     }
-    
 
-    submitHandler = e => {
+
+    submitHandler = (e, props) => {
         const urlUpdateUser = `http://localhost:8041/user/profile/${this.props.data.userId}`;
         const urlUpdatePassword = `http://localhost:8041/user/profile/reset-password/${this.props.data.userId}`;
 
@@ -161,7 +162,7 @@ class Profile extends React.Component {
             password: this.state.password
         }
 
-        console.log( urlUpdateUser, userInformation);
+        console.log("on submit", this.props.data.token);
 
         if (formValid(this.state)) {
             axios.put(urlUpdateUser, {
@@ -170,11 +171,17 @@ class Profile extends React.Component {
                 email: this.state.email,
                 address: this.state.address,
                 phoneNumber: this.state.phone
-              },{
-              headers: new Headers({
-                'Content-Type': 'application/json; charset=UTF-8'
-          
-              })})
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer_${this.props.data.token}`,
+                    'Accept': 'application/json'
+
+                }
+
+            }
+
+            )
                 .then(response => {
                     console.log(response);
                 })
@@ -182,14 +189,16 @@ class Profile extends React.Component {
                     alert('Something went wrong ' + error);
                 });
 
-                if(this.state.password.length > 4 && this.state.password === this.state.passwordRepeat){
-                    axios.put(urlUpdatePassword, {
-                        password: this.state.password
-                      },{
-                      headers: new Headers({
-                        'Content-Type': 'application/json; charset=UTF-8'
-                  
-                      })})
+            if (this.state.password.length > 4 && this.state.password === this.state.passwordRepeat) {
+                axios.put(urlUpdatePassword, {
+                    password: this.state.password
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8',
+                        'Authorization': `Bearer_${this.props.data.token}`
+
+                    }
+                })
                     .then(response => {
                         console.log(response);
                     })
@@ -197,7 +206,7 @@ class Profile extends React.Component {
                         alert('Something went wrong ' + error);
                     });
 
-                }
+            }
 
         } else {
             this.setState({ ifShowFormErrors: true })
@@ -210,7 +219,7 @@ class Profile extends React.Component {
     }
 
     render() {
-        
+
         const { formErrors } = this.state;
 
         return (
