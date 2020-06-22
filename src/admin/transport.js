@@ -62,6 +62,125 @@ function Transports(props) {
                 </div>
             </div>
             <Pagination className='justify-content-center'>{pagination}</Pagination>
+            <Modal show={createModalFlag || updateModalFlag} onHide={() => closeCreateUpdateModalWindow()} animation='true'>
+                <Modal.Header closeButton>
+                    <Modal.Title className="font-weight-bold ml-3">
+                        {
+                            (createModalFlag) ? "Create new transport item" : "Update transport item"
+                        }
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group as={Row}>
+                            <Form.Label className='pl-4' column sm="4">
+                                Bounded hub
+                            </Form.Label>
+                            <Col sm="8">
+                                <Form.Control as="select" defaultValue={
+                                    (createModalFlag) ? "Choose city" : currentTransport.hubName
+                                } onChange={(e) => setBoundedHub(e.target.value)}>
+                                    <option>Choose city</option>
+                                    {
+                                        existedHubs.map((city, index) =>
+                                            <option key={index}>
+                                                {city.name}
+                                            </option>
+                                        )
+                                    }
+                                </Form.Control>
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row}>
+                            <Form.Label className='pl-4' column sm="4">
+                                Transport type
+                            </Form.Label>
+                            <Col sm="8">
+                                <Form.Control as="select" defaultValue={
+                                    (createModalFlag) ? "Choose type" : currentTransport.type
+                                } onChange={(e) => setType(e.target.value)}>
+                                    <option>Choose type</option>
+                                    {
+                                        transportTypes.map((type, index) =>
+                                            <option key={index}>
+                                                {type}
+                                            </option>
+                                        )
+                                    }
+                                </Form.Control>
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row}>
+                            <Form.Label className='pl-4 font-italic' column sm="12">
+                                Compartments:
+                            </Form.Label>
+                        </Form.Group>
+                        <Row>
+                            <Form.Label className='text-center font-italic' column sm="2">Weight</Form.Label>
+                            <Form.Label className='text-center font-italic' column sm="2">Width</Form.Label>
+                            <Form.Label className='text-center font-italic' column sm="2">Height</Form.Label>
+                            <Form.Label className='text-center font-italic' column sm="2">Length</Form.Label>
+                            <Form.Label className='text-center font-italic' column sm="4">Remove</Form.Label>
+                        </Row>
+                        {
+                            compartments.map((compartment, index) =>
+                                <Row key={index}>
+                                    <Form.Label className='text-center' column sm="2">
+                                        {
+                                            compartment.maximumWeight
+                                        }
+                                    </Form.Label>
+                                    <Form.Label className='text-center' column sm="2">
+                                        {
+                                            compartment.volume.width
+                                        }
+                                    </Form.Label>
+                                    <Form.Label className='text-center' column sm="2">
+                                        {
+                                            compartment.volume.height
+                                        }
+                                    </Form.Label>
+                                    <Form.Label className='text-center' column sm="2">
+                                        {
+                                            compartment.volume.length
+                                        }
+                                    </Form.Label>
+                                    <Form.Label className='text-center' column sm="4">
+                                        <Button variant='danger' style={{ height: 3 }} onClick={() => removeCompartment(index)}>
+                                            -
+                                        </Button>
+                                    </Form.Label>
+                                </Row>
+                            )
+                        }
+                        <Form.Group as={Row} className='mt-1 mr-2 ml-1 pt-1 pb-1' style={{ border: '1px grey solid' }}>
+                            <Col>
+                                <Form.Control type="number" className='text-left' size='sm' defaultValue={weight} onChange={(e) => setWeight(e.target.value)} />
+                            </Col>
+                            <Col>
+                                <Form.Control type="number" size='sm' defaultValue={width} onChange={(e) => setWidth(e.target.value)} />
+                            </Col>
+                            <Col>
+                                <Form.Control type="number" size='sm' defaultValue={height} onChange={(e) => setHeight(e.target.value)} />
+                            </Col>
+                            <Col sm="3">
+                                <Form.Control type="number" size='sm' defaultValue={length} onChange={(e) => setLength(e.target.value)} />
+                            </Col>
+                            <Col className="align-middle text-center">
+                                <Button onClick={() => addNewCompartment()} size="sm">+</Button>
+                            </Col>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button className='col-md-5 mr-3' onClick={() => (createModalFlag) ? createTransport() : updateTransport()}>
+                        {
+                            (createModalFlag) ? "Create" : 'Update'
+                        }
+                    </Button>
+                    <Button className='col-md-5 mr-4' variant='secondary' onClick={() => closeCreateUpdateModalWindow()}>cancel</Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 
