@@ -1,12 +1,12 @@
 import React from "react";
-import {Tabs, Tab, Row, Col, Container} from 'react-bootstrap';
+import { Tabs, Tab, Row, Col, Container } from 'react-bootstrap';
 import Profile from "./Profile";
 import './profile.css';
 
 export default class UsersTabsMain extends React.Component {
     constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             selectedTab: 'profile',
             headerText: 'Profile'
         }
@@ -14,41 +14,41 @@ export default class UsersTabsMain extends React.Component {
 
 
 
-    handleSelectedTab(key){
+    handleSelectedTab(key) {
         const tabMap = new Map([
             ['profile', 'Profile'],
             ['orders', 'Orders'],
             ['billing', 'Billing Details'],
         ]);
-        this.setState({selectedTab: key, headerText: tabMap.get(key)})
+        this.setState({ selectedTab: key, headerText: tabMap.get(key) })
 
-        console.log('tabs console', this.state)
-     }
+    }
 
     render() {
-    return(
-    <>
-        <Row id="title-row">
-            <Col md={{ span: 5, offset: 5 }}>
-                <h2 className="title-text"> {this.state.headerText}  </h2>
-            </Col>
-        </Row>
+        return (
+            <>
+                <Row id="title-row">
+                    <Col md={{ span: 5, offset: 5 }}>
+                        <h2 className="title-text"> {this.state.headerText}  </h2>
+                    </Col>
+                </Row>
 
-    <Container id="load-body" >
-    <Tabs class="nav nav-fill nav-tabs"
-          activeKey={this.state.selectedTab}
-          onSelect={(key) => {this.handleSelectedTab(key)}}  >
-        <Tab class="nav-item" eventKey="profile" title="Profile"  >
-            <Profile data={this.props.data}/>
-        </Tab>
-        <Tab class="nav-item" eventKey="orders" title="Orders">
-            <p>In progress</p>
-        </Tab>
-        <Tab class="nav-item" eventKey="billing" title="Billing Details" >
-            <p>In progress</p>
-        </Tab>
-    </Tabs>
-    </Container>
-    </>
-);}
+                <Container id="load-body" >
+                    <Tabs class="nav nav-fill nav-tabs"
+                        activeKey={this.state.selectedTab}
+                        onSelect={(key) => { this.handleSelectedTab(key) }}  >
+                        <Tab class="nav-item" eventKey="profile" title="Profile"  >
+                            <Profile data={this.props.data} />
+                        </Tab>
+                        <Tab class="nav-item" eventKey="orders" title="Orders">
+                            <p>In progress</p>
+                        </Tab>
+                        <Tab class="nav-item" eventKey="billing" title="Billing Details" >
+                            <p>In progress</p>
+                        </Tab>
+                    </Tabs>
+                </Container>
+            </>
+        );
+    }
 }

@@ -1,29 +1,16 @@
-import React, {Suspense, lazy} from 'react';
+import React, { Suspense, lazy } from 'react';
 import Header from "./header/Header";
 import HeaderButtons from "./header/HeaderButtons";
 import Footer from "./Footer/footer";
-import UsersTabsMain from "./user_profile/UsersTabsMain";
+//import UsersTabsMain from "./user_profile/UsersTabsMain";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import {Container} from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import './App.css';
 
 const Home = lazy(() => import('./main_page/Main_page'));
 const RegPage = lazy(() => import('./registration/reg_page'));
 const Page404 = lazy(() => import('./error/page404'));
-
-function LoadBody(props) {
-    return (
-        <Router>
-            <Suspense fallback={<div>Loading...</div>}>
-                <Switch>
-                    <Route exact path="/" render={() => <Home />} />
-                    <Route exact path="/registration" render={() => <RegPage />} />
-                    <Route exact path="/profile" render={() => <UsersTabsMain data={props.data} />} />
-                    <Route default component={Page404} />
-                </Switch>
-            </Suspense>
-        </Router>);
-}
+const UsersTabsMain = lazy(() => import('./user_profile/UsersTabsMain'));
 
 class App extends React.Component {
 
@@ -49,7 +36,6 @@ class App extends React.Component {
             ifAdmin: data.admin,
             ifLoggedIn: true
         });
-        console.log(this.state);
     }
 
     logIn() {
@@ -65,15 +51,25 @@ class App extends React.Component {
     }
 
     render() {
-      const TokenContext = React.createContext(this.handleToken);
+        const TokenContext = React.createContext(this.handleToken);
         return (
             <div id='body'>
-              <TokenContext.Provider>
-                <Header />
-                <HeaderButtons ifLoggedIn={this.state.ifLoggedIn}
-                    handleToken={this.handleToken} />
-                <LoadBody data={this.state} />
-                <Footer />
+                <TokenContext.Provider>
+
+                    <Router>
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <Header />
+                            <HeaderButtons ifLoggedIn={this.state.ifLoggedIn}
+                                handleToken={this.handleToken} />
+                            <Switch>
+                                <Route exact path="/" component={() => <Home />} />
+                                <Route exact path="/registration" component={() => <RegPage />} />
+                                <Route exact path="/profile" render={() => <UsersTabsMain data={this.state} />} />
+                                <Route default component={Page404} />
+                            </Switch>
+                            <Footer />
+                        </Suspense>
+                    </Router>
                 </TokenContext.Provider>
             </div>
 
@@ -84,4 +80,4 @@ class App extends React.Component {
 
 
 
-    export default App;
+export default App;

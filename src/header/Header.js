@@ -1,24 +1,24 @@
 import React from 'react';
 import logo from './logo.png';
 import './header.css';
-
-
+import {Link} from 'react-router-dom';
 
 function Header(props) {
   return (
     <div className="Div-Absolute">
       <header className="Main-header">
-        
-        <a href="/">
+
+
+        <Link to="/" >
           <div className="Div-image">
             <img src={logo} className="Logo" alt="logo" />
           </div>
-        </a>
+        </Link>
 
         <div className="Div-Menu" id="TopNav">
-          <a className="a" href="/about-our-company">
+          <Link className="a" to="/about-our-company">
             <h4 >About Us</h4>
-          </a>
+          </Link>
         </div>
       </header>
     </div>

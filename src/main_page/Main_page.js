@@ -232,32 +232,33 @@ class MainPage extends React.Component {
 
                                 <Row id="space-between-rows">
                                     <Col >
-                                        <Form.Control type="number" name="length" placeholder="Length" onInput={(e) => {
-                                            if (parseInt(e.target.value) < 3000) {
+                                        <Form.Control type="number" name="height" placeholder="Height" onInput={(e) => {
+                                            if (parseInt(e.target.value) < 1350) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
                                             }
                                             else {
-                                                e.target.value = 3000
+                                                e.target.value = ""
                                             }
                                         }} />
                                     </Col>
+
                                     <Col >
                                         <Form.Control type="number" name="width" placeholder="Width" onInput={(e) => {
                                             if (parseInt(e.target.value) < 3000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
                                             }
                                             else {
-                                                e.target.value = 3000
+                                                e.target.value = ""
                                             }
                                         }} />
                                     </Col>
                                     <Col >
-                                        <Form.Control type="number" name="height" placeholder="Height" onInput={(e) => {
-                                            if (parseInt(e.target.value) < 3000) {
+                                        <Form.Control type="number" name="length" placeholder="Length" onInput={(e) => {
+                                            if (parseInt(e.target.value) < 2720) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
                                             }
                                             else {
-                                                e.target.value = 3000
+                                                e.target.value = ""
                                             }
                                         }} />
                                     </Col>
