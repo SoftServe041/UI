@@ -1,12 +1,254 @@
 import React, { useEffect, useState } from 'react';
-
+import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
+import axios from 'axios';
 
 function Transports(props) {
     let url = 'http://localhost:9041/admin/transport';
     let urlForTransportTypes = 'http://localhost:9041/admin/transport/types';
     const [pagination, setPagination] = useState([]);
     const [activePage, setActivePage] = useState(1);
-  
+    let totalPage = 1;
+    let existedHubs = props.existedHubs;
+    const [flag, setFlag] = useState(true);
+    const [transports, setTransports] = useState([]);
+    const [transportTypes, setTransportTypes] = useState([]);
+    const [boundedHub, setBoundedHub] = useState('');
+    const [compartments, setCompartments] = useState([
+        {
+            maximumWeight: 22,
+            volume: {
+                width: 240,
+                height: 240,
+                length: 12000,
+            }
+        },
+    ]);
+    const [type, setType] = useState('');
+    const [createModalFlag, setCreateModalFlag] = useState(false);
+    const [weight, setWeight] = useState(22);
+    const [width, setWidth] = useState(240);
+    const [height, setHeight] = useState(240);
+    const [length, setLength] = useState(12000);
+    const [updateModalFlag, setUpdateModalFlag] = useState(false);
+    const [currentTransport, setCurrentTransport] = useState({});
+
+    if (transportTypes.length === 0) {
+        getAllTransportTypes();
+    }
+    function initializeData(data) {
+        setTransports(data.content);
+        setPagination(formPagination(activePage, data.totalPage));
+    }
+
+    function updatePagination(newActivePage) {
+        setActivePage(newActivePage);
+        setFlag(true);
+    }
+    function formPagination(newActivePage, totalPage) {
+        let itemsArray = [];
+        for (let number = 1; number <= totalPage; number++) {
+            itemsArray.push(
+                <Pagination.Item key={number} active={number === newActivePage} onClick={() => updatePagination(number)}>
+                    {number}
+                </Pagination.Item>,
+            );
+        }
+        return itemsArray;
+    }
+    function getAllTransports() {
+        console.log('getAllTransports', transports);
+        axios({
+            'method': 'GET',
+            'url': url + activePage + '&limit=5',
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                'Fazliddin': 'molodec 222',
+            },
+            'params': {
+                'search': 'parameter',
+            },
+        }).then(response => {
+            console.log('responsing from getAllTrans: ', response);
+            initializeData(response.data);
+
+        }).catch(error => {
+            console.log('erroring from getAllTrans: ', error);
+            initializeData({
+                totalPage: 3,
+                content: [
+                    {
+                        hubName: 'Kharkiv',
+                        compartments: [
+                            {
+                                maximumWeight: '22',
+                                volume: {
+                                    width: 240,
+                                    height: 240,
+                                    length: 12000,
+                                }
+                            },
+                            {
+                                maximumWeight: '24',
+                                volume: {
+                                    width: 240,
+                                    height: 240,
+                                    length: 14000,
+                                }
+                            },
+                        ],
+                        type: 'Truck',
+                    },
+                    {
+                        hubName: 'Poltava',
+                        compartments: [
+                            {
+                                maximumWeight: 22,
+                                volume: {
+                                    width: 240,
+                                    height: 240,
+                                    length: 12000,
+                                }
+                            },
+                        ],
+                        type: 'Truck',
+                    }
+                ]
+            });
+        });
+    }
+    function getAllTransportTypes() {
+        console.log('getAllTransportTypes()');
+        axios({
+            'method': 'GET',
+            'url': urlForTransportTypes,
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                'Fazliddin': 'molodec 222',
+            },
+        }).then(response => {
+            console.log('responsing from getAllTransTypes: ', response);
+            if (response.status === 200) {
+
+            }
+
+        }).catch(error => {
+            console.log('erroring from getAllTransTypes: ', error);
+            setTransportTypes(['Truck', 'Plane']);
+        });
+    }
+    function createTransport() {
+        console.log('Create transport()');
+        axios({
+            'method': 'POST',
+            'url': url,
+            'headers': {
+                'content-type': 'application/octet-stream',
+                'Fazliddin': 'sends hello to create',
+            },
+            data:
+            {
+                "hubName": boundedHub,
+                "compartments": compartments,
+                "type": type,
+            },
+
+        }).then(response => {
+            console.log('responsing from create transport: ', response.status);
+            if (response.status === 201) {
+                setFlag(true);
+                setCreateModalFlag(false);
+            }
+        }).catch(error => {
+            console.log('erroring from create trans: ', error);
+            setCreateModalFlag(false);
+        });
+    }
+    function updateTransport() {
+        console.log('Update transport()', currentTransport);
+        axios({
+            'method': 'PUT',
+            'url': url,
+            'headers': {
+                'content-type': 'application/octet-stream',
+                'Fazliddin': 'sends hello to create',
+            },
+            data:
+            {
+                "hubName": boundedHub,
+                "compartments": compartments,
+                "type": type,
+            },
+
+        }).then(response => {
+            console.log('responsing from update transport: ', response.status);
+            if (response.status === 200) {
+                setFlag(true);
+                setCreateModalFlag(false);
+            }
+        }).catch(error => {
+            console.log('erroring from update trans: ', error);
+            setCreateModalFlag(false);
+        });
+    }
+    function removeTransport(transport) {
+        console.log('remove transport()', transport);
+        axios({
+            'method': 'DELETE',
+            'url': url,
+            'headers': {
+                'content-type': 'application/octet-stream',
+                'Fazliddin': 'sends hello to remove',
+            },
+            data: {
+                "hubName": transport.hubName,
+                "type": transport.type,
+            }
+
+        }).then(response => {
+            console.log('responsing from remove transport: ', response.status);
+            if (response.status === 200) {
+                setFlag(true);
+            }
+        }).catch(error => {
+            console.log('erroring from remove transport: ', error);
+        });
+    }
+    function addNewCompartment() {
+        setCompartments([...compartments,
+        {
+            maximumWeight: weight,
+            volume: {
+                width: width,
+                height: height,
+                length: length,
+            }
+        }]);
+
+    }
+    function removeCompartment(index) {
+        let newCompartments = [].concat(compartments);
+        newCompartments.splice(index, 1);
+        setCompartments(newCompartments);
+    }
+    function closeCreateUpdateModalWindow() {
+        setCreateModalFlag(false);
+        setUpdateModalFlag(false);
+    }
+    function handleUpdateTransport(transport) {
+        console.log('handleUpdateTransport', transport);
+        setCurrentTransport(transport);
+        setCompartments(transport.compartments);
+        setUpdateModalFlag(true);
+    }
+    useEffect(() => {
+        console.log('transport useEffect', compartments);
+        if (flag) {
+            getAllTransports();
+            setFlag(false);
+        }
+    });
     return (
         <div>
             <div className='component'>
