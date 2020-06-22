@@ -37,7 +37,7 @@ function Transports(props) {
     }
     function initializeData(data) {
         setTransports(data.content);
-        setPagination(formPagination(activePage, data.totalPage));
+        setPagination(formPagination(activePage, data.totalPages));
     }
 
     function updatePagination(newActivePage) {
@@ -75,13 +75,15 @@ function Transports(props) {
         }).catch(error => {
             console.log('erroring from getAllTrans: ', error);
             initializeData({
-                totalPage: 3,
+                totalPages: 3,
                 content: [
                     {
+                        id: 3,
                         hubName: 'Kharkiv',
                         compartments: [
                             {
                                 maximumWeight: '22',
+                                freeSpace: 100.0,
                                 volume: {
                                     width: 240,
                                     height: 240,
@@ -100,10 +102,12 @@ function Transports(props) {
                         type: 'Truck',
                     },
                     {
+                        id: 4,
                         hubName: 'Poltava',
                         compartments: [
                             {
                                 maximumWeight: 22,
+                                freeSpace: 100.0,
                                 volume: {
                                     width: 240,
                                     height: 240,
@@ -202,8 +206,8 @@ function Transports(props) {
                 'Fazliddin': 'sends hello to remove',
             },
             data: {
+                "id": transport.id,
                 "hubName": transport.hubName,
-                "type": transport.type,
             }
 
         }).then(response => {
@@ -255,15 +259,17 @@ function Transports(props) {
                 <Table variant='dark' size='md' striped bordered hover >
                     <thead>
                         <tr>
-                            <th className='text-center aling-middle'><h4>Bounded hub</h4></th>
-                            <th className='text-center aling-middle'>
+                            <th className='text-center mb-1'><h4>Number</h4></th>
+                            <th className='text-center mb-1'><h4>Bounded hub</h4></th>
+                            <th className='text-center mb-1'>
                                 <h4>Compartments</h4>
                                 <Row>
                                     <Col sm="1">#</Col>
                                     <Col sm="3">Maximum weight</Col>
-                                    <Col sm="3">Width</Col>
+                                    <Col sm="2">Free space</Col>
+                                    <Col sm="2">Width</Col>
                                     <Col sm="2">Height</Col>
-                                    <Col sm="3">Length</Col>
+                                    <Col sm="2">Length</Col>
                                 </Row>
                             </th>
                             <th className='text-center aling-top'><h4>Type</h4></th>
@@ -273,16 +279,18 @@ function Transports(props) {
                     <tbody>
                         {transports.map((transport, index) =>
                             <tr key={index}>
-                                <td className='pl-3 align-middle'>{transport.hubName}</td>
+                                <td className='text-center align-middle'>HM{transport.id}UA</td>
+                                <td className='text-center align-middle'>{transport.hubName}</td>
                                 <td className='pl-4 align-middle text-center'>
                                     {
                                         transport.compartments.map((compartment, index2) =>
                                             <Row key={index2}>
                                                 <Col sm="1">{(index2 + 1)}</Col>
                                                 <Col sm="3">{compartment.maximumWeight}</Col>
-                                                <Col sm="3">{compartment.volume.width}</Col>
+                                                <Col sm="2">{compartment.freeSpace}</Col>
+                                                <Col sm="2">{compartment.volume.width}</Col>
                                                 <Col sm="2">{compartment.volume.height}</Col>
-                                                <Col sm="3">{compartment.volume.length}</Col>
+                                                <Col sm="2">{compartment.volume.length}</Col>
                                             </Row>
                                         )
                                     }
