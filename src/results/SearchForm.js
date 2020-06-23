@@ -1,5 +1,8 @@
 import React from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
+import DropDownDeparture from '../main_page/DropDownDeparture';
+import DropDownArrival from "../main_page/DropDownArrival";
+import '../App.css';
 
 // class SearchForm extends React.Component {
 //     constructor(props) {
