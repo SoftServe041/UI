@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
 import cities from './admin_resource/cities.json';
 import axios from 'axios';
-import './admin.css';
+
 
 function Hubs(props) {
     let url = 'http://localhost:8080/admin/hub';
     let urlForReltion = 'http://localhost:8080/admin/hub/relation';
-    const [existedHubs, setExistedHubs] = useState([]);
+    // const [existedHubs, setExistedHubs] = useState([]);
+    let existedHubs = props.existedHubs;
+    let setExistedHubs = props.setExistedHubs;
     const [flag, setFlag] = useState(true);
     const [createHubFlag, setCreateHubFlag] = useState(false);
     const [updateHubFlag, setUpdateHubFlag] = useState(false);
@@ -250,7 +252,7 @@ function Hubs(props) {
                     )}
                 </tbody>
             </Table>
-            <div class="col text-right">
+            <div className="col text-right">
                 <Button id='new-hub-img' variant="light" onClick={() => setCreateHubFlag(true)} />
             </div>
 
@@ -265,7 +267,7 @@ function Hubs(props) {
                                 Current name
                             </Form.Label>
                             <Col sm="7">
-                                <Form.Control type="text" value={currentHub.name} />
+                                <Form.Control type="text" defaultValue={currentHub.name} />
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row}>
@@ -277,7 +279,7 @@ function Hubs(props) {
                                     <option>Choose city</option>
                                     {
                                         cities.filter(city => !existedHubs.some(existedCity => existedCity.name === city)).map((city, index) =>
-                                            <option>
+                                            <option key={index}>
                                                 {city}
                                             </option>
                                         )
@@ -308,7 +310,7 @@ function Hubs(props) {
                                     <option>Choose city</option>
                                     {
                                         cities.filter(city => !existedHubs.some(existedCity => existedCity.name === city)).map((city, index) =>
-                                            <option>
+                                            <option key={index}>
                                                 {city}
                                             </option>
                                         )
@@ -321,7 +323,6 @@ function Hubs(props) {
                 <Modal.Footer>
                     <Button className='col-md-5 mr-3' onClick={() => createHub()}>Create</Button>
                     <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setCreateHubFlag(false)}>cancel</Button>
-
                 </Modal.Footer>
             </Modal>
             <Modal show={relationFlag} onHide={() => setRelationFlag(false)} animation='true'>
@@ -357,7 +358,7 @@ function Hubs(props) {
                                     <option>Choose city for new relation</option>
                                     {
                                         cities.filter(city => !relationListForCurrentHub.includes(city)).map((city, index) =>
-                                            <option>
+                                            <option key={index}>
                                                 {city}
                                             </option>
                                         )
