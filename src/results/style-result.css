@@ -1,0 +1,12 @@
+#results {
+    background-color: #2d2929;
+}
+
+.row {
+    /* margin: 10px 0; */
+    padding: 10px 0;
+}
+
+#results>p {
+    color: white;
+}

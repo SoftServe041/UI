@@ -10,6 +10,7 @@ import './App.css';
 const Home = lazy(() => import('./main_page/Main_page'));
 const RegPage = lazy(() => import('./registration/reg_page'));
 const Page404 = lazy(() => import('./error/page404'));
+const Results = lazy(() => import('./results/Results'));
 
 function LoadBody(props) {
     return (
@@ -18,6 +19,7 @@ function LoadBody(props) {
                 <Switch>
                     <Route exact path="/" render={() => <Home />} />
                     <Route exact path="/registration" render={() => <RegPage />} />
+                    <Route exact path="/routes" render={() => <Results />} />
                     <Route exact path="/profile" render={() => <UsersTabsMain data={props.data} />} />
                     <Route default component={Page404} />
                 </Switch>

@@ -1,8 +1,21 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import SearchForm from './SearchForm';
 import axios from 'axios';
+import Result from './Result';
 import '../App.css';
+import './style-result.css';
+
+
+const routesArr = [
+    {"trackingId": 1, "price": 1234, "estimatedDeliveryDate": '2020-07-01T03:24:00'},
+    {"trackingId": 2, "price": 1456, "estimatedDeliveryDate": '2020-07-02T03:24:00'},
+    {"trackingId": 3, "price": 1244, "estimatedDeliveryDate": '2020-07-03T03:24:00'},
+    {"trackingId": 4, "price": 934, "estimatedDeliveryDate": '2020-07-04T03:24:00'},
+    {"trackingId": 5, "price": 1234, "estimatedDeliveryDate": '2020-07-05T03:24:00'},
+    {"trackingId": 6, "price": 2234, "estimatedDeliveryDate": '2020-07-06T03:24:00'},
+    {"trackingId": 7, "price": 3334, "estimatedDeliveryDate": '2020-07-07T03:24:00'}
+];
 
 class Results extends React.Component {
     constructor(props) {
@@ -26,7 +39,7 @@ class Results extends React.Component {
         this.handleSelectedArrival = this.handleSelectedArrival.bind(this);
     }
 
-    componentDidMount() {
+  /*  componentDidMount() {
         this.setState({
             departure: this.props.departure,
             arrival: this.props.arrival,
@@ -38,6 +51,7 @@ class Results extends React.Component {
             citiesList: this.props.citiesList
         });
     }
+    */
 
     submitHandler = e => {
         const url = 'http://localhost:8080/'; // this url need to be changed
@@ -46,7 +60,7 @@ class Results extends React.Component {
 
         if (this.formValid(this.state)) {
             console.log(this.state);
-            axios.get(url, this.state) //this.state - need to be changed to specified json object
+            axios.post(url, this.state) //this.state - need to be changed to specified json object
                 .then(response => {
                     console.log(response);
                     this.setState({ routs: response.data });
@@ -98,22 +112,29 @@ class Results extends React.Component {
     }
 
     render() {
+        console.log(this.state.departure, this.state.arrival);
         return (
             <div>
-                <SearchForm departure={this.state.departure}
-                            arrival={this.state.arrival}
-                            weight={this.state.weight}
-                            height={this.state.height}
-                            width={this.state.width}
-                            length={this.state.length}
-                            isFormIncorrect={this.state.ifFormIncorrect}
-                            submitHandler={this.submitHandler}
-                            handleChange={this.handleChange}
-                            handleSelectedDeparture={this.handleSelectedDeparture}
-                            handleSelectedArrival={this.handleSelectedArrival}
-                            />
-                <Container>
-                    <Result routes={this.state.routes} />
+                <Row id="results">
+                    <Col md={{ span: 8, offset: 2 }}>
+                    <SearchForm departure={this.state.departure}
+                        arrival={this.state.arrival}
+                        weight={this.state.weight}
+                        height={this.state.height}
+                        width={this.state.width}
+                        length={this.state.length}
+                        ifFormIncorrect={this.state.ifFormIncorrect}
+                        submitHandler={this.submitHandler}
+                        handleChange={this.handleChange}
+                        handleSelectedDeparture={this.handleSelectedDeparture}
+                        handleSelectedArrival={this.handleSelectedArrival}
+                        data={this.state}
+                    />
+                    </Col>
+                </Row>
+                <Container id="load-body">
+                    {/* <Result routes={this.state.routes} /> */}
+                    <Result routes={routesArr} />
                 </Container>
             </div>
         );

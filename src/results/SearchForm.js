@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import DropDownDeparture from '../main_page/DropDownDeparture';
 import DropDownArrival from "../main_page/DropDownArrival";
+import cities from '../main_page/cities.json';
 import '../App.css';
 
 // class SearchForm extends React.Component {
@@ -14,6 +15,7 @@ import '../App.css';
 
 //     render() {
 function SearchForm(props) {
+    console.log(cities, props);
     return (
         <Form onSubmit={props.submitHandler} onChange={props.handleChange}>
             <Row>
@@ -37,6 +39,7 @@ function SearchForm(props) {
                         cities={cities}
                         departure={props.departure}
                     >
+                        
                     </DropDownDeparture>
                 </Col>
                 <Col >
@@ -53,6 +56,7 @@ function SearchForm(props) {
             <Row>
                 <Col >
                     {(props.ifFormIncorrect) && (<p>Please make sure that you have filled all details correctly</p>)}
+                    {console.log(props.ifFormIncorrect)}
                 </Col>
             </Row>
         </Form>

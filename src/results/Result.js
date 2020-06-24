@@ -1,5 +1,6 @@
 import React from 'react';
 import {Tabs, Tab} from 'react-bootstrap';
+import Suggestions from './Suggestions';
 
 class Result extends React.Component {
     constructor(props) {
@@ -12,7 +13,8 @@ class Result extends React.Component {
     }
 
     componentDidMount() {
-        const sortDataByPrice = this.props.routes.sort((a, b) => a.price - b.price);
+        const unsorted = this.props.routes.slice();
+        const sortDataByPrice = unsorted.sort((a, b) => a.price - b.price);
         const sortDataByDeliveryDate = this.props.routes.sort(
             (a, b) => new Date(a.estimatedDeliveryDate) - new Date(b.estimatedDeliveryDate));
         this.setState({

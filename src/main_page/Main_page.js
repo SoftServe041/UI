@@ -86,8 +86,8 @@ class MainPage extends React.Component {
 
 
         if (this.formValid(this.state)) {
-            console.log(this.state)
-            axios.get(url, this.state)
+            console.log(this.state);
+           /* axios.get(url, this.state)
                 .then(response => {
                     console.log(response)
                     this.handleReceivedRouts(response.data)
@@ -99,6 +99,8 @@ class MainPage extends React.Component {
                         window.location = "/error"
                     }
                 });
+                */
+            //    <Link to="/routes"/>
         } else {
             this.setState({ ifFormIncorrect: true });
             console.error("Invalid form");
