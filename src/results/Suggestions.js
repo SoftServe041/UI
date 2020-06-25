@@ -6,7 +6,7 @@ function Suggestions(props) {
         <Suggestion id={item.trackingId} price={item.price} deliveryDate={item.estimatedDeliveryDate} />
     );
     return (
-        <ul>{suggestionList}</ul>
+        <ul className='list-reset'>{suggestionList}</ul>
     );
 }
 

@@ -4,6 +4,7 @@ import HeaderButtons from "./header/HeaderButtons";
 import Footer from "./Footer/footer";
 import UsersTabsMain from "./user_profile/UsersTabsMain";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import history from './history'
 import {Container} from 'react-bootstrap';
 import './App.css';
 
@@ -14,13 +15,13 @@ const Results = lazy(() => import('./results/Results'));
 
 function LoadBody(props) {
     return (
-        <Router>
+        <Router history={history}>
             <Suspense fallback={<div>Loading...</div>}>
                 <Switch>
                     <Route exact path="/" render={() => <Home />} />
                     <Route exact path="/registration" render={() => <RegPage />} />
-                    <Route exact path="/routes" render={() => <Results />} />
                     <Route exact path="/profile" render={() => <UsersTabsMain data={props.data} />} />
+                    <Route exact path="/routes" render={() => <Results testProp={props} data={props.data} />} />
                     <Route default component={Page404} />
                 </Switch>
             </Suspense>

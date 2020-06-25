@@ -5,36 +5,30 @@ import DropDownArrival from "../main_page/DropDownArrival";
 import cities from '../main_page/cities.json';
 import '../App.css';
 
-// class SearchForm extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-
-//         }
-//     }
-
-//     render() {
 function SearchForm(props) {
     console.log(cities, props);
     return (
         <Form onSubmit={props.submitHandler} onChange={props.handleChange}>
-            <Row>
+            <Row className='my-3'>
                 <Col>
-                    <Form.Control type="number" name="weight" placeholder={props.weight} min="0" max="22000" />
+                    <Form.Label>Weight:</Form.Label>
+                    <Form.Control type="number" name="weight" placeholder={props.weight} min="1" max="22000" />
                 </Col>
                 <Col >
-                    <Form.Control type="number" name="length" placeholder={props.length} min="0" max="3000" />
+                    <Form.Label>Length:</Form.Label>
+                    <Form.Control type="number" name="length" placeholder={props.length} min="1" max="3000" />
                 </Col>
                 <Col >
-                    <Form.Control type="number" name="width" placeholder={props.width} min="0" max="3000" />
+                    <Form.Label>Width:</Form.Label>
+                    <Form.Control type="number" name="width" placeholder={props.width} min="1" max="3000" />
                 </Col>
                 <Col >
-                    <Form.Control type="number" name="height" placeholder={props.height} min="0" max="3000" />
+                    <Form.Label>Height:</Form.Label>
+                    <Form.Control type="number" name="height" placeholder={props.height} min="1" max="3000" />
                 </Col>
             </Row>
-            <Row>
+            <Row className='my-3'>
                 <Col >
-                    {/* ??? */}
                     <DropDownDeparture handleSelectedDeparture={props.handleSelectedDeparture}
                         cities={cities}
                         departure={props.departure}
@@ -53,7 +47,7 @@ function SearchForm(props) {
                     <Button id="body-button" type="submit" onClick={props.submitHandler}>Update</Button>
                 </Col>
             </Row>
-            <Row>
+            <Row className='my-3'>
                 <Col >
                     {(props.ifFormIncorrect) && (<p>Please make sure that you have filled all details correctly</p>)}
                     {console.log(props.ifFormIncorrect)}

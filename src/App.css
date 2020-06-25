@@ -64,3 +64,9 @@
 #space-between-rows{
     padding-bottom: 15px;
 }
+
+.list-reset {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
