@@ -40,3 +40,19 @@
 .button::-moz-focus-inner {
     border: 0;
 }
+
+
+.modal_container
+{
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.before_input_text{
+    display: flex;
+    align-items: center;
+}
+.input_style
+{
+    width: 600px;
+}
