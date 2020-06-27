@@ -5,6 +5,7 @@ import Footer from "./Footer/footer";
 //import UsersTabsMain from "./user_profile/UsersTabsMain";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import history from './history'
 import './App.css';
 
 const Home = lazy(() => import('./main_page/Main_page'));
@@ -58,7 +59,7 @@ class App extends React.Component {
             <div id='body'>
                 <TokenContext.Provider>
 
-                    <Router>
+                    <Router history={history}>
                         <Suspense fallback={<div>Loading...</div>}>
                             <Header />
                             <HeaderButtons ifLoggedIn={this.state.ifLoggedIn}
