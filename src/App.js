@@ -5,7 +5,7 @@ import Footer from "./Footer/footer";
 //import UsersTabsMain from "./user_profile/UsersTabsMain";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import history from './history'
+import history from './history';
 import './App.css';
 
 const Home = lazy(() => import('./main_page/Main_page'));
@@ -13,6 +13,7 @@ const RegPage = lazy(() => import('./registration/reg_page'));
 const Page404 = lazy(() => import('./error/page404'));
 const UsersTabsMain = lazy(() => import('./user_profile/UsersTabsMain'));
 const Admin = lazy(() => import('./admin/admin'));
+const Results = lazy(() => import('./results/Results'));
 
 class App extends React.Component {
 
@@ -71,6 +72,7 @@ class App extends React.Component {
                                 <Route exact path="/registration" component={() => <RegPage />} />
                                 <Route exact path="/profile" render={() => <UsersTabsMain data={this.state} />} />
                                 <Route exact path="/admin" render={() => <Admin data={this.state} />} />
+                                <Route exact path="/routes" render={() => <Results data={this.state} />} />
                                 <Route default component={Page404} />
                             </Switch>
                             <Footer />

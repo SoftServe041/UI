@@ -8,8 +8,9 @@ import { Button, Container } from "react-bootstrap";
 import '../App.css';
 import DropDownDeparture from './DropDownDeparture';
 import DropDownArrival from "./DropDownArrival";
-import { Route, Link, Redirect } from 'react-router-dom';
-import Results from '../results/Results';
+import { Redirect } from 'react-router-dom';
+//import Results from '../results/Results';
+import history from '../history';
 
 
 class MainPage extends React.Component {
@@ -43,7 +44,7 @@ class MainPage extends React.Component {
                 this.setState({ citiesList: res.data })
             })
             //.catch(error => alert('Axios failed ' + error));
-            .catch(error => console.log('Axios failed on Main_page.js' + error));
+            .catch(error => console.log('Cities cannot be loaded' + error));
 
 
     }
@@ -128,7 +129,8 @@ class MainPage extends React.Component {
     render() {
 
         if (this.state.ifRedirect) {
-            return <Redirect to="/routes" />
+            history.push( this.state);
+            return <Redirect to='/routes' />
         }
 
         return (
@@ -154,7 +156,6 @@ class MainPage extends React.Component {
 
                                 <Row >
                                     <Col >
-                                        {console.log("before departure", this.state.citiesList)}
                                         <DropDownDeparture handleSelectedDeparture={this.handleSelectedDeparture}
                                             cities={this.state.citiesList}
                                             departure={this.state.departure}

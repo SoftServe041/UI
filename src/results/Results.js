@@ -37,10 +37,12 @@ class Results extends React.Component {
 		this.handleChange = this.handleChange.bind(this)
 		this.handleSelectedDeparture = this.handleSelectedDeparture.bind(this)
 		this.handleSelectedArrival = this.handleSelectedArrival.bind(this)
+		console.log("history in Results", history.location);
+		console.log("props in Results", this.props);
 	}
 
 	  componentDidMount() {
-          console.log("Results history", history)
+        //  console.log("Results history", history)
         // this.setState({
         //     departure: this.props.departure,
         //     arrival: this.props.arrival,
