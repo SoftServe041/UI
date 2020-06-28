@@ -2,9 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import Header from "./header/Header";
 import HeaderButtons from "./header/HeaderButtons";
 import Footer from "./Footer/footer";
-//import UsersTabsMain from "./user_profile/UsersTabsMain";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
 import history from './history';
 import './App.css';
 
