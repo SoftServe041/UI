@@ -43,10 +43,7 @@ class MainPage extends React.Component {
                 console.log("componentDidMount", res.data)
                 this.setState({ citiesList: res.data })
             })
-            //.catch(error => alert('Axios failed ' + error));
             .catch(error => console.log('Cities cannot be loaded' + error));
-
-
     }
 
 
@@ -123,7 +120,7 @@ class MainPage extends React.Component {
     render() {
 
         if (this.state.ifRedirect) {
-            history.push( this.state);
+            history.push(this.state);
             return <Redirect to='/routes' />
         }
 

@@ -6,7 +6,7 @@ import cities from '../main_page/cities.json';
 import '../App.css';
 
 function SearchForm(props) {
-    console.log(cities, props);
+    //console.log("Log in Form",cities, props);
     return (
         <Form onSubmit={props.submitHandler} onChange={props.handleChange}>
             <Row className='my-3'>
@@ -36,13 +36,13 @@ function SearchForm(props) {
                 <Col className='dropdown'>
                     <Form.Label>From:</Form.Label>
                     <DropDownDeparture handleSelectedDeparture={props.handleSelectedDeparture}
-                        cities={cities}
+                        cities={props.citiesList}
                         departure={props.departure} />
                 </Col>
                 <Col className='dropdown'>
                     <Form.Label>To:</Form.Label>
                     <DropDownArrival handleSelectedArrival={props.handleSelectedArrival}
-                        cities={cities}
+                        cities={props.citiesList}
                         arrival={props.arrival} />
                 </Col>
                 <Col>
