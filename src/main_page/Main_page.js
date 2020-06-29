@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import cities from './cities.json';
 import axios from 'axios';
 import Form from "react-bootstrap/Form";
@@ -9,29 +9,8 @@ import '../App.css';
 import DropDownDeparture from './DropDownDeparture';
 import DropDownArrival from "./DropDownArrival";
 import { Redirect } from 'react-router-dom';
+//import Results from '../results/Results';
 import history from '../history';
-
-//import Dropdown from "react-bootstrap/Dropdown";
-//import FormControl from "react-bootstrap/FormControl";
-
-
-/*
-
-const formValid = ({ departure, arrival, weight, ifSameHubSelected }) => {
-    let valid = true;
-
-    if (departure === arrival){
-         this.setState({ifSameHubSelected: false})
-     } else {
-         this.setState({ifSameHubSelected: false})
-     }
-
-
-    if (weight.length < 1) { valid = false; return valid }
-
-    return valid;
-}
-*/
 
 
 class MainPage extends React.Component {
@@ -48,13 +27,29 @@ class MainPage extends React.Component {
             ifFormIncorrect: false,
             ifSameHubSelected: false,
             ifRedirect: false,
-            routes: [],
-            citiesList: [], //to be used instead of cities import json
+            citiesList: cities, //to be used instead of cities import json
+
         }
         this.handleSelectedDeparture = this.handleSelectedDeparture.bind(this);
         this.handleSelectedArrival = this.handleSelectedArrival.bind(this);
 
+
     }
+
+    async componentDidMount() {
+        await axios.get(`http://localhost:8080/location`)
+            .then(res => {
+
+                console.log("componentDidMount", res.data)
+                this.setState({ citiesList: res.data })
+            })
+            //.catch(error => alert('Axios failed ' + error));
+            .catch(error => console.log('Cities cannot be loaded' + error));
+
+
+    }
+
+
 
     formValid = ({ departure, arrival, weight, length, width, height }) => {
         let valid = true;
@@ -65,7 +60,6 @@ class MainPage extends React.Component {
             valid = false;
         } else {
             this.setState({ ifSameHubSelected: false })
-            console.log('this.setState({ifSameHubSelected: false})')
             valid = true;
         }
 
@@ -81,20 +75,18 @@ class MainPage extends React.Component {
         return valid;
     }
 
+
+
     submitHandler = e => {
-       //   e.preventDefault();
-       this.setState({ ifFormIncorrect: false, ifSameHubSelected: false });
+        this.setState({ ifFormIncorrect: false, ifSameHubSelected: false });
 
-       if (this.formValid(this.state)) {
+        if (this.formValid(this.state)) {
+            this.setState({ ifRedirect: true });
+        } else {
+            this.setState({ ifFormIncorrect: true });
+            console.error("Invalid form");
+        }
 
-           this.setState({ ifRedirect: true });
-           //this.props.handleSearchRouts(this.state) ;
-           //this.render();
-
-       } else {
-           this.setState({ ifFormIncorrect: true });
-           console.error("Invalid form");
-       }
     }
 
     handleChange = (e) => {
@@ -123,22 +115,7 @@ class MainPage extends React.Component {
             this.setState({ arrival: this.state.departure, departure: tempReplace });
     }
 
-    handleReceivedRouts(routs) {
-        this.setState({ routs: routs })
-    }
 
-
-    async componentDidMount() {
-        /* let result = axios.get(`http://localhost:8041`)
-             .then(res => {this.setState({citiesList: res.data})
-             console.log(res.data)
- 
-             })
-             //.catch(error => alert('Axios failed ' + error));
-             .catch(error => console.log('Axios failed on Main_page.js' + error));
- 
-         */
-    }
 
 
 
@@ -155,13 +132,13 @@ class MainPage extends React.Component {
 
                 <Row id="title-row">
                     <Col md={{ span: 3, offset: 5 }}>
-                        <h2 className="title-text"> Search Routs  </h2>
+                        <h2 className="title-text"> Search Routes  </h2>
                     </Col>
                 </Row>
 
                 <Container id="load-body" >
                     <Row style={{ width: '100%' }}>
-                        <Col md={{ span: 5, offset: 3 }}>
+                        <Col md={{ span: 5, offset: 3 }} >
                             <Form onSubmit={this.submitHandler} onChange={this.handleChange}>
                                 <Row style={{ paddingTop: '15px' }}>
                                     <Col>
@@ -174,7 +151,7 @@ class MainPage extends React.Component {
                                 <Row >
                                     <Col >
                                         <DropDownDeparture handleSelectedDeparture={this.handleSelectedDeparture}
-                                            cities={cities}
+                                            cities={this.state.citiesList}
                                             departure={this.state.departure}
                                         >
                                         </DropDownDeparture>
@@ -188,12 +165,11 @@ class MainPage extends React.Component {
                                     </Col>
                                     <Col >
                                         <DropDownArrival handleSelectedArrival={this.handleSelectedArrival}
-                                            cities={cities}
+                                            cities={this.state.citiesList}
                                             arrival={this.state.arrival}
                                         >
                                         </DropDownArrival>
-                                        {//<Form.Control className="Input1" type="text" name="arrival" placeholder="Arrival" />
-                                        }
+
                                     </Col>
                                 </Row>
 
@@ -268,12 +244,12 @@ class MainPage extends React.Component {
 
                                 <Row >
                                     <Col md={{ span: 3, offset: 5 }}>
-                                        <Button id="body-button" type="submit" onClick={this.submitHandler}> Search </Button>
 
+                                        <Button id="body-button" type="submit" onClick={this.submitHandler}>
+                                            Search
+                                            </Button>
                                     </Col>
                                 </Row>
-
-
                             </Form>
                         </Col>
                     </Row>

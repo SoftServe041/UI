@@ -1,5 +1,5 @@
 import React from 'react';
-import  { Button, Col, Form, Row } from 'react-bootstrap'
+import { Button, Col, Form, Row } from 'react-bootstrap'
 import axios from 'axios'
 
 import '../App.css';
@@ -15,7 +15,6 @@ const formValid = ({ formErrors, email, password }) => {
     });
 
     if (email.length < 1) { valid = false; return valid }
-    if (password.length < 1) { valid = false; return valid }
 
     return valid;
 }
@@ -55,6 +54,32 @@ class Profile extends React.Component {
         }
 
     }
+
+    async componentDidMount(props) {
+        let data = JSON.stringify({})
+
+        console.log("here is my token", this.props.data.token);
+
+        axios.get(`http://localhost:8041/user/profile/${this.props.data.userId}`, {
+            data: {},
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer_${this.props.data.token}`
+            }
+        })
+            .then(result => {
+                this.setState({
+                    firstName: result.data.firstName,
+                    lastName: result.data.lastName,
+                    email: result.data.email,
+                    address: result.data.address,
+                    phone: result.data.phoneNumber,
+                })
+            })
+            .catch(error => console.log('Profile componentDidMount failed' + error));
+
+    }
+
 
     handleChange = (e) => {
         e.preventDefault();
@@ -109,41 +134,79 @@ class Profile extends React.Component {
             default:
                 break;
         }
-        this.setState({ formErrors, [name]: value  })
+        this.setState({ formErrors, [name]: value })
 
     }
 
 
-    submitHandler = e => {
-        const url = 'http://localhost:3000'
+    submitHandler = (e, props) => {
+        const urlUpdateUser = `http://localhost:8041/user/profile/${this.props.data.userId}`;
+        const urlUpdatePassword = `http://localhost:8041/user/profile/reset-password/${this.props.data.userId}`;
+
         if (this.state.email.length < 1) { this.setState({ ifFieldsEmpty: true }) }
-        if (this.state.password.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.firstName.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.lastName.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.address.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.phone.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         e.preventDefault()
 
-        const data = {
+        const userInformation = {
             email: this.state.email,
-            password: this.state.password,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             address: this.state.address,
-            phone: this.state.phone,
+            phoneNumber: this.state.phone,
         }
 
+        const password = {
+            password: this.state.password
+        }
+
+        console.log("on submit", this.props.data.token);
 
         if (formValid(this.state)) {
-            axios.post(url, data)
+            axios.put(urlUpdateUser, {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.email,
+                address: this.state.address,
+                phoneNumber: this.state.phone
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer_${this.props.data.token}`,
+                    'Accept': 'application/json'
+
+                }
+
+            }
+
+            )
                 .then(response => {
                     console.log(response);
                 })
                 .catch(error => {
-                    console.log(error);
-
-
+                    alert('Something went wrong ' + error);
                 });
+
+            if (this.state.password.length > 4 && this.state.password === this.state.passwordRepeat) {
+                axios.put(urlUpdatePassword, {
+                    password: this.state.password
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8',
+                        'Authorization': `Bearer_${this.props.data.token}`
+
+                    }
+                })
+                    .then(response => {
+                        console.log(response);
+                    })
+                    .catch(error => {
+                        alert('Something went wrong ' + error);
+                    });
+
+            }
 
         } else {
             this.setState({ ifShowFormErrors: true })
@@ -156,174 +219,171 @@ class Profile extends React.Component {
     }
 
     render() {
-        const email = this.email;
-        //const password = this.password;
-        const firstName = this.firstName;
-        const lastName = this.lastName;
-        const address = this.address;
-        const phone = this.phone;
+
         const { formErrors } = this.state;
+
         return (
 
 
 
-                    <Form onSubmit={this.submitHandler}>
+            <Form onSubmit={this.submitHandler}>
 
-                        <Row id="space-between-rows">
-                            <Col md={{ offset: 5 }}>
-                                {(this.state.ifLoginDetailsIncorrect) && (<span className="Span">Email or password are incorrect</span>)}
-                            </Col>
-                        </Row>
+                <Row id="space-between-rows">
+                    <Col md={{ offset: 5 }}>
+                        {(this.state.ifLoginDetailsIncorrect) && (<span className="Span">Email or password are incorrect</span>)}
+                    </Col>
+                </Row>
 
-                        <Row >
-                            <Col md={{ span: 2, offset: 3 }}>
-                                <p  >    First Name: </p>
-                            </Col>
-                            <Col md={{ span: 0, offset: 0 }}>
-                                <Form.Control value={firstName} type="text" className="Input" name="firstName" placeholder={'replace me'}
-                                              onChange={this.handleChange}>
-                                </Form.Control>
-                            </Col>
-                        </Row>
+                <Row >
+                    <Col md={{ span: 2, offset: 3 }}>
+                        <p  >    First Name: </p>
+                    </Col>
+                    <Col md={{ span: 0, offset: 0 }}>
+                        <Form.Control value={this.state.firstName} type="text" className="Input" name="firstName"
 
-                        <Row id="space-between-rows">
-                            <Col md={{ offset: 5 }}>
-                                {this.state.ifShowFormErrors && (<span className="Span">{formErrors.firstName}</span>)}
-                            </Col>
-                        </Row>
+                            onChange={this.handleChange}>
+                        </Form.Control>
+                    </Col>
+                </Row>
 
-
-                        <Row >
-                            <Col md={{ span: 2, offset: 3 }}>
-                                <p  >    Last Name: </p>
-                            </Col>
-                            <Col md={{ span: 0, offset: 0 }}>
-                                <Form.Control value={lastName} type="text" className="Input" name="lastName" placeholder={'replace me'}
-                                              onChange={this.handleChange}>
-                                </Form.Control>
-                            </Col>
-                        </Row>
-
-                        <Row id="space-between-rows">
-                            <Col md={{ offset: 5 }}>
-                                {this.state.ifShowFormErrors && (<span className="Span">{formErrors.lastName}</span>)}
-                            </Col>
-                        </Row>
+                <Row id="space-between-rows">
+                    <Col md={{ offset: 5 }}>
+                        {this.state.ifShowFormErrors && (<span className="Span">{formErrors.firstName}</span>)}
+                    </Col>
+                </Row>
 
 
-                        <Row >
-                            <Col md={{ span: 2, offset: 3 }}>
-                                <p  >    Email: </p>
-                            </Col>
-                            <Col md={{ span: 0, offset: 0 }}>
-                                <Form.Control value={email} type="email" className="Input" name="email" placeholder={'replace me'}
-                                              onChange={this.handleChange}>
-                                </Form.Control>
-                            </Col>
-                        </Row>
+                <Row >
+                    <Col md={{ span: 2, offset: 3 }}>
+                        <p  >    Last Name: </p>
+                    </Col>
+                    <Col md={{ span: 0, offset: 0 }}>
+                        <Form.Control value={this.state.lastName} type="text" className="Input" name="lastName" placeholder={'replace me'}
+                            onChange={this.handleChange}>
+                        </Form.Control>
+                    </Col>
+                </Row>
 
-                        <Row id="space-between-rows">
-                            <Col md={{ offset: 5 }}>
-                                {this.state.ifShowFormErrors && (<span className="Span">{formErrors.email}</span>)}
-                            </Col>
-                        </Row>
-
-
-
-                        <Row >
-                            <Col md={{ span: 2, offset: 3 }}>
-                                <p  >    Phone: </p>
-                            </Col>
-                            <Col md={{ span: 0, offset: 0 }}>
-                                <Form.Control value={phone} type="text" className="Input" name="phone" placeholder={'replace me'}
-                                              onChange={this.handleChange}>
-                                </Form.Control>
-                            </Col>
-                        </Row>
-
-                        <Row id="space-between-rows">
-                            <Col md={{ offset: 5 }}>
-                                {this.state.ifShowFormErrors && (<span className="Span">{formErrors.phone}</span>)}
-                            </Col>
-                        </Row>
+                <Row id="space-between-rows">
+                    <Col md={{ offset: 5 }}>
+                        {this.state.ifShowFormErrors && (<span className="Span">{formErrors.lastName}</span>)}
+                    </Col>
+                </Row>
 
 
-                        <Row >
-                            <Col md={{ span: 2, offset: 3 }}>
-                                <p  >    Address: </p>
-                            </Col>
-                            <Col md={{ span: 0, offset: 0 }}>
-                                <Form.Control value={address} type="text" className="Input" name="address" placeholder={'replace me'}
-                                              onChange={this.handleChange}>
-                                </Form.Control>
-                            </Col>
-                        </Row>
+                <Row >
+                    <Col md={{ span: 2, offset: 3 }}>
+                        <p  >    Email: </p>
+                    </Col>
+                    <Col md={{ span: 0, offset: 0 }}>
+                        <Form.Control value={this.state.email} type="email" className="Input" name="email" placeholder={'replace me'}
+                            onChange={this.handleChange}>
+                        </Form.Control>
+                    </Col>
+                </Row>
 
-                        <Row id="space-between-rows">
-                            <Col md={{ offset: 5 }}>
-                                {this.state.ifShowFormErrors && (<span className="Span">{formErrors.address}</span>)}
-                            </Col>
-                        </Row>
-
-
-                        <Row>
-                            <Col md={{ offset: 5 }}>
-                                <p> Reset Password</p>
-                            </Col>
-                        </Row>
-
-                        <Row >
-                            <Col md={{ span: 2, offset: 3 }}>
-                                <p >    Password:      </p>
-                            </Col>
-                            <Col md={{ span: 0, offset: 0 }}>
-                                <Form.Control className="Input" type="password" name="password" placeholder="*********"
-                                              onChange={this.handleChange} >
-                                </Form.Control>
-                            </Col>
-                        </Row>
-
-                        <Row id="space-between-rows">
-                            <Col md={{ offset: 5 }}>
-                                {this.state.ifShowFormErrors && (<span className="Span">{formErrors.password}</span>)}
-                            </Col>
-                        </Row>
-
-                        <Row >
-                            <Col md={{ span: 2, offset: 3 }}>
-                                <p >    Repeat Password:      </p>
-                            </Col>
-                            <Col md={{ span: 0, offset: 0 }}>
-                                <Form.Control className="Input" type="password" name="passwordRepeat" placeholder="*********"
-                                              onChange={this.handleChange} >
-                                </Form.Control>
-                            </Col>
-                        </Row>
+                <Row id="space-between-rows">
+                    <Col md={{ offset: 5 }}>
+                        {this.state.ifShowFormErrors && (<span className="Span">{formErrors.email}</span>)}
+                    </Col>
+                </Row>
 
 
-                        <Row id="space-between-rows">
-                            <Col md={{ offset: 5 }}>
-                                {this.state.ifShowFormErrors && (<span className="Span">{formErrors.passwordRepeat}</span>)}
-                            </Col>
-                        </Row>
+
+                <Row >
+                    <Col md={{ span: 2, offset: 3 }}>
+                        <p  >    Phone: </p>
+                    </Col>
+                    <Col md={{ span: 0, offset: 0 }}>
+                        <Form.Control value={this.state.phone} type="text" className="Input" name="phone" placeholder={'replace me'}
+                            onChange={this.handleChange}>
+                        </Form.Control>
+                    </Col>
+                </Row>
+
+                <Row id="space-between-rows">
+                    <Col md={{ offset: 5 }}>
+                        {this.state.ifShowFormErrors && (<span className="Span">{formErrors.phone}</span>)}
+                    </Col>
+                </Row>
 
 
-                        <Row id="space-between-rows">
-                            <Col md={{ offset: 5 }}>
-                                {(this.state.ifFieldsEmpty) && (<span className="Span">Please make sure that you have filled all fields</span>)}
-                            </Col>
-                        </Row>
+                <Row >
+                    <Col md={{ span: 2, offset: 3 }}>
+                        <p  >    Address: </p>
+                    </Col>
+                    <Col md={{ span: 0, offset: 0 }}>
+                        <Form.Control value={this.state.address} type="text" className="Input" name="address" placeholder={'replace me'}
+                            onChange={this.handleChange}>
+                        </Form.Control>
+                    </Col>
+                </Row>
 
-                        <Row >
-                            <Col md={{ offset: 5 }}>
-                                <Button id="body-button" variant="primary" type="submit" onClick={this.submitHandler} >
-                                    Update Details
+                <Row id="space-between-rows">
+                    <Col md={{ offset: 5 }}>
+                        {this.state.ifShowFormErrors && (<span className="Span">{formErrors.address}</span>)}
+                    </Col>
+                </Row>
+
+
+                <Row>
+                    <Col md={{ offset: 5 }}>
+                        <p> Reset Password</p>
+                    </Col>
+                </Row>
+
+                <Row >
+                    <Col md={{ span: 2, offset: 3 }}>
+                        <p >    Password:      </p>
+                    </Col>
+                    <Col md={{ span: 0, offset: 0 }}>
+                        <Form.Control className="Input" type="password" name="password" placeholder="*********"
+                            onChange={this.handleChange} >
+                        </Form.Control>
+                    </Col>
+                </Row>
+
+                <Row id="space-between-rows">
+                    <Col md={{ offset: 5 }}>
+                        {this.state.ifShowFormErrors && (<span className="Span">{formErrors.password}</span>)}
+                    </Col>
+                </Row>
+
+                <Row >
+                    <Col md={{ span: 2, offset: 3 }}>
+                        <p >    Repeat Password:      </p>
+                    </Col>
+                    <Col md={{ span: 0, offset: 0 }}>
+                        <Form.Control className="Input" type="password" name="passwordRepeat" placeholder="*********"
+                            onChange={this.handleChange} >
+                        </Form.Control>
+                    </Col>
+                </Row>
+
+
+                <Row id="space-between-rows">
+                    <Col md={{ offset: 5 }}>
+                        {this.state.ifShowFormErrors && (<span className="Span">{formErrors.passwordRepeat}</span>)}
+                    </Col>
+                </Row>
+
+
+                <Row id="space-between-rows">
+                    <Col md={{ offset: 5 }}>
+                        {(this.state.ifFieldsEmpty) && (<span className="Span">Please make sure that you have filled all fields</span>)}
+                    </Col>
+                </Row>
+
+                <Row >
+                    <Col md={{ offset: 5 }}>
+                        <Button id="body-button" variant="primary" type="submit" onClick={this.submitHandler} >
+                            Update Details
                                 </Button>
-                            </Col>
-                        </Row>
+                    </Col>
+                </Row>
 
 
-                    </Form>
+            </Form>
 
 
         )

@@ -40,38 +40,31 @@ class Results extends React.Component {
 		this.handleSelectedArrival = this.handleSelectedArrival.bind(this)
 	}
 
-	  componentDidMount() {
-          console.log("Results history", history);
-          
-        this.setState({
-            departure: history.location.departure,
-            arrival: history.location.arrival,
-            weight: history.location.weight,
-            height: history.location.height,
-            width: history.location.width,
-            length: history.location.length,
-            routes: history.location.routes,
-            citiesList: history.location.citiesList
-        });
-    }
+	componentDidMount() {
+		console.log("Results history", history);
+		const dataFromMainPage = {
+			weight: history.location.weight,
+			length: history.location.length / 100,
+			width: history.location.width / 100,
+			height: history.location.height / 100,
+			from: history.location.arrival,
+			to: history.location.departure
+		}
+		this.getData(dataFromMainPage);
 
+		this.setState({
+			departure: history.location.departure,
+			arrival: history.location.arrival,
+			weight: history.location.weight,
+			height: history.location.height,
+			width: history.location.width,
+			length: history.location.length,
+			citiesList: history.location.citiesList
+		});
+	}
 
-	submitHandler = (e) => {
-		e.preventDefault();
-		this.setState({ifFormIncorrect: false, ifSameHubSelected: false});
-		let dataToSend = {
-			weight: this.state.weight,
-			length: this.state.length / 100,
-			width: this.state.width / 100,
-			height: this.state.height / 100,
-			from: this.state.arrival,
-			to: this.state.departure
-		};
-		console.log('data to send', dataToSend);
-		// Uncomment this code when will get possibility to check this functionality
-
-		// if (this.formValid(this.state)) {
-		// 	axios(
+	getData = (dataToSend) => 
+		// axios(
 		// 		{
 		// 			method: 'POST',
 		// 			url: 'http://localhost:8080/', // this url need to be changed
@@ -89,7 +82,24 @@ class Results extends React.Component {
 		// 		if (error.status === 404) {
 		// 			window.location = '/error'
 		// 		}
-		// 	})
+		// 	}){}
+
+	submitHandler = (e) => {
+		e.preventDefault();
+		this.setState({ifFormIncorrect: false, ifSameHubSelected: false});
+		let dataToSend = {
+			weight: this.state.weight,
+			length: this.state.length / 100,
+			width: this.state.width / 100,
+			height: this.state.height / 100,
+			from: this.state.arrival,
+			to: this.state.departure
+		};
+		console.log('data to send', dataToSend);
+		// Uncomment this code when will get possibility to check this functionality
+
+		// if (this.formValid(this.state)) {
+		// 	this.getData(dataToSend);
 		// } else {
 		// 	this.setState({ ifFormIncorrect: true })
 		// 	console.error('Invalid form')
