@@ -76,8 +76,8 @@ class Results extends React.Component {
 			.catch(error => console.log('Cities cannot be loaded' + error));
 	}
 
-	getData = (dataToSend) => {
-		axios(
+	async getData(dataToSend) {
+		await axios(
 			{
 				method: 'POST',
 				url: 'http://localhost:8080/', // this url need to be changed
@@ -89,11 +89,11 @@ class Results extends React.Component {
 			}
 		).then((response) => {
 			console.log(response);
-			this.setState({ routs: response.data })
+			this.setState({ routs: response.data });
 		}).catch((error) => {
 			console.log(error);
 			if (error.status === 404) {
-				window.location = '/error'
+				window.location = '/error';
 			}
 		})
 	}
