@@ -14,7 +14,7 @@ const routesArr = [
 	{trackingId: 4, price: 934, estimatedDeliveryDate: '2020-07-04T03:24:00'},
 	{trackingId: 5, price: 1234, estimatedDeliveryDate: '2020-07-05T03:24:00'},
 	{trackingId: 6, price: 2234, estimatedDeliveryDate: '2020-07-06T03:24:00'},
-	{trackingId: 7, price: 3334, estimatedDeliveryDate: '2020-07-07T03:24:00'},
+	{trackingId: 7, price: 3334, estimatedDeliveryDate: '2020-07-07T03:24:00'}
 ]
 
 class Results extends React.Component {
@@ -43,42 +43,57 @@ class Results extends React.Component {
 	  componentDidMount() {
           console.log("Results history", history);
           
-        // this.setState({
-        //     departure: this.props.departure,
-        //     arrival: this.props.arrival,
-        //     weight: this.props.weight,
-        //     height: this.props.height,
-        //     width: this.props.width,
-        //     length: this.props.length,
-        //     routes: this.props.routes,
-        //     citiesList: this.props.citiesList
-        // });
+        this.setState({
+            departure: history.location.departure,
+            arrival: history.location.arrival,
+            weight: history.location.weight,
+            height: history.location.height,
+            width: history.location.width,
+            length: history.location.length,
+            routes: history.location.routes,
+            citiesList: history.location.citiesList
+        });
     }
 
 
 	submitHandler = (e) => {
-		// const url = 'http://localhost:8080/' // this url need to be changed
-		e.preventDefault()
-		this.setState({ifFormIncorrect: false, ifSameHubSelected: false})
+		e.preventDefault();
+		this.setState({ifFormIncorrect: false, ifSameHubSelected: false});
+		let dataToSend = {
+			weight: this.state.weight,
+			length: this.state.length / 100,
+			width: this.state.width / 100,
+			height: this.state.height / 100,
+			from: this.state.arrival,
+			to: this.state.departure
+		};
+		console.log('data to send', dataToSend);
+		// Uncomment this code when will get possibility to check this functionality
 
-		if (this.formValid(this.state)) {
-			console.log(this.state)
-			// axios
-			// 	.post(url, this.state) //this.state - need to be changed to specified json object
-			// 	.then((response) => {
-			// 		console.log(response)
-			// 		this.setState({routs: response.data})
-			// 	})
-			// 	.catch((error) => {
-			// 		console.log(error)
-			// 		if (error.status === 404) {
-			// 			window.location = '/error'
-			// 		}
-			// 	})
-		} else {
-			this.setState({ifFormIncorrect: true})
-			console.error('Invalid form')
-		}
+		// if (this.formValid(this.state)) {
+		// 	axios(
+		// 		{
+		// 			method: 'POST',
+		// 			url: 'http://localhost:8080/', // this url need to be changed
+		// 			headers: {
+		// 				'Access-Control-Allow-Origin': '*',
+		// 				'Content-Type': 'application/json',
+		// 			},
+		// 			data: dataToSend
+		// 		}
+		// 	).then((response) => {
+		// 		console.log(response);
+		// 		this.setState({ routs: response.data })
+		// 	}).catch((error) => {
+		// 		console.log(error);
+		// 		if (error.status === 404) {
+		// 			window.location = '/error'
+		// 		}
+		// 	})
+		// } else {
+		// 	this.setState({ ifFormIncorrect: true })
+		// 	console.error('Invalid form')
+		// }
 	}
 
 	handleChange = (e) => {
@@ -143,7 +158,6 @@ class Results extends React.Component {
 				</Row>
 
 				<Result routes={routesArr} />
-				{/* <Result routes={this.state.routes} /> */}
 			</div>
 		)
 	}

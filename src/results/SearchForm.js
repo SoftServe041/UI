@@ -11,39 +11,41 @@ function SearchForm(props) {
         <Form onSubmit={props.submitHandler} onChange={props.handleChange}>
             <Row className='my-3'>
                 <Col>
-                    <Form.Label>Weight:</Form.Label>
+                    <h5>Cargo Information:</h5>                
+                </Col>
+            </Row>
+            <Row className='my-3'>
+                <Col>
+                    <Form.Label>Weight (kg):</Form.Label>
                     <Form.Control type="number" name="weight" placeholder={props.weight} min="1" max="22000" />
                 </Col>
                 <Col >
-                    <Form.Label>Length:</Form.Label>
+                    <Form.Label>Length (cm):</Form.Label>
                     <Form.Control type="number" name="length" placeholder={props.length} min="1" max="3000" />
                 </Col>
                 <Col >
-                    <Form.Label>Width:</Form.Label>
+                    <Form.Label>Width (cm):</Form.Label>
                     <Form.Control type="number" name="width" placeholder={props.width} min="1" max="3000" />
                 </Col>
                 <Col >
-                    <Form.Label>Height:</Form.Label>
+                    <Form.Label>Height (cm):</Form.Label>
                     <Form.Control type="number" name="height" placeholder={props.height} min="1" max="3000" />
                 </Col>
             </Row>
             <Row className='my-3'>
-                <Col >
+                <Col className='dropdown'>
+                    <Form.Label>From:</Form.Label>
                     <DropDownDeparture handleSelectedDeparture={props.handleSelectedDeparture}
                         cities={cities}
-                        departure={props.departure}
-                    >
-                        
-                    </DropDownDeparture>
+                        departure={props.departure} />
                 </Col>
-                <Col >
+                <Col className='dropdown'>
+                    <Form.Label>To:</Form.Label>
                     <DropDownArrival handleSelectedArrival={props.handleSelectedArrival}
                         cities={cities}
-                        arrival={props.arrival}
-                    >
-                    </DropDownArrival>
+                        arrival={props.arrival} />
                 </Col>
-                <Col >
+                <Col>
                     <Button id="body-button" type="submit" onClick={props.submitHandler}>Update</Button>
                 </Col>
             </Row>

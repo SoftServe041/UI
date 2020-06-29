@@ -8,6 +8,8 @@ import { Button, Container } from "react-bootstrap";
 import '../App.css';
 import DropDownDeparture from './DropDownDeparture';
 import DropDownArrival from "./DropDownArrival";
+import { Redirect } from 'react-router-dom';
+import history from '../history';
 
 //import Dropdown from "react-bootstrap/Dropdown";
 //import FormControl from "react-bootstrap/FormControl";
@@ -45,12 +47,12 @@ class MainPage extends React.Component {
             length: '',
             ifFormIncorrect: false,
             ifSameHubSelected: false,
+            ifRedirect: false,
             routes: [],
             citiesList: [], //to be used instead of cities import json
         }
         this.handleSelectedDeparture = this.handleSelectedDeparture.bind(this);
         this.handleSelectedArrival = this.handleSelectedArrival.bind(this);
-        //this.componentDidMount = this.componentDidMount.bind(this);
 
     }
 
@@ -80,38 +82,25 @@ class MainPage extends React.Component {
     }
 
     submitHandler = e => {
-        const url = 'http://localhost:8080/'
-        e.preventDefault();
-        this.setState({ ifFormIncorrect: false, ifSameHubSelected: false });
+       //   e.preventDefault();
+       this.setState({ ifFormIncorrect: false, ifSameHubSelected: false });
 
+       if (this.formValid(this.state)) {
 
-        if (this.formValid(this.state)) {
-            console.log(this.state);
-           /* axios.get(url, this.state)
-                .then(response => {
-                    console.log(response)
-                    this.handleReceivedRouts(response.data)
+           this.setState({ ifRedirect: true });
+           //this.props.handleSearchRouts(this.state) ;
+           //this.render();
 
-                })
-                .catch(error => {
-                    console.log(error)
-                    if (error.status === 404) {
-                        window.location = "/error"
-                    }
-                });
-                */
-            //    <Link to="/routes"/>
-        } else {
-            this.setState({ ifFormIncorrect: true });
-            console.error("Invalid form");
-        }
+       } else {
+           this.setState({ ifFormIncorrect: true });
+           console.error("Invalid form");
+       }
     }
 
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
         e.preventDefault();
         this.setState({ ifFormIncorrect: false })
-
     }
 
     handleSelectedDeparture(e) {
@@ -155,6 +144,11 @@ class MainPage extends React.Component {
 
 
     render() {
+
+        if (this.state.ifRedirect) {
+            history.push( this.state);
+            return <Redirect to='/routes' />
+        }
 
         return (
             <div>

@@ -2,7 +2,7 @@
     background-color: #2d2929;
 }
 
-#results p, label {
+#results p, label, h5 {
     color: white;
 }
 
@@ -23,7 +23,7 @@
 .nav-fill.nav-tabs {
     border-bottom: none;
     margin: 0 -12px;
-    font-weight: bo;
+    font-weight: bold;
 }
 
 .nav-fill +.tab-content {
@@ -51,4 +51,20 @@
 
 .nav-fill .nav-item:last-child {
     border-bottom-left-radius: 10px;
+}
+
+.dropdown {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
+
+.dropdown>div {
+    width: inherit;
+    margin-left: 10px;
+}
+
+#body-button {
+    font-weight: bold;
 }
