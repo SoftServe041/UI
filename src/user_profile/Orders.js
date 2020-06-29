@@ -36,14 +36,15 @@ function Orders(props) {
     function getOrdersById() {
         axios({
             'method': 'GET',
-            'url': 'http://localhost:8041/' + props.data.userId + '/profile' + activePage + '&limit=5',
+            'url': 'http://localhost:9041/' + props.data.userId + '/profile',
             'headers': {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer_${token}`
             },
-            // 'params': {
-            //     'id': 'props.data.userId',
-           // },
+            'params': {
+                'page': activePage,
+                'limit': 5
+           },
         }).then(response => {
             initializeData(response.data);
         }).catch(error => {
