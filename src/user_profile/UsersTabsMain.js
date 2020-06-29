@@ -3,6 +3,7 @@ import { Tabs, Tab, Row, Col, Container } from 'react-bootstrap';
 import Profile from "./Profile";
 import './profile.css';
 import Orders from "./Orders";
+import { Redirect } from 'react-router-dom';
 
 export default class UsersTabsMain extends React.Component {
     constructor(props) {
@@ -12,8 +13,6 @@ export default class UsersTabsMain extends React.Component {
             headerText: 'Profile'
         }
     }
-
-
 
     handleSelectedTab(key) {
         const tabMap = new Map([
@@ -26,6 +25,12 @@ export default class UsersTabsMain extends React.Component {
     }
 
     render() {
+
+        console.log("if logged in in profile",this.props.data.ifLoggedIn )
+        if (this.props.data.ifLoggedIn == false) {
+            return <Redirect to='/' />
+        }
+
         return (
             <>
                 <Row id="title-row">
