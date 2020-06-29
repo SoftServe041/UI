@@ -242,9 +242,9 @@ class MainPage extends React.Component {
                                 <Row >
                                     <Col md={{ span: 3, offset: 5 }}>
 
-                                        <Button id="body-button" type="submit" onClick={this.submitHandler}>
+                                        <Button id="body-button" onClick={this.submitHandler}>
                                             Search
-                                            </Button>
+                                        </Button>
                                     </Col>
                                 </Row>
                             </Form>

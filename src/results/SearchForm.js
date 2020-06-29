@@ -6,7 +6,6 @@ import cities from '../main_page/cities.json';
 import '../App.css';
 
 function SearchForm(props) {
-    //console.log("Log in Form",cities, props);
     return (
         <Form onSubmit={props.submitHandler} onChange={props.handleChange}>
             <Row className='my-3'>
