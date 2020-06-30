@@ -43,10 +43,7 @@ class MainPage extends React.Component {
                 console.log("componentDidMount", res.data)
                 this.setState({ citiesList: res.data })
             })
-            //.catch(error => alert('Axios failed ' + error));
             .catch(error => console.log('Cities cannot be loaded' + error));
-
-
     }
 
 
@@ -78,15 +75,10 @@ class MainPage extends React.Component {
 
 
     submitHandler = e => {
-        //   e.preventDefault();
         this.setState({ ifFormIncorrect: false, ifSameHubSelected: false });
 
         if (this.formValid(this.state)) {
-
             this.setState({ ifRedirect: true });
-            //this.props.handleSearchRouts(this.state) ;
-            //this.render();
-
         } else {
             this.setState({ ifFormIncorrect: true });
             console.error("Invalid form");
@@ -98,7 +90,6 @@ class MainPage extends React.Component {
         this.setState({ [e.target.name]: e.target.value })
         e.preventDefault();
         this.setState({ ifFormIncorrect: false })
-
     }
 
     handleSelectedDeparture(e) {
@@ -129,7 +120,7 @@ class MainPage extends React.Component {
     render() {
 
         if (this.state.ifRedirect) {
-            history.push( this.state);
+            history.push(this.state);
             return <Redirect to='/routes' />
         }
 
@@ -251,9 +242,9 @@ class MainPage extends React.Component {
                                 <Row >
                                     <Col md={{ span: 3, offset: 5 }}>
 
-                                        <Button id="body-button" type="submit" onClick={this.submitHandler}>
+                                        <Button id="body-button" onClick={this.submitHandler}>
                                             Search
-                                            </Button>
+                                        </Button>
                                     </Col>
                                 </Row>
                             </Form>
