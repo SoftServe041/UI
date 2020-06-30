@@ -5,8 +5,8 @@ import axios from 'axios';
 
 
 function Hubs(props) {
-    let url = 'http://localhost:8080/admin/hub';
-    let urlForReltion = 'http://localhost:8080/admin/hub/relation';
+    let url = 'http://localhost:9041/admin/hub';
+    let urlForReltion = 'http://localhost:9041/admin/hub/relation';
     // const [existedHubs, setExistedHubs] = useState([]);
     let existedHubs = props.existedHubs;
     let setExistedHubs = props.setExistedHubs;
