@@ -2,6 +2,7 @@ import React from "react";
 import { Tabs, Tab, Row, Col, Container } from 'react-bootstrap';
 import Profile from "./Profile";
 import './profile.css';
+import Orders from "./Orders";
 import { Redirect } from 'react-router-dom';
 
 export default class UsersTabsMain extends React.Component {
@@ -12,8 +13,6 @@ export default class UsersTabsMain extends React.Component {
             headerText: 'Profile'
         }
     }
-
-
 
     handleSelectedTab(key) {
         const tabMap = new Map([
@@ -48,7 +47,7 @@ export default class UsersTabsMain extends React.Component {
                             <Profile data={this.props.data} />
                         </Tab>
                         <Tab class="nav-item" eventKey="orders" title="Orders">
-                            <p>In progress</p>
+                            <Orders data={this.props.data} />
                         </Tab>
                         <Tab class="nav-item" eventKey="billing" title="Billing Details" >
                             <p>In progress</p>
