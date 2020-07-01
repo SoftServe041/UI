@@ -2,10 +2,16 @@ import React from 'react';
 import s from './Card.module.css'
 
 
+
 function Card(props){
 
     let dan = props.data
+    let userId = props.userId
 
+    function del()
+    {
+        props.del(dan.id)
+    }
     function getNumb(val,index)
     {
         return (val.substr(index,4) + " ");
@@ -25,7 +31,7 @@ function Card(props){
             <div className={s.container}>
                 <div className={s.item}>
                     <p>
-                        {dan.nameOfCard}
+                        {dan.cardName}
                     </p>
                 </div>
 
@@ -40,7 +46,7 @@ function Card(props){
                         <p className={s.type_text_numbers}>
                             {dan.expirationMonth}/{dan.expirationYear}
                         </p>
-                        <button className={s.button} type="submit">
+                        <button className={s.button} type="submit" onClick={del}>
                             Delete Card
                         </button>
                     </div>

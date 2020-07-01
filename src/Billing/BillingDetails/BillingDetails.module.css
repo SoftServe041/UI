@@ -13,7 +13,7 @@
     width: 350px;
     height: 200px;
     margin: 0 auto;
-    background: url("./Card/card.png") no-repeat 100% 100%;
+    background: url("Card/card.png") no-repeat 100% 100%;
     background-size: 350px 200px;
 }
 .container div{
@@ -55,4 +55,10 @@
 .input_style
 {
     width: 600px;
+}
+.errorMessages
+{
+    display: flex;
+    justify-content: center;
+    color: red;
 }

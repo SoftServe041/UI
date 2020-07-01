@@ -2,43 +2,26 @@ import React from "react";
 import {Tabs, Tab, Row, Col, Container} from 'react-bootstrap';
 import Profile from "./Profile";
 import './profile.css';
-import BillingDetails from "../BillingDetails/BillingDetails";
+import BillingDetails from "../Billing/BillingDetails/BillingDetails";
 
 
-const propss = {
-    data: [
-        {
-            'cardNumber': '1234567898765432',
-            'nameOfCard': 'Ivan Ivanov',
-            'expirationMonth': '05',
-            'expirationYear': '22',
-            'billingAddress': 'Pushkina dom kolotushkina'
-        },
-        {
-            'cardNumber': '1234567898765432',
-            'nameOfCard': 'kum',
-            'expirationMonth': '15',
-            'expirationYear': '23',
-            'billingAddress': 'Pushkina dom ssdssds'
-        },
-        {
-            'cardNumber': '1234567898765432',
-            'nameOfCard': 'kudsdsdm',
-            'expirationMonth': '15',
-            'expirationYear': '23',
-            'billingAddress': 'Pushkina dom ssdssds'
-        }
-    ]
-}
+
 
 export default class UsersTabsMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             selectedTab: 'profile',
-            headerText: 'Profile'
+            headerText: 'Profile',
+            // userId:props.userId,
+
+            token:'jopa',
+            userId:5,
+
         }
+        // console.log(this.props.data)
     }
+
 
 
     handleSelectedTab(key) {
@@ -73,7 +56,7 @@ export default class UsersTabsMain extends React.Component {
                             <p>In progress</p>
                         </Tab>
                         <Tab className="nav-item" eventKey="billing" title="Billing Details">
-                            <BillingDetails data={propss}/>
+                            <BillingDetails data={this.state}/>
                         </Tab>
                     </Tabs>
                 </Container>
