@@ -5,8 +5,8 @@ import axios from 'axios';
 
 
 function Hubs(props) {
-    let url = 'http://localhost:8080/admin/hub';
-    let urlForReltion = 'http://localhost:8080/admin/hub/relation';
+    let url = 'http://localhost:9041/admin/hub';
+    let urlForReltion = 'http://localhost:9041/admin/hub/relation';
     // const [existedHubs, setExistedHubs] = useState([]);
     let existedHubs = props.existedHubs;
     let setExistedHubs = props.setExistedHubs;
@@ -21,6 +21,15 @@ function Hubs(props) {
         setFlag(false);
         setExistedHubs(hubs);
     }
+    function getPossibleRelations(currentHubName) {
+        let existingCitiesNames = [];
+        existedHubs.map(hub => existingCitiesNames.push(hub.name));
+        existingCitiesNames = existingCitiesNames.filter(city => (currentHubName !== city));
+        let relationHubs = [];
+        relationListForCurrentHub.map(hub => relationHubs.push(hub.name));
+        existingCitiesNames = existingCitiesNames.filter(city => !relationHubs.includes(city));
+        return existingCitiesNames;
+    }
     function getExistedHubs() {
         axios({
             'method': 'GET',
@@ -28,32 +37,17 @@ function Hubs(props) {
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Fazliddin': 'molodec 222',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
         }).then(response => {
             console.log('responsing from getExistedHubs: ', response);
+            if(response.status === 200){
+                initialiseExistedHubs(response.data);
+            }
         }).catch(error => {
             console.log('erroring from getExistedHubs: ', error);
-            initialiseExistedHubs([
-                {
-                    "id": 0,
-                    "name": "Kharkiv",
-                    "longitude": 36.2303893,
-                    "latitude": 49.9902794
-                },
-                {
-                    "id": 1,
-                    "name": "Kyiv",
-                    "longitude": 30.5241361,
-                    "latitude": 50.4500336
-                },
-                {
-                    "id": 2,
-                    "name": "Poltava",
-                    "longitude": 34.5507948,
-                    "latitude": 49.5897423
-                },]
-            );
         });
     }
     function createHub() {
@@ -61,12 +55,15 @@ function Hubs(props) {
             'method': 'POST',
             'url': url,
             'headers': {
-                'content-type': 'application/octet-stream',
-                'Fazliddin': 'sends hello to create',
+                'Access-Control-Allow-Origin': '*',
+                'content-type': 'application/json',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
             data:
             {
-                name: newHubName,
+                newCity: newHubName,
             },
 
         }).then(response => {
@@ -85,17 +82,19 @@ function Hubs(props) {
         setUpdateHubFlag(true);
     }
     function updateHub() {
+        console.log("newHubName", newHubName);
         axios({
-            method: 'PUT',
-            url: url,
+            method: 'PATCH',
+            url: url + '/' + currentHub.name,
             headers: {
                 'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
+                'content-type': 'application/json',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
             data:
             {
-                id: currentHub.id,
-                name: currentHub.name,
                 newName: newHubName,
             },
         }).then(response => {
@@ -113,15 +112,14 @@ function Hubs(props) {
     function removeHub(hub) {
         axios({
             'method': 'DELETE',
-            'url': url,
+            'url': url + "/" + hub.name,
             'headers': {
-                'content-type': 'application/octet-stream',
-                'Fazliddin': 'sends hello to remove',
+                'Access-Control-Allow-Origin': '*',
+                'content-type': 'application/json',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
-            data: {
-                id: currentHub.id,
-                name: currentHub.name,
-            }
 
         }).then(response => {
             console.log('responsing from remove Hub: ', response.status);
@@ -140,24 +138,24 @@ function Hubs(props) {
         console.log('showRelation', hub);
         axios({
             'method': 'GET',
-            'url': urlForReltion,
+            'url': urlForReltion + '/' + hub.name,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
-                'Fazliddin': 'molodec 222',
+                'content-type': 'application/json',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
             data: {
                 id: hub.id,
                 name: hub.name,
             }
         }).then(response => {
-            console.log('responsing from getExistedHubs: ', response);
+            console.log('responsing from showRelationForCurrentHub: ', response);
+            initialiseRelationForCurrentHub(response.data);
         }).catch(error => {
-            console.log('erroring from getExistedHubs: ', error);
-            initialiseRelationForCurrentHub([
-                "Dubna", "Chernovci", "Uzhgorod", "Kyiv", "Lviv"
-            ]
-            );
+            console.log('erroring from showRelationForCurrentHub: ', error);
+
         });
     }
     function initialiseRelationForCurrentHub(relations) {
@@ -170,22 +168,23 @@ function Hubs(props) {
             'method': 'POST',
             'url': urlForReltion,
             'headers': {
-                'content-type': 'application/octet-stream',
-                'Fazliddin': 'sends hello to remove',
+                'Access-Control-Allow-Origin': '*',
+                'content-type': 'application/json',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
             data: {
-                id: currentHub.id,
-                name: currentHub.name,
-                relation: newHubName,
+                newCity: currentHub.name,
+                connectedCity: newHubName,
             }
         }).then(response => {
             console.log('responsing from create relation', response.status);
             if (response.status === 200) {
-
+                showRelationForCurrentHub(currentHub);
             }
         }).catch(error => {
             console.log('erroring from create relation: ', error);
-            showRelationForCurrentHub(currentHub);
         });
     }
     function removeRelation(relationHubName) {
@@ -194,23 +193,24 @@ function Hubs(props) {
             'method': 'DELETE',
             'url': urlForReltion,
             'headers': {
-                'content-type': 'application/octet-stream',
-                'Fazliddin': 'sends hello to remove',
+                'Access-Control-Allow-Origin': '*',
+                'content-type': 'application/json',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
             data: {
-                id: currentHub.id,
-                name: currentHub.name,
-                relation: relationHubName,
+                newCity: currentHub.name,
+                connectedCity: relationHubName.name,
             }
 
         }).then(response => {
             console.log('responsing from remove relation', response.status);
             if (response.status === 200) {
-
+                showRelationForCurrentHub(currentHub);
             }
         }).catch(error => {
             console.log('erroring from remove relation: ', error);
-            showRelationForCurrentHub(currentHub);
         });
     }
     useEffect(() => {
@@ -341,7 +341,7 @@ function Hubs(props) {
                                     </Form.Label>
                                     <Form.Label className='pl-5' column sm="5">
                                         {
-                                            city
+                                            city.name
                                         }
                                     </Form.Label>
                                     <Col className='text-center' sm="4">
@@ -357,7 +357,7 @@ function Hubs(props) {
                                 <Form.Control as="select" onChange={(e) => setNewHubName(e.target.value)}>
                                     <option>Choose city for new relation</option>
                                     {
-                                        cities.filter(city => !relationListForCurrentHub.includes(city)).map((city, index) =>
+                                        getPossibleRelations(currentHub.name).map((city, index) =>
                                             <option key={index}>
                                                 {city}
                                             </option>

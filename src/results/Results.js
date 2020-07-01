@@ -84,7 +84,7 @@ class Results extends React.Component {
 		await axios(
 			{
 				method: 'POST',
-				url: 'http://localhost:9041/requestRoutes', // this url need to be changed
+				url: 'http://localhost:9041/requestRoutes',
 				headers: {
 					'Access-Control-Allow-Origin': '*',
 					'Content-Type': 'application/json',

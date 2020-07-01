@@ -6,8 +6,7 @@ function Transports(props) {
     let url = 'http://localhost:9041/admin/transport';
     let urlForTransportTypes = 'http://localhost:9041/admin/transport/types';
     const [pagination, setPagination] = useState([]);
-    const [activePage, setActivePage] = useState(1);
-    let totalPage = 1;
+    const [activePage, setActivePage] = useState(0);
     let existedHubs = props.existedHubs;
     const [flag, setFlag] = useState(true);
     const [transports, setTransports] = useState([]);
@@ -19,7 +18,7 @@ function Transports(props) {
             volume: {
                 width: 240,
                 height: 240,
-                length: 12000,
+                length: 1200,
             }
         },
     ]);
@@ -28,7 +27,7 @@ function Transports(props) {
     const [weight, setWeight] = useState(22);
     const [width, setWidth] = useState(240);
     const [height, setHeight] = useState(240);
-    const [length, setLength] = useState(12000);
+    const [length, setLength] = useState(1200);
     const [updateModalFlag, setUpdateModalFlag] = useState(false);
     const [currentTransport, setCurrentTransport] = useState({});
 
@@ -48,7 +47,7 @@ function Transports(props) {
         let itemsArray = [];
         for (let number = 1; number <= totalPage; number++) {
             itemsArray.push(
-                <Pagination.Item key={number} active={number === newActivePage} onClick={() => updatePagination(number)}>
+                <Pagination.Item key={number} active={number === newActivePage + 1} onClick={() => updatePagination(number - 1)}>
                     {number}
                 </Pagination.Item>,
             );
@@ -56,100 +55,62 @@ function Transports(props) {
         return itemsArray;
     }
     function getAllTransports() {
-        console.log('getAllTransports', transports);
         axios({
             'method': 'GET',
-            'url': url + activePage + '&limit=5',
+            'url': url + '?page='+ activePage+'&size=3',
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Fazliddin': 'molodec 222',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
             'params': {
                 'search': 'parameter',
             },
         }).then(response => {
-            console.log('responsing from getAllTrans: ', response);
-            initializeData(response.data);
+            if(response.status === 200){
+                initializeData(response.data);
+            }
 
         }).catch(error => {
             console.log('erroring from getAllTrans: ', error);
-            initializeData({
-                totalPages: 3,
-                content: [
-                    {
-                        id: 3,
-                        hubName: 'Kharkiv',
-                        compartments: [
-                            {
-                                maximumWeight: '22',
-                                freeSpace: 100.0,
-                                volume: {
-                                    width: 240,
-                                    height: 240,
-                                    length: 12000,
-                                }
-                            },
-                            {
-                                maximumWeight: '24',
-                                volume: {
-                                    width: 240,
-                                    height: 240,
-                                    length: 14000,
-                                }
-                            },
-                        ],
-                        type: 'Truck',
-                    },
-                    {
-                        id: 4,
-                        hubName: 'Poltava',
-                        compartments: [
-                            {
-                                maximumWeight: 22,
-                                freeSpace: 100.0,
-                                volume: {
-                                    width: 240,
-                                    height: 240,
-                                    length: 12000,
-                                }
-                            },
-                        ],
-                        type: 'Truck',
-                    }
-                ]
-            });
         });
     }
     function getAllTransportTypes() {
-        console.log('getAllTransportTypes()');
         axios({
             'method': 'GET',
             'url': urlForTransportTypes,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Fazliddin': 'molodec 222',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
         }).then(response => {
-            console.log('responsing from getAllTransTypes: ', response);
             if (response.status === 200) {
-
+                setTransportTypes(response.data)
             }
 
         }).catch(error => {
             console.log('erroring from getAllTransTypes: ', error);
-            setTransportTypes(['Truck', 'Plane']);
         });
     }
     function createTransport() {
-        console.log('Create transport()');
+        compartments.map(compartment => {
+            compartment.id = null;
+            compartment.volume.id = null;
+        });
         axios({
             'method': 'POST',
             'url': url,
             'headers': {
-                'content-type': 'application/octet-stream',
-                'Fazliddin': 'sends hello to create',
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
             data:
             {
@@ -170,48 +131,49 @@ function Transports(props) {
         });
     }
     function updateTransport() {
-        console.log('Update transport()', currentTransport);
         axios({
             'method': 'PUT',
             'url': url,
             'headers': {
-                'content-type': 'application/octet-stream',
-                'Fazliddin': 'sends hello to create',
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
             data:
             {
-                "hubName": boundedHub,
+                "id": currentTransport.id,
+                "hubName": boundedHub ? boundedHub : currentTransport.hubName,
                 "compartments": compartments,
-                "type": type,
+                "type": type ? type: currentTransport.type,
             },
 
         }).then(response => {
-            console.log('responsing from update transport: ', response.status);
             if (response.status === 200) {
                 setFlag(true);
                 setCreateModalFlag(false);
+                setUpdateModalFlag(false);
             }
         }).catch(error => {
             console.log('erroring from update trans: ', error);
             setCreateModalFlag(false);
+            setUpdateModalFlag(false);
         });
     }
     function removeTransport(transport) {
-        console.log('remove transport()', transport);
         axios({
             'method': 'DELETE',
-            'url': url,
+            'url': url + '/' + transport.id,
             'headers': {
-                'content-type': 'application/octet-stream',
-                'Fazliddin': 'sends hello to remove',
-            },
-            data: {
-                "id": transport.id,
-                "hubName": transport.hubName,
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             }
 
         }).then(response => {
-            console.log('responsing from remove transport: ', response.status);
             if (response.status === 200) {
                 setFlag(true);
             }
@@ -241,13 +203,11 @@ function Transports(props) {
         setUpdateModalFlag(false);
     }
     function handleUpdateTransport(transport) {
-        console.log('handleUpdateTransport', transport);
         setCurrentTransport(transport);
         setCompartments(transport.compartments);
         setUpdateModalFlag(true);
     }
     useEffect(() => {
-        console.log('transport useEffect', compartments);
         if (flag) {
             getAllTransports();
             setFlag(false);
