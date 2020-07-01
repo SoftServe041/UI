@@ -7,15 +7,62 @@ import Result from './Result'
 import '../App.css'
 import './style-result.css'
 
-const routesArr = [
-	{ trackingId: 1, price: 1234, estimatedDeliveryDate: '2020-07-01T03:24:00' },
-	{ trackingId: 2, price: 1456, estimatedDeliveryDate: '2020-07-02T03:24:00' },
-	{ trackingId: 3, price: 1244, estimatedDeliveryDate: '2020-07-03T03:24:00' },
-	{ trackingId: 4, price: 934, estimatedDeliveryDate: '2020-07-04T03:24:00' },
-	{ trackingId: 5, price: 1234, estimatedDeliveryDate: '2020-07-05T03:24:00' },
-	{ trackingId: 6, price: 2234, estimatedDeliveryDate: '2020-07-06T03:24:00' },
-	{ trackingId: 7, price: 3334, estimatedDeliveryDate: '2020-07-07T03:24:00' }
-]
+const routesArr = {
+    "dateSorted": [
+        {
+            "trackingId": "ch42971",
+            "price": 4090,
+            "estimatedDeliveryDate": "2020-07-04"
+        },
+        {
+            "trackingId": "ch21502",
+            "price": 4340,
+            "estimatedDeliveryDate": "2020-07-04"
+        },
+        {
+            "trackingId": "ch97043",
+            "price": 6660,
+            "estimatedDeliveryDate": "2020-07-07"
+        },
+        {
+            "trackingId": "ch37204",
+            "price": 8250,
+            "estimatedDeliveryDate": "2020-07-08"
+        },
+        {
+            "trackingId": "ch24075",
+            "price": 8610,
+            "estimatedDeliveryDate": "2020-07-09"
+        }
+    ],
+    "priceSorted": [
+        {
+            "trackingId": "ch42971",
+            "price": 4090,
+            "estimatedDeliveryDate": "2020-07-04"
+        },
+        {
+            "trackingId": "ch21502",
+            "price": 4340,
+            "estimatedDeliveryDate": "2020-07-04"
+        },
+        {
+            "trackingId": "ch97043",
+            "price": 6660,
+            "estimatedDeliveryDate": "2020-07-07"
+        },
+        {
+            "trackingId": "ch37204",
+            "price": 8250,
+            "estimatedDeliveryDate": "2020-07-08"
+        },
+        {
+            "trackingId": "ch24075",
+            "price": 8610,
+            "estimatedDeliveryDate": "2020-07-09"
+        }
+    ]
+}
 
 class Results extends React.Component {
 	constructor(props) {
@@ -31,7 +78,7 @@ class Results extends React.Component {
 			ifFormIncorrect: false,
 			ifSameHubSelected: false,
 			routes: [],
-			citiesList: [], //to be used instead of cities import json
+			citiesList: []
 		}
 
 		this.submitHandler = this.submitHandler.bind(this)
@@ -84,12 +131,13 @@ class Results extends React.Component {
 				headers: {
 					'Access-Control-Allow-Origin': '*',
 					'Content-Type': 'application/json',
+					'Accept': 'application/json'
 				},
 				data: dataToSend
 			}
 		).then((response) => {
 			console.log(response);
-			this.setState({ routs: response.data });
+			this.setState({ routes: response.data });
 		}).catch((error) => {
 			console.log(error);
 			if (error.status === 404) {
@@ -183,7 +231,8 @@ class Results extends React.Component {
 					</Col>
 				</Row>
 
-				<Result routes={routesArr} />
+				{/* <Result routes={routesArr} /> */}
+				<Result routes={this.state.routes} />
 			</div>
 		)
 	}
