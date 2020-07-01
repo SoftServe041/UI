@@ -67,7 +67,7 @@ class Results extends React.Component {
 	}
 
 	async loadCities() {
-		await axios.get(`http://localhost:8080/location`)
+		await axios.get(`http://localhost:9041/cities`)
 			.then(res => {
 
 				console.log("componentDidMount", res.data)
@@ -80,7 +80,7 @@ class Results extends React.Component {
 		await axios(
 			{
 				method: 'POST',
-				url: 'http://localhost:8080/', // this url need to be changed
+				url: 'http://localhost:9041/', // this url need to be changed
 				headers: {
 					'Access-Control-Allow-Origin': '*',
 					'Content-Type': 'application/json',
