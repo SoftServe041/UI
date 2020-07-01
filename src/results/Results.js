@@ -67,7 +67,7 @@ class Results extends React.Component {
 	}
 
 	async loadCities() {
-		await axios.get(`http://localhost:9041/location`)
+		await axios.get(`http://localhost:9041/cities`)
 			.then(res => {
 
 				console.log("componentDidMount", res.data)

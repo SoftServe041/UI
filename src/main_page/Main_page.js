@@ -9,7 +9,6 @@ import '../App.css';
 import DropDownDeparture from './DropDownDeparture';
 import DropDownArrival from "./DropDownArrival";
 import {Redirect} from 'react-router-dom';
-//import Results from '../results/Results';
 import history from '../history';
 
 
@@ -37,7 +36,7 @@ class MainPage extends React.Component {
     }
 
     async componentDidMount() {
-        await axios.get(`http://localhost:9041/location`)
+        await axios.get(`http://localhost:9041/cities`)
             .then(res => {
 
                 console.log("componentDidMount", res.data)

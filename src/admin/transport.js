@@ -55,7 +55,6 @@ function Transports(props) {
         return itemsArray;
     }
     function getAllTransports() {
-        console.log('getAllTransports', transports);
         axios({
             'method': 'GET',
             'url': url + '?page='+ activePage+'&size=3',
@@ -71,7 +70,6 @@ function Transports(props) {
             },
         }).then(response => {
             if(response.status === 200){
-                console.log('responsing from getAllTrans: ', response);
                 initializeData(response.data);
             }
 
@@ -80,7 +78,6 @@ function Transports(props) {
         });
     }
     function getAllTransportTypes() {
-        console.log('getAllTransportTypes()');
         axios({
             'method': 'GET',
             'url': urlForTransportTypes,
@@ -92,7 +89,6 @@ function Transports(props) {
                     'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
         }).then(response => {
-            console.log('responsing from getAllTransTypes: ', response);
             if (response.status === 200) {
                 setTransportTypes(response.data)
             }
@@ -102,7 +98,10 @@ function Transports(props) {
         });
     }
     function createTransport() {
-        console.log('Create transport()');
+        compartments.map(compartment => {
+            compartment.id = null;
+            compartment.volume.id = null;
+        });
         axios({
             'method': 'POST',
             'url': url,
@@ -132,7 +131,6 @@ function Transports(props) {
         });
     }
     function updateTransport() {
-        console.log('Update transport()', currentTransport.id, boundedHub, compartments, type);
         axios({
             'method': 'PUT',
             'url': url,
@@ -152,18 +150,18 @@ function Transports(props) {
             },
 
         }).then(response => {
-            console.log('responsing from update transport: ', response.status);
             if (response.status === 200) {
                 setFlag(true);
                 setCreateModalFlag(false);
+                setUpdateModalFlag(false);
             }
         }).catch(error => {
             console.log('erroring from update trans: ', error);
             setCreateModalFlag(false);
+            setUpdateModalFlag(false);
         });
     }
     function removeTransport(transport) {
-        console.log('remove transport()', transport);
         axios({
             'method': 'DELETE',
             'url': url + '/' + transport.id,
@@ -176,7 +174,6 @@ function Transports(props) {
             }
 
         }).then(response => {
-            console.log('responsing from remove transport: ', response.status);
             if (response.status === 200) {
                 setFlag(true);
             }
@@ -206,13 +203,11 @@ function Transports(props) {
         setUpdateModalFlag(false);
     }
     function handleUpdateTransport(transport) {
-        console.log('handleUpdateTransport', transport);
         setCurrentTransport(transport);
         setCompartments(transport.compartments);
         setUpdateModalFlag(true);
     }
     useEffect(() => {
-        console.log('transport useEffect', compartments);
         if (flag) {
             getAllTransports();
             setFlag(false);
