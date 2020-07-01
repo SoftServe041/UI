@@ -2,10 +2,11 @@ import React from 'react';
 import logo from './logo.png';
 import './header.css';
 import {Link} from 'react-router-dom';
+import { Row, Col } from 'react-bootstrap';
 
 function Header(props) {
   return (
-    <div className="Div-Absolute">
+    <Row className="Div-Absolute">
       <header className="Main-header">
 
 
@@ -21,7 +22,7 @@ function Header(props) {
           </Link>
         </div>
       </header>
-    </div>
+    </Row>
   );
 }
 
