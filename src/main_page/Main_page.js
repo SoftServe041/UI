@@ -8,7 +8,7 @@ import {Button, Container} from "react-bootstrap";
 import '../App.css';
 import DropDownDeparture from './DropDownDeparture';
 import DropDownArrival from "./DropDownArrival";
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import history from '../history';
 
 

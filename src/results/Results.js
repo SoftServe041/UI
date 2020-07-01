@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import history from '../history'
 import SearchForm from './SearchForm'
 import axios from 'axios'
@@ -7,15 +7,22 @@ import Result from './Result'
 import '../App.css'
 import './style-result.css'
 
-const routesArr = [
-	{ trackingId: 1, price: 1234, estimatedDeliveryDate: '2020-07-01T03:24:00' },
-	{ trackingId: 2, price: 1456, estimatedDeliveryDate: '2020-07-02T03:24:00' },
-	{ trackingId: 3, price: 1244, estimatedDeliveryDate: '2020-07-03T03:24:00' },
-	{ trackingId: 4, price: 934, estimatedDeliveryDate: '2020-07-04T03:24:00' },
-	{ trackingId: 5, price: 1234, estimatedDeliveryDate: '2020-07-05T03:24:00' },
-	{ trackingId: 6, price: 2234, estimatedDeliveryDate: '2020-07-06T03:24:00' },
-	{ trackingId: 7, price: 3334, estimatedDeliveryDate: '2020-07-07T03:24:00' }
-]
+const routesArr = {
+    "dateSorted": [
+        {
+            "trackingId": "ch42971",
+            "price": 4090,
+            "estimatedDeliveryDate": "2020-07-04"
+        }
+    ],
+    "priceSorted": [
+        {
+            "trackingId": "ch42971",
+            "price": 4090,
+            "estimatedDeliveryDate": "2020-07-04"
+        }
+    ]
+}
 
 class Results extends React.Component {
 	constructor(props) {
@@ -30,8 +37,8 @@ class Results extends React.Component {
 			length: '',
 			ifFormIncorrect: false,
 			ifSameHubSelected: false,
-			routes: [],
-			citiesList: [], //to be used instead of cities import json
+			routes: routesArr,
+			citiesList: []
 		}
 
 		this.submitHandler = this.submitHandler.bind(this)
@@ -41,14 +48,13 @@ class Results extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log("Results history", history);
 		const dataFromMainPage = {
-			weight: history.location.weight,
-			length: history.location.length / 100,
-			width: history.location.width / 100,
-			height: history.location.height / 100,
-			from: history.location.arrival,
-			to: history.location.departure
+			cargoWidth: history.location.weight,
+			cargoLength: history.location.length / 100,
+			cargoWeight: history.location.width / 100,
+			cargoHeight: history.location.height / 100,
+			departureHub: history.location.arrival,
+			arrivalHub: history.location.departure
 		}
 		this.getData(dataFromMainPage);
 		this.loadCities();
@@ -69,8 +75,6 @@ class Results extends React.Component {
 	async loadCities() {
 		await axios.get(`http://localhost:9041/cities`)
 			.then(res => {
-
-				console.log("componentDidMount", res.data)
 				this.setState({ citiesList: res.data })
 			})
 			.catch(error => console.log('Cities cannot be loaded' + error));
@@ -80,16 +84,17 @@ class Results extends React.Component {
 		await axios(
 			{
 				method: 'POST',
-				url: 'http://localhost:9041/', // this url need to be changed
+				url: 'http://localhost:9041/requestRoutes',
 				headers: {
 					'Access-Control-Allow-Origin': '*',
 					'Content-Type': 'application/json',
+					'Accept': 'application/json'
 				},
 				data: dataToSend
 			}
 		).then((response) => {
 			console.log(response);
-			this.setState({ routs: response.data });
+			this.setState({ routes: response.data });
 		}).catch((error) => {
 			console.log(error);
 			if (error.status === 404) {
@@ -103,22 +108,20 @@ class Results extends React.Component {
 		e.preventDefault();
 		this.setState({ ifFormIncorrect: false, ifSameHubSelected: false });
 		let dataToSend = {
-			weight: this.state.weight,
-			length: this.state.length / 100,
-			width: this.state.width / 100,
-			height: this.state.height / 100,
-			from: this.state.arrival,
-			to: this.state.departure
+			cargoWeight: this.state.weight,
+			cargoLength: this.state.length / 100,
+			cargoWidth: this.state.width / 100,
+			cargoHeight: this.state.height / 100,
+			departureHub: this.state.arrival,
+			arrivalHub: this.state.departure
 		};
-		console.log('data to send', dataToSend);
-		// Uncomment this code when will get possibility to check this functionality
 
-		// if (this.formValid(this.state)) {
-		// 	this.getData(dataToSend);
-		// } else {
-		// 	this.setState({ ifFormIncorrect: true })
-		// 	console.error('Invalid form')
-		// }
+		if (this.formValid(this.state)) {
+			this.getData(dataToSend);
+		} else {
+			this.setState({ ifFormIncorrect: true })
+			console.error('Invalid form')
+		}
 	}
 
 	handleChange = (e) => {
@@ -182,8 +185,7 @@ class Results extends React.Component {
 						/>
 					</Col>
 				</Row>
-
-				<Result routes={routesArr} />
+				<Result routes={this.state.routes} />
 			</div>
 		)
 	}
