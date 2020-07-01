@@ -42,7 +42,7 @@ function Orders(props) {
                 'Authorization': `Bearer_${token}`
             },
             'params': {
-                'page': activePage,
+                'page': activePage - 1,
                 'limit': 5
            },
         }).then(response => {

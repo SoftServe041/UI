@@ -1,10 +1,9 @@
 import React from 'react'
-import {Col, Row} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 function Suggestion(props) {
 	return (
-		<li key={props.id.toString()} className='suggestion-card'>
+		<li key={props.id} className='suggestion-card'>
 			<div>
 				<p>Price: {props.price}</p>
 				<p>

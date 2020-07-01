@@ -5,7 +5,7 @@ import Footer from "./Footer/footer";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import history from './history';
 import './App.css';
-
+// import Admin from "./admin/admin";
 const Home = lazy(() => import('./main_page/Main_page'));
 const RegPage = lazy(() => import('./registration/reg_page'));
 const Page404 = lazy(() => import('./error/page404'));

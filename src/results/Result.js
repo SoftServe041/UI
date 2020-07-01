@@ -4,27 +4,11 @@ import Suggestions from './Suggestions'
 
 class Result extends React.Component {
 	constructor(props) {
-		super(props)
+		super(props);
+		console.log("props", this.props);
 		this.state = {
-			sortedByPrice: [],
-			sortedByDeliveryDate: [],
-			selectedTab: 'price',
+			selectedTab: 'price'
 		}
-	}
-
-	componentDidMount() {
-		const unsorted = this.props.routes.slice()
-		const sortDataByPrice = unsorted.sort((a, b) => a.price - b.price)
-		const sortDataByDeliveryDate = this.props.routes.sort(
-			(a, b) =>
-				new Date(a.estimatedDeliveryDate) -
-				new Date(b.estimatedDeliveryDate)
-		)
-		this.setState({
-			sortedByPrice: sortDataByPrice,
-			sortedByDeliveryDate: sortDataByDeliveryDate,
-		})
-		console.log('state', this.state)
 	}
 
 	handleSelectedTab(key) {
@@ -49,7 +33,7 @@ class Result extends React.Component {
 								eventKey='price'
 								title='Sort By Price:'
 							>
-								<Suggestions data={this.state.sortedByPrice} />
+								<Suggestions data={this.props.routes.priceSorted} />
 							</Tab>
 							<Tab
 								className='nav-item'
@@ -57,7 +41,7 @@ class Result extends React.Component {
 								title='Sort By Delivery Date:'
 							>
 								<Suggestions
-									data={this.state.sortedByDeliveryDate}
+									data={this.props.routes.dateSorted}
 								/>
 							</Tab>
 						</Tabs>
