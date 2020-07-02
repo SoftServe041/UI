@@ -29,6 +29,16 @@ class App extends React.Component {
     }
 
     handleToken(data) {
+        if(data.ifLoggedIn != undefined){
+        this.setState({
+            token: data.token,
+            userId: data.id,
+            userEmail: data.email,
+            ifAdmin: data.admin,
+            ifLoggedIn: data.ifLoggedIn
+        });
+    }
+    else {
         this.setState({
             token: data.token,
             userId: data.id,
@@ -36,7 +46,8 @@ class App extends React.Component {
             ifAdmin: data.admin,
             ifLoggedIn: true
         });
-
+    }
+    console.log('Current token state', data);
     }
 
     logIn() {

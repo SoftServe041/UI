@@ -4,15 +4,16 @@ import LogInMenu from './LoginMenu';
 import './header.css';
 import icon from './user-icon1.png';
 import { Link } from 'react-router-dom';
-
+import { Overlay, Popover, Button, Row } from 'react-bootstrap';
 
 import './loginmenu.css';
+import { useState, useRef } from 'react';
 
 
 
 function Greeting(props) {
   if (props.ifLoggedIn) {
-    return <UserLoggedIn ifAdmin={props.ifAdmin} email={props.email} handleToken={props.handleToken}/>;
+    return <UserLoggedIn ifAdmin={props.ifAdmin} email={props.email} handleToken={props.handleToken} />;
   }
   return <NotLogedIn handleToken={props.handleToken} />;
 }
@@ -86,17 +87,48 @@ const style = {
 
 
 function UserLoggedIn(props) {
-
-  const link =   (props.ifAdmin === true) ? "/admin"  :  "/profile"; 
+  const [show, setShow] = useState(false);
+  const [target, setTarget] = useState(null);
+  const ref = useRef(null);
+  const link = (props.ifAdmin === true) ? "/admin" : "/profile";
+  const logoutData = {
+    token: '',
+    userId: '',
+    userEmail: '',
+    ifAdmin: '',
+    ifLoggedIn: false
+  }
+  console.log("UserLoggedIn email", props.userEmail)
   return (
-    <div style={style.divAbsolute}>
-
-      <div className="Div-Login" >
-
-        <Link className="a" to={link}>
-          <img src={icon} className="User" alt="icon" />
-        </Link>
+    <div style={style.divAbsolute} ref={ref}>
+      <div className="Div-Login" onClick={(event) => {
+        setShow(!show);
+        setTarget(event.target)
+      }} >
+        <img src={icon} className="User" alt="icon" />
       </div>
+      <Overlay placement='bottom'
+        show={show}
+        target={target}
+        container={ref.current}
+      >
+        <Popover id={`popover-positioned-bottom`} style={{ padding: '15px', maxWidth: "500px" }}>
+          <Popover.Title as="h3">{props.userEmail}</Popover.Title>
+          <Popover.Content>
+            <ul className="list-reset">
+              <li>
+                <Button className="modal-button" onClick={() => { setShow(!show) }}>
+                  <Link className="a" to={link}>My Profile</Link>
+                </Button>
+              </li>
+              <li>
+                <Button className="modal-button" onClick={() => { props.handleToken(logoutData) }}><Link className="a" to="/">Log out</Link></Button>
+              </li>
+            </ul>
+
+          </Popover.Content>
+        </Popover>
+      </Overlay>
 
     </div>
   );

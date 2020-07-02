@@ -15,9 +15,9 @@ function Footer() {
 
             <Col className="icons" md={{ span: 2, offset: 6 }} style={{padding: '10px'}}>
                 <Row>
-                    <a href=""><img style={{ height: '40px' }} src={fb} alt="" /></a>
-                    <a href=""><img style={{ height: '40px' }} src={instagram} alt="" /></a>
-                    <a href=""><img style={{ height: '40px' }} src={twitter} alt="" /></a>
+                    <a href="https://www.facebook.com/" target="_blank" ><img style={{ height: '40px' }} src={fb} alt="" /></a>
+                    <a href="https://www.instagram.com/" target="_blank" ><img style={{ height: '40px' }} src={instagram} alt="" /></a>
+                    <a href="https://twitter.com/" target="_blank" ><img style={{ height: '40px' }} src={twitter} alt="" /></a>
                 </Row>
             </Col>
         </Row>
