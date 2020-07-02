@@ -57,7 +57,7 @@ function Transports(props) {
     function getAllTransports() {
         axios({
             'method': 'GET',
-            'url': url + '?page='+ activePage+'&size=3',
+            'url': url + '?page='+ activePage+'&size=5',
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
@@ -220,7 +220,7 @@ function Transports(props) {
                     <thead>
                         <tr>
                             <th className='text-center mb-1'><h4>Number</h4></th>
-                            <th className='text-center mb-1'><h4>Bounded hub</h4></th>
+                            <th className='text-center mb-1'><h4>Bound hub</h4></th>
                             <th className='text-center mb-1'>
                                 <h4>Compartments</h4>
                                 <Row>
@@ -284,7 +284,7 @@ function Transports(props) {
                     <Form>
                         <Form.Group as={Row}>
                             <Form.Label className='pl-4' column sm="4">
-                                Bounded hub
+                                Bound hub
                             </Form.Label>
                             <Col sm="8">
                                 <Form.Control as="select" defaultValue={

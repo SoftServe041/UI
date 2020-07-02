@@ -43,10 +43,9 @@ export default function Admin(props) {
                     <Tab.Content>
                         <Tab.Pane eventKey="extratab">
                             <h1 className='component'>
-                                <p>dfdsaf</p>
-
+                                <p>Awaiting functionalities</p>
                             </h1>
-                            <h1>cc</h1>
+                            <h1></h1>
                         </Tab.Pane>
                         <Tab.Pane eventKey="users">
                             <Users/>

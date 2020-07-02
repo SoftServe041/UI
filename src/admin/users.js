@@ -40,7 +40,7 @@ function Users() {
     function getAllUsers() {
         axios({
             'method': 'GET',
-            'url': urlForGetAllUsers + activePage + '&limit=3',
+            'url': urlForGetAllUsers + activePage + '&limit=5',
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
