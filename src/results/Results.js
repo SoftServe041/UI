@@ -49,9 +49,9 @@ class Results extends React.Component {
 
 	componentDidMount() {
 		const dataFromMainPage = {
-			cargoWidth: history.location.weight,
+			cargoWeight: history.location.weight,
 			cargoLength: history.location.length / 100,
-			cargoWeight: history.location.width / 100,
+			cargoWidth: history.location.width / 100,
 			cargoHeight: history.location.height / 100,
 			departureHub: history.location.arrival,
 			arrivalHub: history.location.departure
