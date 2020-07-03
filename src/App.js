@@ -29,14 +29,25 @@ class App extends React.Component {
     }
 
     handleToken(data) {
-        this.setState({
-            token: data.token,
-            userId: data.id,
-            userEmail: data.email,
-            ifAdmin: data.admin,
-            ifLoggedIn: true
-        });
-
+        if (data.ifLoggedIn != undefined) {
+            this.setState({
+                token: data.token,
+                userId: data.id,
+                userEmail: data.email,
+                ifAdmin: data.admin,
+                ifLoggedIn: data.ifLoggedIn
+            });
+        }
+        else {
+            this.setState({
+                token: data.token,
+                userId: data.id,
+                userEmail: data.email,
+                ifAdmin: data.admin,
+                ifLoggedIn: true
+            });
+        }
+        console.log('Current token state', data);
     }
 
     logIn() {
@@ -62,7 +73,7 @@ class App extends React.Component {
                             <Header />
                             <HeaderButtons ifLoggedIn={this.state.ifLoggedIn}
                                 ifAdmin={this.state.ifAdmin}
-                                email={this.state.email}
+                                email={this.state.userEmail}
                                 handleToken={this.handleToken} />
                             <Switch>
                                 <Route exact path="/" component={() => <Home />} />
