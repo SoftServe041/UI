@@ -113,7 +113,7 @@ function UserLoggedIn(props) {
 				target={target}
 				container={ref.current}
 			>
-				<Popover id={`popover-positioned-bottom`} style={{ padding: '15px', maxWidth: "500px" }}>
+				<Popover id={`popover-positioned-bottom`} className="user-info-menu">
 					<Popover.Title as="h3">{props.userEmail}</Popover.Title>
 					<Popover.Content>
 						<ul className="list-reset">
@@ -123,7 +123,9 @@ function UserLoggedIn(props) {
 								</Button>
 							</li>
 							<li>
-								<Button className="modal-button" onClick={() => { props.handleToken(logoutData) }}><Link className="a" to="/">Log out</Link></Button>
+								<Button className="modal-button" onClick={() => { props.handleToken(logoutData) }}>
+									<Link className="a" to="/">Log out</Link>
+								</Button>
 							</li>
 						</ul>
 					</Popover.Content>
@@ -132,8 +134,6 @@ function UserLoggedIn(props) {
 		</div>
 	);
 }
-
-
 
 
 NotLogedIn.propTypes = {

@@ -65,11 +65,16 @@
 .modal-button {
   margin: 2px 0;
   background-color: #ff8e09 !important;
+  border-color: #ff8e09 !important;
   width: 100px;
 }
 
-.login-button{
+.login-button {
   margin: 5px 10px 0 0;
   background-color: #2d2929 !important;
   border-color: #2d2929 !important;
+}
+
+.user-info-menu {
+  padding: 15px;
 }
