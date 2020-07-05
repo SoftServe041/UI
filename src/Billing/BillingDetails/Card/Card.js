@@ -10,6 +10,7 @@ function Card(props){
 
     function del()
     {
+        console.log("id to be deleted",dan);
         props.del(dan.id)
     }
     function getNumb(val,index)
@@ -31,7 +32,7 @@ function Card(props){
             <div className={s.container}>
                 <div className={s.item}>
                     <p>
-                        {dan.cardName}
+                        {dan.nameOnCard}
                     </p>
                 </div>
 

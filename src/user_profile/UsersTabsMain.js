@@ -13,10 +13,10 @@ export default class UsersTabsMain extends React.Component {
         this.state = {
             selectedTab: 'profile',
             headerText: 'Profile',
-            // userId:props.userId,
+            ///userId:props.userId,
 
-            token:'jopa',
-            userId:5,
+           // token:'jopa',
+            //userId:5,
 
         }
         // console.log(this.props.data)
@@ -56,7 +56,7 @@ export default class UsersTabsMain extends React.Component {
                             <p>In progress</p>
                         </Tab>
                         <Tab className="nav-item" eventKey="billing" title="Billing Details">
-                            <BillingDetails data={this.state}/>
+                            <BillingDetails data={this.props.data}/>
                         </Tab>
                     </Tabs>
                 </Container>
