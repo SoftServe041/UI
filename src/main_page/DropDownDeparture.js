@@ -81,7 +81,7 @@ export default class DropDownDeparture extends React.Component {
                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" >
                     {this.props.departure}
                 </Dropdown.Toggle>
-                {console.log('in depart', this.props.cities)}
+                {/*{console.log('in depart', this.props.cities)}*/}
                 <GenerateDropDownRows cities={this.props.cities} />
 
             </Dropdown>
