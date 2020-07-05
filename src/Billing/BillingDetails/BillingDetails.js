@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import Card from "./Card/Card";
 import s from './BillingDetails.module.css'
 import {Modal, FormControl, Form, Col} from "react-bootstrap";
-import modal500 from "../../error/modal500";
 import axios from 'axios'
 
 const cscRegEx = /\b\d{3}\b/;
@@ -58,24 +57,28 @@ const BillingDetails = (props) => {
     let [expirationMonth, setExpirationMonth] = useState('')
     let [expirationYear, setExpirationYear] = useState('')
     let [billingAddress, setBillingAddress] = useState('')
-
-    let [cards, setCards] = useState({})
-
     let [errorCardNumber, setErrorCardNumber] = useState('')
     let [errorCardName, setErrorCardName] = useState('')
     let [errorCsc, setErrorCsc] = useState('')
     let [errorExpirationMonth, setErrorExpirationMonth] = useState('')
     let [errorExpirationYear, setErrorExpirationYear] = useState('')
     let [errorBillingAddress, setErrorBillingAddress] = useState('')
-    let flag = true;
+    let [flag, setFlag] = useState(true);
+
+
+    let [cards, setCards] = useState(
+        []    )
+
 
     useEffect(() => {
+
         if (flag) {
             getCards()
+            setFlag(false);
+            console.log("in use effect")
+            setCards(propss.data)
         }
-        flag = false;
-
-        console.log("userEffect")
+        console.log("out of use effect")
     });
 
 
@@ -93,7 +96,6 @@ const BillingDetails = (props) => {
         //     console.log('error while getting cards from server: ', error);
         // });
         // console.log("axios get")
-
 
 
     }
@@ -154,12 +156,11 @@ const BillingDetails = (props) => {
         //     .catch(error => {
         //         this.accessModError(error.toString())
         //     });
-
+        setFlag(true)
         console.log("axios post");
     }
 
-    const deleteCard = (id) =>
-    {
+    const deleteCard = (id) => {
         // axios({
         //     'method': 'DELETE',
         //     'url': `http://${url}/user/${userId}/billing-details/`,
@@ -175,6 +176,7 @@ const BillingDetails = (props) => {
         //     console.log('Error deleting card : ', error);
         // });
 
+        setFlag(true)
         console.log(`remove ${id}`)
     }
 
@@ -357,7 +359,7 @@ const BillingDetails = (props) => {
             </div>
             <div>
                 {
-                    data.map((card, index) => {
+                    cards.map((card, index) => {
                         return <Card data={card} key={index} userId={userId} del={deleteCard}/>
                     })
                 }
