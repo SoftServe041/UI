@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Pagination, Table} from "react-bootstrap";
 import axios from 'axios';
@@ -32,7 +31,7 @@ function Orders(props) {
         }
         return itemsArray;
     }
-    
+
     function getOrdersById() {
         axios({
             'method': 'GET',
@@ -44,14 +43,14 @@ function Orders(props) {
             'params': {
                 'page': activePage - 1,
                 'limit': 5
-           },
+            },
         }).then(response => {
             initializeData(response.data);
         }).catch(error => {
             console.log('error while getting orders: ', error);
         });
     }
-    
+
     useEffect(() => {
         console.log('useEffect');
         if (flag) {
@@ -64,37 +63,35 @@ function Orders(props) {
             <div className='component'>
                 <Table variant='dark' size='md' striped bordered hover >
                     <thead>
-                        <tr>
-                            <th className='text-center aling-middle'>Tracking Id</th>
-                            <th className='text-center aling-middle'>Price</th>
-                            <th className='text-center aling-middle'>Estimated delivery date</th>
-                            <th className='text-center aling-middle'>Departure</th>
-                            <th className='text-center aling-middle'>Arrival</th>
-                            <th className='text-center aling-middle'>Cargo weight</th>
-                            <th className='text-center aling-middle'>Delivery status</th>
-                        </tr>
+                    <tr>
+                        <th className='text-center aling-middle'>Tracking Id</th>
+                        <th className='text-center aling-middle'>Price</th>
+                        <th className='text-center aling-middle'>Estimated delivery date</th>
+                        <th className='text-center aling-middle'>Departure</th>
+                        <th className='text-center aling-middle'>Arrival</th>
+                        <th className='text-center aling-middle'>Cargo weight</th>
+                        <th className='text-center aling-middle'>Delivery status</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {orders.map((order, index) =>
-                            <tr key={index}>
-                                <td className='text-center align-middle'>{order.trackingId}</td>
-                                <td className='text-center align-middle'>{order.price}</td>
-                                <td className='text-center align-middle'>{order.estimatedDeliveryDate}</td>
-                                <td className='text-center align-middle'>{order.departureHub}</td>
-                                <td className='text-center align-middle'>{order.arrivalHub}</td>
-                                <td className='text-center align-middle'>{order.cargoWeight}</td>
-                                <td className='text-center align-middle'>{order.deliveryStatus}</td>
-                            </tr>
-                        )}
+                    {orders.map((order, index) =>
+                        <tr key={index}>
+                            <td className='text-center align-middle'>{order.trackingId}</td>
+                            <td className='text-center align-middle'>{order.price}</td>
+                            <td className='text-center align-middle'>{order.estimatedDeliveryDate}</td>
+                            <td className='text-center align-middle'>{order.departureHub}</td>
+                            <td className='text-center align-middle'>{order.arrivalHub}</td>
+                            <td className='text-center align-middle'>{order.cargoWeight}</td>
+                            <td className='text-center align-middle'>{order.deliveryStatus}</td>
+                        </tr>
+                    )}
                     </tbody>
                 </Table>
             </div>
-            <Pagination className='justify-content-center'>{pagination}</Pagination>       
+            <Pagination className='justify-content-center'>{pagination}</Pagination>
         </div>
     );
 
 }
 
 export default Orders;
-
-
