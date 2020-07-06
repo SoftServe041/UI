@@ -41,13 +41,11 @@ const BillingDetails = (props) => {
 
 
     useEffect(() => {
-
         if (flag) {
             getCards()
             setFlag(false);
         }
     });
-
 
     const getCards = () => {
         axios({
@@ -66,15 +64,12 @@ const BillingDetails = (props) => {
     }
 
     const initialization = (data) => {
-
         setCards(data)
-
     }
 
 
     const formValid = (errors, data) => {
         let valid = true;
-
         Object.values(errors).forEach(value => {
             if (value.length > 0) {
                 valid = false;
@@ -86,10 +81,8 @@ const BillingDetails = (props) => {
                 setErrorBillingAddress("Invalid fields")
             }
         })
-
         return valid;
     }
-
 
     const refreshCardData = () => {
         setnameOnCard('')
