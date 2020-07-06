@@ -10,38 +10,9 @@ const cardRegEx = /\b\d{16}\b/;
 
 const url = "localhost:8041";
 
-const propss = {
-    data: [
-        {
-            'id': 1,
-            'cardNumber': '1234567898765432',
-            'cardName': 'Ivan Ivanov',
-            'expirationMonth': '05',
-            'expirationYear': '22',
-            'billingAddress': 'Pushkina dom kolotushkina'
-        },
-        {
-            'id': 2,
-            'cardNumber': '1234567898765432',
-            'cardName': 'kum',
-            'expirationMonth': '15',
-            'expirationYear': '23',
-            'billingAddress': 'Pushkina dom ssdssds'
-        },
-        {
-            'id': 3,
-            'cardNumber': '1234567898765432',
-            'cardName': 'kudsdsdm',
-            'expirationMonth': '15',
-            'expirationYear': '23',
-            'billingAddress': 'Pushkina dom ssdssds'
-        }
-    ]
-}
 
 const BillingDetails = (props) => {
 
-    //const data = propss.data
     const userId = props.data.userId
     const token = props.data.token
 
@@ -75,15 +46,11 @@ const BillingDetails = (props) => {
         if (flag) {
             getCards()
             setFlag(false);
-            console.log("in use effect")
-           // setCards(propss.data)
         }
-        console.log("out of use effect")
     });
 
 
     const getCards = () => {
-        
         axios({
             'method': 'GET',
             'url': `http://${url}/user/${userId}/billing-details/`,
@@ -97,16 +64,10 @@ const BillingDetails = (props) => {
         }).catch(error => {
             console.log('error while getting cards from server: ', error);
         });
-        //console.log("axios get")
-
-
     }
 
     const initialization = (data) => {
-
-        console.log("initialization we get it", data[0].nameOnCard, data[0].cardNumber);
         setCards(data)
-
     }
 
 
@@ -144,9 +105,6 @@ const BillingDetails = (props) => {
     }
 
     const sendCard = () => {
-
-
-        
         axios.post(`http://${url}/user/${userId}/billing-details`, {
             cardNumber: cardNumber,
             nameOnCard: nameOnCard,
@@ -154,42 +112,25 @@ const BillingDetails = (props) => {
             expirationMonth: expirationMonth,
             expirationYear: expirationYear,
             billingAddress: billingAddress
-        },           
-
+        },
         {'headers': {
             'Content-Type': 'application/json',
             'Authorization': `Bearer_${token}`
         }}).then(response => {
-            console.log('response: ', response);
             initialization(response.data)
-        })
-            .catch(error => {
-                console.log("Added card error",error);
-            });
+        });
         setFlag(true)
-        console.log("axios post");
     }
 
     const deleteCard = (id) => {
-
-        console.log("Delete card", deleteCard, `http://${url}/user/${userId}/billing-details/${id}`);
-
         axios.delete(`http://${url}/user/${userId}/billing-details/${id}`,
-           // 'data':{id:id},
            { headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer_${token}`
             },
             data: {}
-        }).then(response => {
-           // initialization(response.data);
-           console.log("Delete card", response);
-        }).catch(error => {
-            console.log('Error deleting card : ', error);
         });
-
         setFlag(true)
-        console.log(`remove ${id}`)
     }
 
 
@@ -258,14 +199,8 @@ const BillingDetails = (props) => {
             })) {
             createCardAndAddToData();
             handleClose()
-
-        } else {
-
         }
-
-
     }
-
 
     return (
         <div>

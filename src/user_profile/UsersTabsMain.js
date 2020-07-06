@@ -13,13 +13,7 @@ export default class UsersTabsMain extends React.Component {
         this.state = {
             selectedTab: 'profile',
             headerText: 'Profile',
-            ///userId:props.userId,
-
-           // token:'jopa',
-            //userId:5,
-
         }
-        // console.log(this.props.data)
     }
 
 
