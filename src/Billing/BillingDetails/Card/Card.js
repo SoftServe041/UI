@@ -52,6 +52,7 @@ function Card(props){
                         </button>
                     </div>
                 </div>
+
             </div>
         </div>
     )
