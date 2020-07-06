@@ -10,9 +10,38 @@ const cardRegEx = /\b\d{16}\b/;
 
 const url = "localhost:8041";
 
+const propss = {
+    data: [
+        {
+            'id': 1,
+            'cardNumber': '1234567898765432',
+            'cardName': 'Ivan Ivanov',
+            'expirationMonth': '05',
+            'expirationYear': '22',
+            'billingAddress': 'Pushkina dom kolotushkina'
+        },
+        {
+            'id': 2,
+            'cardNumber': '1234567898765432',
+            'cardName': 'kum',
+            'expirationMonth': '15',
+            'expirationYear': '23',
+            'billingAddress': 'Pushkina dom ssdssds'
+        },
+        {
+            'id': 3,
+            'cardNumber': '1234567898765432',
+            'cardName': 'kudsdsdm',
+            'expirationMonth': '15',
+            'expirationYear': '23',
+            'billingAddress': 'Pushkina dom ssdssds'
+        }
+    ]
+}
 
 const BillingDetails = (props) => {
 
+    //const data = propss.data
     const userId = props.data.userId
     const token = props.data.token
 
@@ -51,6 +80,7 @@ const BillingDetails = (props) => {
 
 
     const getCards = () => {
+        
         axios({
             'method': 'GET',
             'url': `http://${url}/user/${userId}/billing-details/`,
@@ -60,14 +90,16 @@ const BillingDetails = (props) => {
             },
         }).then(response => {
             initialization(response.data);
-            console.log("We get response", response.data);
         }).catch(error => {
-            console.log('error while getting cards from server: ', error);
         });
+
+
     }
 
     const initialization = (data) => {
+
         setCards(data)
+
     }
 
 
@@ -105,6 +137,9 @@ const BillingDetails = (props) => {
     }
 
     const sendCard = () => {
+
+
+        
         axios.post(`http://${url}/user/${userId}/billing-details`, {
             cardNumber: cardNumber,
             nameOnCard: nameOnCard,
@@ -112,24 +147,32 @@ const BillingDetails = (props) => {
             expirationMonth: expirationMonth,
             expirationYear: expirationYear,
             billingAddress: billingAddress
-        },
+        },           
+
         {'headers': {
             'Content-Type': 'application/json',
             'Authorization': `Bearer_${token}`
         }}).then(response => {
-            initialization(response.data)
-        });
-        setFlag(true)
+            // initialization(response.data)
+            setFlag(true)
+        })
+            .catch(error => {
+            });
     }
 
     const deleteCard = (id) => {
         axios.delete(`http://${url}/user/${userId}/billing-details/${id}`,
+           // 'data':{id:id},
            { headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer_${token}`
             },
             data: {}
+        }).then(response => {
+           // initialization(response.data);
+        }).catch(error => {
         });
+
         setFlag(true)
     }
 
@@ -199,8 +242,11 @@ const BillingDetails = (props) => {
             })) {
             createCardAndAddToData();
             handleClose()
+
         }
+        setFlag(true);
     }
+
 
     return (
         <div>

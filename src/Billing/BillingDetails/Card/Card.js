@@ -10,7 +10,6 @@ function Card(props){
 
     function del()
     {
-        console.log("id to be deleted",dan);
         props.del(dan.id)
     }
     function getNumb(val,index)
