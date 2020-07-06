@@ -58,9 +58,6 @@ const BillingDetails = (props) => {
         }).then(response => {
             initialization(response.data);
         })
-        //     .catch(error => {
-        //
-        // });
     }
 
     const initialization = (data) => {
@@ -112,11 +109,9 @@ const BillingDetails = (props) => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer_${token}`
         }}).then(response => {
-            // initialization(response.data)
             setFlag(true)
         })
-            // .catch(error => {
-            // });
+
     }
 
     const deleteCard = (id) => {
@@ -127,7 +122,7 @@ const BillingDetails = (props) => {
             },
             data: {}
         }).then(response => {
-           // initialization(response.data);
+
         }).catch(error => {
         });
 
