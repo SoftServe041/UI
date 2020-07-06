@@ -59,8 +59,3 @@ export default class UsersTabsMain extends React.Component {
         );
     }
 }
-
-
-
-
-
