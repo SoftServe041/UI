@@ -1,10 +1,11 @@
-import React, { Suspense, lazy } from 'react';
+import React, {Suspense, lazy} from 'react';
 import Header from "./header/Header";
 import HeaderButtons from "./header/HeaderButtons";
 import Footer from "./Footer/footer";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import history from './history';
 import './App.css';
+
 const Home = lazy(() => import('./main_page/Main_page'));
 const RegPage = lazy(() => import('./registration/reg_page'));
 const Page404 = lazy(() => import('./error/page404'));
@@ -28,7 +29,26 @@ class App extends React.Component {
         this.handleToken = this.handleToken.bind(this);
     }
 
+    componentDidMount() {
+        let sessionToken = sessionStorage.getItem('token1');
+        let sessionUserId = sessionStorage.getItem('userId');
+        let sessionUserEmail = sessionStorage.getItem('userEmail');
+        let sessionIfAdmin = sessionStorage.getItem('ifAdmin');
+        let sessionIfLoggedIn = sessionStorage.getItem('ifLoggedIn');
+
+        this.setState({
+            token: sessionToken,
+            userId: sessionUserId,
+            userEmail: sessionUserEmail,
+            ifAdmin: sessionIfAdmin,
+            ifLoggedIn: sessionIfLoggedIn
+        });
+
+        console.log("Component mount", sessionToken, sessionUserId, this.state);
+    }
+
     handleToken(data) {
+
         if (data.ifLoggedIn != undefined) {
             this.setState({
                 token: data.token,
@@ -37,8 +57,18 @@ class App extends React.Component {
                 ifAdmin: data.admin,
                 ifLoggedIn: data.ifLoggedIn
             });
-        }
-        else {
+            sessionStorage.removeItem('token1');
+            sessionStorage.removeItem('userId');
+            sessionStorage.removeItem('userEmail');
+            sessionStorage.removeItem('ifAdmin');
+            sessionStorage.removeItem('ifLoggedIn');
+        } else {
+
+            sessionStorage.setItem('token1', data.token);
+            sessionStorage.setItem('userId', data.id);
+            sessionStorage.setItem('userEmail', data.email);
+            sessionStorage.setItem('ifAdmin', data.admin);
+            sessionStorage.setItem('ifLoggedIn', true);
             this.setState({
                 token: data.token,
                 userId: data.id,
@@ -47,7 +77,7 @@ class App extends React.Component {
                 ifLoggedIn: true
             });
         }
-        console.log('Current token state', data);
+        console.log('handleToken func result', data);
     }
 
     logIn() {
@@ -70,20 +100,20 @@ class App extends React.Component {
 
                     <Router history={history}>
                         <Suspense fallback={<div>Loading...</div>}>
-                            <Header />
+                            <Header/>
                             <HeaderButtons ifLoggedIn={this.state.ifLoggedIn}
-                                ifAdmin={this.state.ifAdmin}
-                                email={this.state.userEmail}
-                                handleToken={this.handleToken} />
+                                           ifAdmin={this.state.ifAdmin}
+                                           email={this.state.userEmail}
+                                           handleToken={this.handleToken}/>
                             <Switch>
-                                <Route exact path="/" component={() => <Home />} />
-                                <Route exact path="/registration" component={() => <RegPage />} />
-                                <Route exact path="/profile" render={() => <UsersTabsMain data={this.state} />} />
-                                <Route exact path="/admin" render={() => <Admin data={this.state} />} />
-                                <Route exact path="/routes" render={() => <Results data={this.state} />} />
-                                <Route default component={Page404} />
+                                <Route exact path="/" component={() => <Home/>}/>
+                                <Route exact path="/registration" component={() => <RegPage/>}/>
+                                <Route exact path="/profile" render={() => <UsersTabsMain data={this.state}/>}/>
+                                <Route exact path="/admin" render={() => <Admin data={this.state}/>}/>
+                                <Route exact path="/routes" render={() => <Results data={this.state}/>}/>
+                                <Route default component={Page404}/>
                             </Switch>
-                            <Footer />
+                            <Footer/>
                         </Suspense>
                     </Router>
                 </TokenContext.Provider>
