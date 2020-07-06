@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import LogInMenu from './LoginMenu';
 import './header.css';
 import icon from './user-icon1.png';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 import './loginmenu.css';
@@ -12,7 +12,7 @@ import './loginmenu.css';
 
 function Greeting(props) {
   if (props.ifLoggedIn) {
-    return <UserLoggedIn />;
+    return <UserLoggedIn ifAdmin={props.ifAdmin} email={props.email} handleToken={props.handleToken}/>;
   }
   return <NotLogedIn handleToken={props.handleToken} />;
 }
@@ -29,7 +29,6 @@ class NotLogedIn extends React.Component {
       ifShowModal: false,
     };
   }
-
 
   disableModal() {
     this.setState({ ifShowModal: false });
@@ -87,13 +86,15 @@ const style = {
 
 
 function UserLoggedIn(props) {
+
+  const link =   (props.ifAdmin === true) ? "/admin"  :  "/profile"; 
   return (
     <div style={style.divAbsolute}>
 
       <div className="Div-Login" >
-        <Link className="a" to="/profile">
-          <img src={icon} className="User" alt="icon" />
 
+        <Link className="a" to={link}>
+          <img src={icon} className="User" alt="icon" />
         </Link>
       </div>
 

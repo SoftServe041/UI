@@ -16,3 +16,12 @@
 .grey-bg {
     background-color: #c2c2c2;
 }
+
+.nav-link{
+    color: #2d2929;
+}
+
+.nav-link:hover{
+    background-color: darkorange;
+    color: #2d2929;
+}

@@ -3,8 +3,8 @@ import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, 
 import axios from 'axios';
 
 function Users() {
-    let urlForGetAllUsers = 'http://localhost:8041/users?page=';
-    let urlForUpdateDeleteUser = 'http://localhost:8041/users/';
+    let urlForGetAllUsers = 'http://localhost:8041/admin/users?page=';
+    let urlForUpdateDeleteUser = 'http://localhost:8041/admin/users/';
     const [pagination, setPagination] = useState([]);
     const [activePage, setActivePage] = useState(1);
     let totalPage = 1;
@@ -38,47 +38,40 @@ function Users() {
         return itemsArray;
     }
     function getAllUsers() {
-        console.log('getAllUsers', users);
         axios({
             'method': 'GET',
             'url': urlForGetAllUsers + activePage + '&limit=5',
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Fazliddin': 'molodec 222',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
             'params': {
                 'search': 'parameter',
             },
         }).then(response => {
-            console.log('responsing from getAllUsers: ', response);
-            initializeData(response.data);
-
+            if (response.status === 200) {
+                initializeData(response.data);
+            }
         }).catch(error => {
             console.log('erroring from getAllUsers: ', error);
         });
     }
     function removeUser(userId) {
-        console.log('remove UserId', userId);
         axios({
             'method': 'DELETE',
             'url': urlForUpdateDeleteUser + userId,
             'headers': {
-                'content-type': 'application/octet-stream',
-                'Fazliddin': 'sends hello to remove',
-            },
-            "content":
-            {
-                "id": 2,
-                "firstName": "Alex",
-                "lastName": "Sidorov",
-                "email": "ivanov2@test.com",
-                "address": "Some address 2",
-                "phoneNumber": "9371111",
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
 
         }).then(response => {
-            console.log('responsing from remove User: ', response.status);
             if (response.status === 200) {
                 setFlag(true);
             }
@@ -95,13 +88,15 @@ function Users() {
         setShowUpdateModal(true);
     }
     function updateUser(userToUpdate) {
-        console.log('update User', userToUpdate);
         axios({
             method: 'PUT',
             url: urlForUpdateDeleteUser + userToUpdate.id,
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
+                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
+                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
             },
             data:
             {
@@ -112,7 +107,6 @@ function Users() {
                 phoneNumber: modalPhoneNumber,
             },
         }).then(response => {
-            console.log('responsing from update User: ', response);
             if (response.status === 200) {
                 setShowUpdateModal(false);
                 setFlag(true);
@@ -122,7 +116,6 @@ function Users() {
         });
     }
     useEffect(() => {
-        console.log('useEffect');
         if (flag) {
             getAllUsers();
             setFlag(false);
