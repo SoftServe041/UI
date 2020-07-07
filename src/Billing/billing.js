@@ -137,7 +137,7 @@ class Billing extends React.Component {
                                     <Row>
                                         <Col>
                                             <Form.Label column sm={8}>
-                                                Card number
+                                                Modal number
                                             </Form.Label>
                                         </Col>
                                     </Row>
@@ -146,7 +146,7 @@ class Billing extends React.Component {
                                         <Col md={{span: 6, offset: 0}}>
                                             <Form.Control
                                                 type="text"
-                                                placeholder="Card Number"
+                                                placeholder="Modal Number"
                                                 name="cardNumber"
                                                 onChange={this.handleChange}
                                             />
