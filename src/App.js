@@ -44,7 +44,6 @@ class App extends React.Component {
             ifLoggedIn: sessionIfLoggedIn
         });
 
-        console.log("Component mount", sessionToken, sessionUserId, this.state);
     }
 
     handleToken(data) {
@@ -77,7 +76,6 @@ class App extends React.Component {
                 ifLoggedIn: true
             });
         }
-        console.log('handleToken func result', data);
     }
 
     logIn() {

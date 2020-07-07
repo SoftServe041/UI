@@ -90,7 +90,8 @@ function UserLoggedIn(props) {
 	const [show, setShow] = useState(false);
 	const [target, setTarget] = useState(null);
 	const ref = useRef(null);
-	const link = (props.ifAdmin === true) ? "/admin" : "/profile";
+	console.log("UserLoggedIn ", props);
+	const link = ( Boolean(props.ifAdmin) === true) ? "/admin" : "/profile";
 	const logoutData = {
 		token: '',
 		userId: '',
@@ -98,8 +99,7 @@ function UserLoggedIn(props) {
 		ifAdmin: '',
 		ifLoggedIn: false
 	}
-	console.log("UserLoggedIn props", props);
-	console.log("UserLoggedIn email", props.email);
+
 	return (
 		<div style={style.divAbsolute} ref={ref}>
 			<Button className="login-button" onClick={(event) => {
@@ -110,8 +110,7 @@ function UserLoggedIn(props) {
 			</Button>
 			<Overlay placement='bottom'
 				show={show}
-				target={target}
-				container={ref.current}
+				target={ref.current}
 			>
 				<Popover id={`popover-positioned-bottom`} className="user-info-menu">
 					<Popover.Title as="h3">{props.userEmail}</Popover.Title>
@@ -138,8 +137,13 @@ function UserLoggedIn(props) {
 
 NotLogedIn.propTypes = {
 	ifShowModal: PropTypes.bool
-
 }
+
+UserLoggedIn.propTypes = {
+	ifAdmin: PropTypes.bool
+}
+
+
 
 export default Greeting;
 
