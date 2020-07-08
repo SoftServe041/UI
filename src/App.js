@@ -12,6 +12,7 @@ const Page404 = lazy(() => import('./error/page404'));
 const UsersTabsMain = lazy(() => import('./user_profile/UsersTabsMain'));
 const Admin = lazy(() => import('./admin/admin'));
 const Results = lazy(() => import('./results/Results'));
+const AboutCompany = lazy(() => import('./about_company/AboutCompany'));
 
 class App extends React.Component {
 
@@ -109,6 +110,7 @@ class App extends React.Component {
                                 <Route exact path="/profile" render={() => <UsersTabsMain data={this.state}/>}/>
                                 <Route exact path="/admin" render={() => <Admin data={this.state}/>}/>
                                 <Route exact path="/routes" render={() => <Results data={this.state}/>}/>
+                                <Route exact path="/about-our-company" render={() => <AboutCompany />}/>
                                 <Route default component={Page404}/>
                             </Switch>
                             <Footer/>
