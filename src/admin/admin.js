@@ -11,7 +11,7 @@ import { Redirect } from 'react-router-dom';
 export default function Admin(props) {
     const [existedHubs, setExistedHubs] = useState([]);
 
-    if (props.data.ifLoggedIn == false) {
+    if (Boolean(props.data.ifAdmin) === false) {
         return <Redirect to='/' />
     }
     return (
@@ -48,13 +48,13 @@ export default function Admin(props) {
                             <h1></h1>
                         </Tab.Pane>
                         <Tab.Pane eventKey="users">
-                            <Users/>
+                            <Users token={props.data.token}/>
                         </Tab.Pane>
                         <Tab.Pane eventKey="hubs">
-                            <Hubs setExistedHubs={setExistedHubs} existedHubs={existedHubs}/>
+                            <Hubs setExistedHubs={setExistedHubs} existedHubs={existedHubs} data={props.data.token}/>
                         </Tab.Pane>
                         <Tab.Pane eventKey="transports">
-                            <Transport existedHubs={existedHubs}/>
+                            <Transport existedHubs={existedHubs} data={props}/>
                         </Tab.Pane>
                     </Tab.Content>
                 </Tab.Container>

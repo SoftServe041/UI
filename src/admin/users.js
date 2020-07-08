@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
 import axios from 'axios';
 
-function Users() {
+function Users(props) {
     let urlForGetAllUsers = 'http://localhost:8041/admin/users?page=';
     let urlForUpdateDeleteUser = 'http://localhost:8041/admin/users/';
     const [pagination, setPagination] = useState([]);
@@ -37,16 +37,14 @@ function Users() {
         }
         return itemsArray;
     }
-    function getAllUsers() {
+    function getAllUsers(props) {
         axios({
             'method': 'GET',
             'url': urlForGetAllUsers + activePage + '&limit=5',
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props}`,
             },
             'params': {
                 'search': 'parameter',
@@ -59,16 +57,14 @@ function Users() {
             console.log('erroring from getAllUsers: ', error);
         });
     }
-    function removeUser(userId) {
+    function removeUser(userId, props) {
         axios({
             'method': 'DELETE',
             'url': urlForUpdateDeleteUser + userId,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props}`,
             },
 
         }).then(response => {
@@ -87,16 +83,14 @@ function Users() {
         setModalPhoneNumber(userToUpdate.phoneNumber);
         setShowUpdateModal(true);
     }
-    function updateUser(userToUpdate) {
+    function updateUser(userToUpdate, props) {
         axios({
             method: 'PUT',
             url: urlForUpdateDeleteUser + userToUpdate.id,
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props}`,
             },
             data:
             {
@@ -115,9 +109,9 @@ function Users() {
             console.log('erroring from update User: ', error);
         });
     }
-    useEffect(() => {
+   useEffect(() => {
         if (flag) {
-            getAllUsers();
+            getAllUsers(props.token);
             setFlag(false);
         }
     });
@@ -145,7 +139,7 @@ function Users() {
                                     <DropdownButton variant="info" title="action" size='md' >
                                         <Dropdown.Item as="button" onSelect={() => handleUpdateAction(user)}>Update</Dropdown.Item>
                                         <Dropdown.Divider />
-                                        <Dropdown.Item as="button" onSelect={() => removeUser(user.id)}>Delete</Dropdown.Item>
+                                        <Dropdown.Item as="button" onSelect={() => removeUser(user.id, props.token)}>Delete</Dropdown.Item>
                                     </DropdownButton>
                                 </td>
                             </tr>
@@ -195,7 +189,7 @@ function Users() {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='col-md-5 mr-3' onClick={() => updateUser(updatedUser)}>update</Button>
+                    <Button className='col-md-5 mr-3' onClick={() => updateUser(updatedUser, props.token)}>update</Button>
                     <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setShowUpdateModal(false)}>cancel</Button>
 
                 </Modal.Footer>
