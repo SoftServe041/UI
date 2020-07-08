@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
 import axios from 'axios';
+import DropdownMenu from 'react-bootstrap/DropdownMenu';
 
 function Transports(props) {
     let url = 'http://localhost:9041/admin/transport';
@@ -31,8 +32,15 @@ function Transports(props) {
     const [updateModalFlag, setUpdateModalFlag] = useState(false);
     const [currentTransport, setCurrentTransport] = useState({});
 
+    const style = {
+        Button: {
+            "backgroundColor": "#ff8e09",
+            "border": "none"
+        }
+    }
+
     if (transportTypes.length === 0) {
-        getAllTransportTypes();
+        getAllTransportTypes(props);
     }
     function initializeData(data) {
         setTransports(data.content);
@@ -54,22 +62,21 @@ function Transports(props) {
         }
         return itemsArray;
     }
-    function getAllTransports() {
+    function getAllTransports(props) {
+        console.log("Transport props", props);
         axios({
             'method': 'GET',
-            'url': url + '?page='+ activePage+'&size=5',
+            'url': url + '?page=' + activePage + '&size=5',
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props}`,
             },
             'params': {
                 'search': 'parameter',
             },
         }).then(response => {
-            if(response.status === 200){
+            if (response.status === 200) {
                 initializeData(response.data);
             }
 
@@ -77,16 +84,14 @@ function Transports(props) {
             console.log('erroring from getAllTrans: ', error);
         });
     }
-    function getAllTransportTypes() {
+    function getAllTransportTypes(props) {
         axios({
             'method': 'GET',
             'url': urlForTransportTypes,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props.token}`,
             },
         }).then(response => {
             if (response.status === 200) {
@@ -97,7 +102,7 @@ function Transports(props) {
             console.log('erroring from getAllTransTypes: ', error);
         });
     }
-    function createTransport() {
+    function createTransport(props) {
         compartments.map(compartment => {
             compartment.id = null;
             compartment.volume.id = null;
@@ -108,9 +113,7 @@ function Transports(props) {
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props.token}`,
             },
             data:
             {
@@ -130,23 +133,21 @@ function Transports(props) {
             setCreateModalFlag(false);
         });
     }
-    function updateTransport() {
+    function updateTransport(props) {
         axios({
             'method': 'PUT',
             'url': url,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props.token}`,
             },
             data:
             {
                 "id": currentTransport.id,
                 "hubName": boundedHub ? boundedHub : currentTransport.hubName,
                 "compartments": compartments,
-                "type": type ? type: currentTransport.type,
+                "type": type ? type : currentTransport.type,
             },
 
         }).then(response => {
@@ -161,16 +162,14 @@ function Transports(props) {
             setUpdateModalFlag(false);
         });
     }
-    function removeTransport(transport) {
+    function removeTransport(transport, props) {
         axios({
             'method': 'DELETE',
             'url': url + '/' + transport.id,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props.token}`,
             }
 
         }).then(response => {
@@ -209,7 +208,7 @@ function Transports(props) {
     }
     useEffect(() => {
         if (flag) {
-            getAllTransports();
+            getAllTransports(props.token);
             setFlag(false);
         }
     });
@@ -257,11 +256,14 @@ function Transports(props) {
                                 </td>
                                 <td className='pl-4 align-middle'>{transport.type}</td>
                                 <td className='text-center align-middle'>
-                                    <DropdownButton variant="info" title="action" size='md' >
-                                        <Dropdown.Item as="button" onSelect={() => handleUpdateTransport(transport)}>Update</Dropdown.Item>
-                                        <Dropdown.Divider />
-                                        <Dropdown.Item as="button" onSelect={() => removeTransport(transport)}>Delete</Dropdown.Item>
-                                    </DropdownButton>
+                                    <Dropdown size='md' >
+                                        <Dropdown.Toggle style={style.Button}>Action</Dropdown.Toggle>
+                                        <DropdownMenu>
+                                            <Dropdown.Item as="button" onSelect={() => handleUpdateTransport(transport)}>Update</Dropdown.Item>
+                                            <Dropdown.Divider />
+                                            <Dropdown.Item as="button" onSelect={() => removeTransport(transport, props)}>Delete</Dropdown.Item>
+                                        </DropdownMenu>
+                                    </Dropdown>
                                 </td>
                             </tr>
                         )}
@@ -383,7 +385,7 @@ function Transports(props) {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='col-md-5 mr-3' onClick={() => (createModalFlag) ? createTransport() : updateTransport()}>
+                    <Button className='col-md-5 mr-3' onClick={() => (createModalFlag) ? createTransport(props) : updateTransport(props)}>
                         {
                             (createModalFlag) ? "Create" : 'Update'
                         }

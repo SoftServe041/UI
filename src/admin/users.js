@@ -2,6 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
 import axios from 'axios';
 
+const style = {
+    Button: {
+        "backgroundColor": "#ff8e09",
+        "border": "none"
+    }
+}
+
 function Users(props) {
     let urlForGetAllUsers = 'http://localhost:8041/admin/users?page=';
     let urlForUpdateDeleteUser = 'http://localhost:8041/admin/users/';
@@ -109,7 +116,7 @@ function Users(props) {
             console.log('erroring from update User: ', error);
         });
     }
-   useEffect(() => {
+    useEffect(() => {
         if (flag) {
             getAllUsers(props.token);
             setFlag(false);
@@ -136,11 +143,14 @@ function Users(props) {
                                 <td className='pl-4 align-middle'>{user.email}</td>
                                 <td className='pl-4 align-middle'>{user.phoneNumber}</td>
                                 <td className='text-center'>
-                                    <DropdownButton variant="info" title="action" size='md' >
-                                        <Dropdown.Item as="button" onSelect={() => handleUpdateAction(user)}>Update</Dropdown.Item>
-                                        <Dropdown.Divider />
-                                        <Dropdown.Item as="button" onSelect={() => removeUser(user.id, props.token)}>Delete</Dropdown.Item>
-                                    </DropdownButton>
+                                    <Dropdown size='md' >
+                                        <Dropdown.Toggle style={style.Button}>Action</Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item as="button" onSelect={() => handleUpdateAction(user)}>Update</Dropdown.Item>
+                                            <Dropdown.Divider />
+                                            <Dropdown.Item as="button" onSelect={() => removeUser(user.id, props.token)}>Delete</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                 </td>
                             </tr>
                         )}

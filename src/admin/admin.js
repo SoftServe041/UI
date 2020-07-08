@@ -17,7 +17,7 @@ export default function Admin(props) {
     return (
         <div>
             <Row id="title-row">
-                <Col md={{span: 3, offset: 5}}>
+                <Col md={{span: 5, offset: 5}}>
                     <h2 className="title-text"> Adminstator's page </h2>
                 </Col>
             </Row>
@@ -51,10 +51,10 @@ export default function Admin(props) {
                             <Users token={props.data.token}/>
                         </Tab.Pane>
                         <Tab.Pane eventKey="hubs">
-                            <Hubs setExistedHubs={setExistedHubs} existedHubs={existedHubs} data={props.data.token}/>
+                            <Hubs setExistedHubs={setExistedHubs} existedHubs={existedHubs} token={props.data.token}/>
                         </Tab.Pane>
                         <Tab.Pane eventKey="transports">
-                            <Transport existedHubs={existedHubs} data={props}/>
+                            <Transport existedHubs={existedHubs} token={props.data.token}/>
                         </Tab.Pane>
                     </Tab.Content>
                 </Tab.Container>
