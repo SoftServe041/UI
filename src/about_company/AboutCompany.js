@@ -41,10 +41,10 @@ export default function AboutCompany() {
 
 
                 <Row id="space-between-rows">
-                    <Col md={{ span: 3, offset: 5 }} > <h4>How we work</h4></Col>
+                    <Col md={{ span: 3, offset: 5 }} > <h4>How do we work?</h4></Col>
                 </Row>
                 <Row style={{ padding: "0 10%" }} id="space-between-rows">
-                    <Col><Image src={png1} fluid /> <h6 style={{ paddingTop: "1rem" }}>Select detinations</h6></Col>
+                    <Col><Image src={png1} fluid /> <h6 style={{ paddingTop: "1rem" }}>Select destinations</h6></Col>
                     <Col><Image src={png2} fluid /> <h6 style={{ paddingTop: "1rem" }}>Pass the registration</h6></Col>
                     <Col><Image src={png3} fluid /> <h6 style={{ paddingTop: "1rem" }}>Make the payment</h6></Col>
                     <Col><Image src={png4} fluid /> <h6 style={{ paddingTop: "1rem" }}>Receive your parcle</h6></Col>
