@@ -1,7 +1,8 @@
-import React, {useState,} from 'react';
+import React, { useState, } from 'react';
 import Users from './users.js';
 import Hubs from './hubs.js';
 import Transport from './transport.js';
+import TransportDetails from './transport-details.js';
 import './admin.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tab, Nav, Container, Col, Row } from "react-bootstrap";
@@ -10,6 +11,7 @@ import { Redirect } from 'react-router-dom';
 
 export default function Admin(props) {
     const [existedHubs, setExistedHubs] = useState([]);
+    const [transportTypes, setTransportTypes] = useState([]);
 
     if (props.data.ifLoggedIn == false) {
         return <Redirect to='/' />
@@ -17,12 +19,10 @@ export default function Admin(props) {
     return (
         <div>
             <Row id="title-row">
-                <Col md={{span: 3, offset: 5}}>
+                <Col md={{ span: 3, offset: 5 }}>
                     <h2 className="title-text"> Adminstator's page </h2>
                 </Col>
             </Row>
-
-
             <Container id="load-body">
                 <Tab.Container defaultActiveKey="transports">
                     <Nav variant="tabs bg-title-black" fill>
@@ -34,7 +34,7 @@ export default function Admin(props) {
                         </Nav.Item>
                         <Nav.Item className='col-md-2 h4 font-weight-bold'>
                             <Nav.Link className='title-text grey-bg mb-1 mt-1'
-                                      eventKey="transports">Transports</Nav.Link>
+                                eventKey="transports">Transports</Nav.Link>
                         </Nav.Item>
                         <Nav.Item className='col-md-2 h4 font-weight-bold'>
                             <Nav.Link className='title-text grey-bg mb-1 mt-1' eventKey="extratab">Extra</Nav.Link>
@@ -42,19 +42,16 @@ export default function Admin(props) {
                     </Nav>
                     <Tab.Content>
                         <Tab.Pane eventKey="extratab">
-                            <h1 className='component'>
-                                <p>Awaiting functionalities</p>
-                            </h1>
-                            <h1></h1>
+                            <TransportDetails transportTypes={transportTypes} />
                         </Tab.Pane>
                         <Tab.Pane eventKey="users">
-                            <Users/>
+                            <Users />
                         </Tab.Pane>
                         <Tab.Pane eventKey="hubs">
-                            <Hubs setExistedHubs={setExistedHubs} existedHubs={existedHubs}/>
+                            <Hubs setExistedHubs={setExistedHubs} existedHubs={existedHubs} />
                         </Tab.Pane>
                         <Tab.Pane eventKey="transports">
-                            <Transport existedHubs={existedHubs}/>
+                            <Transport existedHubs={existedHubs} setTransportTypes={setTransportTypes} transportTypes={transportTypes} />
                         </Tab.Pane>
                     </Tab.Content>
                 </Tab.Container>

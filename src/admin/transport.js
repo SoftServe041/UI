@@ -5,12 +5,14 @@ import axios from 'axios';
 function Transports(props) {
     let url = 'http://localhost:9041/admin/transport';
     let urlForTransportTypes = 'http://localhost:9041/admin/transport/types';
+    let sessionToken = sessionStorage.getItem('token1');
     const [pagination, setPagination] = useState([]);
     const [activePage, setActivePage] = useState(0);
     let existedHubs = props.existedHubs;
     const [flag, setFlag] = useState(true);
     const [transports, setTransports] = useState([]);
-    const [transportTypes, setTransportTypes] = useState([]);
+    let transportTypes = props.transportTypes;
+    let setTransportTypes = props.setTransportTypes;
     const [boundedHub, setBoundedHub] = useState('');
     const [compartments, setCompartments] = useState([
         {
@@ -61,9 +63,7 @@ function Transports(props) {
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': sessionToken,
             },
             'params': {
                 'search': 'parameter',
@@ -84,9 +84,7 @@ function Transports(props) {
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': sessionToken,
             },
         }).then(response => {
             if (response.status === 200) {
@@ -108,9 +106,7 @@ function Transports(props) {
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': sessionToken,
             },
             data:
             {
@@ -137,9 +133,7 @@ function Transports(props) {
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': sessionToken,
             },
             data:
             {
@@ -168,9 +162,7 @@ function Transports(props) {
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': sessionToken,
             }
 
         }).then(response => {
