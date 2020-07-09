@@ -368,13 +368,13 @@ function Transports(props) {
                                 <Form.Control type="number" className='text-left' size='sm' defaultValue={weight} onChange={(e) => setWeight(e.target.value)} />
                             </Col>
                             <Col>
-                                <Form.Control type="number" size='sm' defaultValue={width} onChange={(e) => setWidth(e.target.value)} />
+                                <Form.Control type="number" size='sm' defaultValue={width} onChange={(e) => setWidth(e.target.value/100)} />
                             </Col>
                             <Col>
-                                <Form.Control type="number" size='sm' defaultValue={height} onChange={(e) => setHeight(e.target.value)} />
+                                <Form.Control type="number" size='sm' defaultValue={height} onChange={(e) => setHeight(e.target.value/100)} />
                             </Col>
                             <Col sm="3">
-                                <Form.Control type="number" size='sm' defaultValue={length} onChange={(e) => setLength(e.target.value)} />
+                                <Form.Control type="number" size='sm' defaultValue={length} onChange={(e) => setLength(e.target.value/100)} />
                             </Col>
                             <Col className="align-middle text-center">
                                 <Button onClick={() => addNewCompartment()} size="sm">+</Button>
