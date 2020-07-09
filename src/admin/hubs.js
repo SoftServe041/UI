@@ -7,7 +7,7 @@ import axios from 'axios';
 function Hubs(props) {
     let url = 'http://localhost:9041/admin/hub';
     let urlForReltion = 'http://localhost:9041/admin/hub/relation';
-    // const [existedHubs, setExistedHubs] = useState([]);
+    let sessionToken = sessionStorage.getItem('token1');
     let existedHubs = props.existedHubs;
     let setExistedHubs = props.setExistedHubs;
     const [flag, setFlag] = useState(true);
@@ -37,9 +37,7 @@ function Hubs(props) {
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': sessionToken,
             },
         }).then(response => {
             console.log('responsing from getExistedHubs: ', response);
@@ -57,9 +55,7 @@ function Hubs(props) {
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'content-type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': sessionToken,
             },
             data:
             {
@@ -89,9 +85,7 @@ function Hubs(props) {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'content-type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': sessionToken,
             },
             data:
             {
@@ -116,9 +110,7 @@ function Hubs(props) {
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'content-type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': sessionToken,
             },
 
         }).then(response => {
@@ -142,9 +134,7 @@ function Hubs(props) {
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'content-type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': sessionToken,
             },
             data: {
                 id: hub.id,
@@ -170,9 +160,7 @@ function Hubs(props) {
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'content-type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': sessionToken,
             },
             data: {
                 newCity: currentHub.name,
@@ -195,9 +183,7 @@ function Hubs(props) {
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'content-type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': sessionToken,
             },
             data: {
                 newCity: currentHub.name,
