@@ -218,8 +218,8 @@ function Transports(props) {
                 <Table variant='dark' size='md' striped bordered hover >
                     <thead>
                         <tr>
-                            <th className='text-center mb-1'><h4>Number</h4></th>
-                            <th className='text-center mb-1'><h4>Bound hub</h4></th>
+                            <th className='text-center mb-1'>Number</th>
+                            <th className='text-center mb-1'>Bound hub</th>
                             <th className='text-center mb-1'>
                                 <h4>Compartments</h4>
                                 <Row>
@@ -231,8 +231,8 @@ function Transports(props) {
                                     <Col sm="2">Length</Col>
                                 </Row>
                             </th>
-                            <th className='text-center aling-top'><h4>Type</h4></th>
-                            <th className='text-center aling-middle'><h4>Actions</h4></th>
+                            <th className='text-center aling-top'>Type</th>
+                            <th className='text-center aling-middle'>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
