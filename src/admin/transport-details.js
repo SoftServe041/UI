@@ -36,14 +36,12 @@ function TransportDetails(props) {
                 'Authorization': `Bearer_${props}`,
             },
         }).then(response => {
-            console.log('responsing from getExistedTransEntity: ', response);
             initialiseExistedTransportEntities(response.data.content);
         }).catch(error => {
             console.log('erroring from getExisteTransporEntiy: ', error);
         });
     }
     function createTransportEntity(props) {
-        console.log('createTransportEntity', type, averageSpeed, pricePerKm);
         axios({
             'method': 'POST',
             'url': url,
@@ -61,7 +59,6 @@ function TransportDetails(props) {
             },
 
         }).then(response => {
-            console.log('responsing from create transportEntity: ', response.status);
             if (response.status === 201) {
                 setFlag(true);
                 setCreateTransportEntityFlag(false);
@@ -72,7 +69,6 @@ function TransportDetails(props) {
         });
     }
     function updateTransportEntity(props) {
-        console.log('Update transportEntity()', idTransportEntity);
         axios({
             'method': 'PUT',
             'url': url,
@@ -90,7 +86,6 @@ function TransportDetails(props) {
             },
 
         }).then(response => {
-            console.log('responsing from update transportEntity: ', response.status);
             if (response.status === 200) {
                 setFlag(true);
                 setUpdateTrEnFlag(false);
@@ -101,7 +96,6 @@ function TransportDetails(props) {
         });
     }
     function removeTransportEntity(id, props) {
-        console.log('removeTransportEntity:', id);
         axios({
             'method': 'DELETE',
             'url': url + "/" + id,
@@ -112,7 +106,6 @@ function TransportDetails(props) {
             },
 
         }).then(response => {
-            console.log('responsing from remove transEntity: ', response.status);
             if (response.status === 200) {
                 setFlag(true);
             }
@@ -133,9 +126,7 @@ function TransportDetails(props) {
     }
 
     useEffect(() => {
-        console.log('transportDetails effect', flag);
         if (flag) {
-            console.log('inside effect hub');
             getExistedTransportEntities(props.token);
         }
     });
