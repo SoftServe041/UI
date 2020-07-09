@@ -37,7 +37,7 @@ export default function Admin(props) {
                                 eventKey="transports">Transports</Nav.Link>
                         </Nav.Item>
                         <Nav.Item className='col-md-2 h4 font-weight-bold'>
-                            <Nav.Link className='title-text grey-bg mb-1 mt-1' eventKey="extratab">Transport Details</Nav.Link>
+                            <Nav.Link className='title-text grey-bg mb-1 mt-1' eventKey="extratab">Extra</Nav.Link>
                         </Nav.Item>
                     </Nav>
                     <Tab.Content>

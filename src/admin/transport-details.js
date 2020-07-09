@@ -141,56 +141,54 @@ function TransportDetails(props) {
     });
     return (
         <div>
-
-            {/*<Card>
+            <Accordion className='mt-5 ml-5 mr-5' defaultActiveKey="0">
+                <Card>
                     <Accordion.Toggle as={Card.Header} eventKey="0">
                         <h3 className='text-center align-middle font-weight-bold'>Transport details</h3>
                     </Accordion.Toggle>
-                    
+
                     <Accordion.Collapse className='grey-bg' eventKey="0">
                         <Card.Body>
-                        */}
-            <div className='component-small'>
-                <Table variant='dark' size='md' striped bordered hover >
-                    <thead>
-                        <tr>
-                            <th className='text-center mb-1'>Type</th>
-                            <th className='text-center mb-1'>Average speed</th>
-                            <th className='text-center aling-top'>Price per km</th>
-                            <th className='text-center aling-middle'>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {transportEntities.map((transportEntity, index) =>
-                            <tr key={index}>
-                                <td className='text-center align-middle'>
-                                    {transportEntity.type}
-                                </td>
-                                <td className='text-center align-middle'>{transportEntity.averageSpeed}</td>
-                                <td className='text-center align-middle'>{transportEntity.pricePerKm}</td>
-                                <td className='text-center align-middle'>
-                                    <Dropdown size='md' >
-                                        <Dropdown.Toggle style={style.Button}>Action</Dropdown.Toggle>
-                                        <DropdownMenu>
-                                            <Dropdown.Item as="button" onSelect={() => handleUpdateTransportEntity(transportEntity)}>Update</Dropdown.Item>
-                                            <Dropdown.Divider />
-                                            <Dropdown.Item as="button" onSelect={() => removeTransportEntity(transportEntity.id, props.token)}>Delete</Dropdown.Item>
-                                        </DropdownMenu>
-                                    </Dropdown>
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </Table>
-            </div>
-            <div className="col text-right">
-                <Button id='new-hub-img' variant="light" onClick={() => setCreateTransportEntityFlag(true)} />
-            </div>
-            {/* </Card.Body>
+                            <div className='component-small'>
+                                <Table variant='dark' size='md' striped bordered hover >
+                                    <thead>
+                                        <tr>
+                                            <th className='text-center mb-1'>Type</th>
+                                            <th className='text-center mb-1'>Average speed</th>
+                                            <th className='text-center aling-top'>Price per km</th>
+                                            <th className='text-center aling-middle'>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {transportEntities.map((transportEntity, index) =>
+                                            <tr key={index}>
+                                                <td className='text-center align-middle'>
+                                                    {transportEntity.type}
+                                                </td>
+                                                <td className='text-center align-middle'>{transportEntity.averageSpeed}</td>
+                                                <td className='text-center align-middle'>{transportEntity.pricePerKm}</td>
+                                                <td className='text-center align-middle'>
+                                                    <Dropdown size='md' >
+                                                        <Dropdown.Toggle style={style.Button}>Action</Dropdown.Toggle>
+                                                        <DropdownMenu>
+                                                            <Dropdown.Item as="button" onSelect={() => handleUpdateTransportEntity(transportEntity)}>Update</Dropdown.Item>
+                                                            <Dropdown.Divider />
+                                                            <Dropdown.Item as="button" onSelect={() => removeTransportEntity(transportEntity.id, props.token)}>Delete</Dropdown.Item>
+                                                        </DropdownMenu>
+                                                    </Dropdown>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </Table>
+                            </div>
+                            <div className="col text-right">
+                                <Button id='new-hub-img' variant="light" onClick={() => setCreateTransportEntityFlag(true)} />
+                            </div>
+                        </Card.Body>
                     </Accordion.Collapse>
                 </Card>
-                       */}
-            <Accordion className='mt-5 ml-5 mr-5' defaultActiveKey="0">
+
                 <Card>
                     <Accordion.Toggle as={Card.Header} eventKey="1">
                         Functionality # Trucks status and their loaded cargos
