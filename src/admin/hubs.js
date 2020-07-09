@@ -37,7 +37,6 @@ function Hubs(props) {
         return existingCitiesNames;
     }
     function getExistedHubs(props) {
-        console.log("1 getExistedHubs", props);
         axios({
             'method': 'GET',
             'url': url,
@@ -47,7 +46,6 @@ function Hubs(props) {
                 'Authorization': `Bearer_${props.token}`,
             },
         }).then(response => {
-            //console.log('responsing from getExistedHubs: ', response);
             if (response.status === 200) {
                 initialiseExistedHubs(response.data);
             }
@@ -56,7 +54,6 @@ function Hubs(props) {
         });
     }
     function createHub(props) {
-        console.log("2 createHub", props.token);
         axios({
             'method': 'POST',
             'url': url,
@@ -71,7 +68,6 @@ function Hubs(props) {
             },
 
         }).then(response => {
-            console.log('responsing from create Hub: ', response.status);
             if (response.status === 201) {
                 setFlag(true);
                 setCreateHubFlag(false);
@@ -86,7 +82,6 @@ function Hubs(props) {
         setUpdateHubFlag(true);
     }
     function updateHub(props) {
-        console.log("3 updateHub", newHubName, currentHub.name);
         axios({
             method: 'PATCH',
             url: url + '/' + currentHub.name,
@@ -100,7 +95,6 @@ function Hubs(props) {
                 newName: newHubName,
             }
         }).then(response => {
-            console.log('responsing from update Hub: ', response);
             if (response.status === 200) {
                 setUpdateHubFlag(false);
                 setFlag(true);
@@ -112,7 +106,6 @@ function Hubs(props) {
         });
     }
     function removeHub(hub, props) {
-        console.log("4 removeHub", props.token);
         axios({
             'method': 'DELETE',
             'url': url + "/" + hub.name,
@@ -123,7 +116,6 @@ function Hubs(props) {
             },
 
         }).then(response => {
-            console.log('responsing from remove Hub: ', response.status);
             if (response.status === 200) {
                 setFlag(true);
             }
@@ -136,7 +128,6 @@ function Hubs(props) {
         showRelationForCurrentHub(hub, props);
     }
     function showRelationForCurrentHub(hub, props) {
-        console.log("5 showRelationForCurrentHub", props);
         axios({
             'method': 'GET',
             'url': urlForReltion + '/' + hub.name,
@@ -150,7 +141,6 @@ function Hubs(props) {
                 name: hub.name,
             }
         }).then(response => {
-            console.log('responsing from showRelationForCurrentHub: ', response);
             initialiseRelationForCurrentHub(response.data);
         }).catch(error => {
             console.log('erroring from showRelationForCurrentHub: ', error);
@@ -162,7 +152,6 @@ function Hubs(props) {
         setRelationFlag(true);
     }
     function createRelation(props) {
-        console.log("6 createRelation", props);
         axios({
             'method': 'POST',
             'url': urlForReltion,
@@ -176,7 +165,6 @@ function Hubs(props) {
                 connectedCity: newHubName,
             }
         }).then(response => {
-            console.log('responsing from create relation', response.status);
             if (response.status === 200) {
                 showRelationForCurrentHub(currentHub, props);
             }
@@ -185,7 +173,6 @@ function Hubs(props) {
         });
     }
     function removeRelation(relationHubName, props) {
-        console.log("7 removeRelation", props);
         axios({
             'method': 'DELETE',
             'url': urlForReltion,
@@ -200,7 +187,6 @@ function Hubs(props) {
             }
 
         }).then(response => {
-            console.log('responsing from remove relation', response.status);
             if (response.status === 200) {
                 showRelationForCurrentHub(currentHub, props);
             }
@@ -210,7 +196,6 @@ function Hubs(props) {
     }
     useEffect(() => {
         if (flag) {
-            //console.log('inside effect hub');
             getExistedHubs(props);
         }
     });

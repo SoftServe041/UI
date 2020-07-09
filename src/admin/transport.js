@@ -63,7 +63,6 @@ function Transports(props) {
         return itemsArray;
     }
     function getAllTransports(props) {
-        console.log("Transport props", props);
         axios({
             'method': 'GET',
             'url': url + '?page=' + activePage + '&size=5',
@@ -123,7 +122,6 @@ function Transports(props) {
             },
 
         }).then(response => {
-            console.log('responsing from create transport: ', response.status);
             if (response.status === 201) {
                 setFlag(true);
                 setCreateModalFlag(false);
