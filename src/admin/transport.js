@@ -6,12 +6,14 @@ import DropdownMenu from 'react-bootstrap/DropdownMenu';
 function Transports(props) {
     let url = 'http://localhost:9041/admin/transport';
     let urlForTransportTypes = 'http://localhost:9041/admin/transport/types';
+    let sessionToken = sessionStorage.getItem('token1');
     const [pagination, setPagination] = useState([]);
     const [activePage, setActivePage] = useState(0);
     let existedHubs = props.existedHubs;
     const [flag, setFlag] = useState(true);
     const [transports, setTransports] = useState([]);
-    const [transportTypes, setTransportTypes] = useState([]);
+    let transportTypes = props.transportTypes;
+    let setTransportTypes = props.setTransportTypes;
     const [boundedHub, setBoundedHub] = useState('');
     const [compartments, setCompartments] = useState([
         {

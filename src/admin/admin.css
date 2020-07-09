@@ -13,6 +13,15 @@
     padding-right: 5px;
     border-radius: 1%;
 }
+
+.component-small {
+    height: 200px;
+    overflow-y: scroll;
+    margin: 5px 0px 0px 20px;
+    padding-right: 5px;
+    border-radius: 1%;
+}
+
 .grey-bg {
     background-color: #c2c2c2;
 }
