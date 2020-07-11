@@ -5,6 +5,7 @@ import './header.css';
 import icon from './user-icon1.png';
 import { Link } from 'react-router-dom';
 import { Overlay, Popover, Button, Row } from 'react-bootstrap';
+import axios from 'axios'; 
 
 import './loginmenu.css';
 import { useState, useRef } from 'react';
@@ -99,6 +100,23 @@ function UserLoggedIn(props) {
 		ifLoggedIn: false
 	}
 
+	async function logOut() {
+		await axios({
+            'method': 'GET',
+            'url': 'http://localhost:8041/reset',
+            'headers': {
+                'Authorization': `Bearer_${sessionStorage.getItem('token1')}`
+            }
+        }).then(response => {
+            if (response.status === 200) {
+				console.log("inside LogOut", logoutData, sessionStorage.getItem('token1'));
+				props.handleToken(logoutData);
+			};
+        }).catch(error => {
+            console.log('error while getting orders: ', error);
+        });
+	}
+
 	return (
 		<div style={style.divAbsolute} ref={ref}>
 			<Button className="login-button" onClick={(event) => {
@@ -121,7 +139,7 @@ function UserLoggedIn(props) {
 								</Button>
 							</li>
 							<li>
-								<Button className="modal-button" onClick={() => { props.handleToken(logoutData) }}>
+								<Button className="modal-button" onClick={() => { logOut() }}>
 									<Link className="a" to="/">Log out</Link>
 								</Button>
 							</li>
