@@ -6,10 +6,8 @@ import icon from './user-icon1.png';
 import { Link } from 'react-router-dom';
 import { Overlay, Popover, Button, Row } from 'react-bootstrap';
 import axios from 'axios'; 
-
 import './loginmenu.css';
 import { useState, useRef } from 'react';
-
 
 
 function Greeting(props) {
@@ -18,8 +16,6 @@ function Greeting(props) {
 	}
 	return <NotLogedIn handleToken={props.handleToken} />;
 }
-
-
 
 
 class NotLogedIn extends React.Component {
@@ -86,7 +82,6 @@ const style = {
 	}
 }
 
-
 function UserLoggedIn(props) {
 	const [show, setShow] = useState(false);
 	const [target, setTarget] = useState(null);
@@ -109,7 +104,6 @@ function UserLoggedIn(props) {
             }
         }).then(response => {
             if (response.status === 200) {
-				console.log("inside LogOut", logoutData, sessionStorage.getItem('token1'));
 				props.handleToken(logoutData);
 			};
         }).catch(error => {
@@ -160,8 +154,4 @@ UserLoggedIn.propTypes = {
 	ifAdmin: PropTypes.bool
 }
 
-
-
 export default Greeting;
-
-//ReactDOM.render(<Modal />, document.getElementById('loginmodule') )
