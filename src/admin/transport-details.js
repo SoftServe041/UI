@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Accordion, Card, Table, DropdownButton, Dropdown, Button, Modal, Form, Col, Row } from "react-bootstrap";
+import { Accordion, Card, Table, Dropdown, Button, Modal, Form, Col, Row } from "react-bootstrap";
+import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import axios from 'axios';
 
+const style = {
+    Button: {
+        "backgroundColor": "#ff8e09",
+        "border": "none"
+    }
+}
 
 function TransportDetails(props) {
     let url = 'http://localhost:9041/admin/transport/details';
-    let sessionToken = sessionStorage.getItem('token1');
     let transportTypes = props.transportTypes;
     const [transportEntities, setTransportEntities] = useState([]);
     const [flag, setFlag] = useState(true);
@@ -20,31 +26,29 @@ function TransportDetails(props) {
         setFlag(false);
         setTransportEntities(transportEntities);
     }
-    function getExistedTransportEntities() {
+    function getExistedTransportEntities(props) {
         axios({
             'method': 'GET',
             'url': url,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': sessionToken,
+                'Authorization': `Bearer_${props}`,
             },
         }).then(response => {
-            console.log('responsing from getExistedTransEntity: ', response);
-            initialiseExistedTransportEntities(response.content);
+            initialiseExistedTransportEntities(response.data.content);
         }).catch(error => {
             console.log('erroring from getExisteTransporEntiy: ', error);
         });
     }
-    function createTransportEntity() {
-        console.log('createTransportEntity', type, averageSpeed, pricePerKm);
+    function createTransportEntity(props) {
         axios({
             'method': 'POST',
             'url': url,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': sessionToken,
+                'Authorization': `Bearer_${props}`,
             },
             data:
             {
@@ -55,7 +59,6 @@ function TransportDetails(props) {
             },
 
         }).then(response => {
-            console.log('responsing from create transportEntity: ', response.status);
             if (response.status === 201) {
                 setFlag(true);
                 setCreateTransportEntityFlag(false);
@@ -65,15 +68,14 @@ function TransportDetails(props) {
             setCreateTransportEntityFlag(false);
         });
     }
-    function updateTransportEntity() {
-        console.log('Update transportEntity()', idTransportEntity);
+    function updateTransportEntity(props) {
         axios({
             'method': 'PUT',
             'url': url,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': sessionToken,
+                'Authorization': `Bearer_${props}`,
             },
             data:
             {
@@ -84,7 +86,6 @@ function TransportDetails(props) {
             },
 
         }).then(response => {
-            console.log('responsing from update transportEntity: ', response.status);
             if (response.status === 200) {
                 setFlag(true);
                 setUpdateTrEnFlag(false);
@@ -94,19 +95,17 @@ function TransportDetails(props) {
             setUpdateTrEnFlag(false);
         });
     }
-    function removeTransportEntity(id) {
-        console.log('removeTransportEntity:', id);
+    function removeTransportEntity(id, props) {
         axios({
             'method': 'DELETE',
             'url': url + "/" + id,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': sessionToken,
+                'Authorization': `Bearer_${props}`,
             },
 
         }).then(response => {
-            console.log('responsing from remove transEntity: ', response.status);
             if (response.status === 200) {
                 setFlag(true);
             }
@@ -125,12 +124,10 @@ function TransportDetails(props) {
         setIdTransportEntity(transportEntity.id);
         setUpdateTrEnFlag(true);
     }
-  
+
     useEffect(() => {
-        console.log('transportDetails effect', flag);
         if (flag) {
-            console.log('inside effect hub');
-            getExistedTransportEntities();
+            getExistedTransportEntities(props.token);
         }
     });
     return (
@@ -140,16 +137,17 @@ function TransportDetails(props) {
                     <Accordion.Toggle as={Card.Header} eventKey="0">
                         <h3 className='text-center align-middle font-weight-bold'>Transport details</h3>
                     </Accordion.Toggle>
+
                     <Accordion.Collapse className='grey-bg' eventKey="0">
                         <Card.Body>
                             <div className='component-small'>
                                 <Table variant='dark' size='md' striped bordered hover >
                                     <thead>
                                         <tr>
-                                            <th className='text-center mb-1'><h4>Type</h4></th>
-                                            <th className='text-center mb-1'><h4>Average speed</h4></th>
-                                            <th className='text-center aling-top'><h4>Price per km</h4></th>
-                                            <th className='text-center aling-middle'><h4>Actions</h4></th>
+                                            <th className='text-center mb-1'>Type</th>
+                                            <th className='text-center mb-1'>Average speed</th>
+                                            <th className='text-center aling-top'>Price per km</th>
+                                            <th className='text-center aling-middle'>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -161,11 +159,14 @@ function TransportDetails(props) {
                                                 <td className='text-center align-middle'>{transportEntity.averageSpeed}</td>
                                                 <td className='text-center align-middle'>{transportEntity.pricePerKm}</td>
                                                 <td className='text-center align-middle'>
-                                                    <DropdownButton variant="info" title="action" size='md' >
-                                                        <Dropdown.Item as="button" onSelect={() => handleUpdateTransportEntity(transportEntity)}>Update</Dropdown.Item>
-                                                        <Dropdown.Divider />
-                                                        <Dropdown.Item as="button" onSelect={() => removeTransportEntity(transportEntity.id)}>Delete</Dropdown.Item>
-                                                    </DropdownButton>
+                                                    <Dropdown size='md' >
+                                                        <Dropdown.Toggle style={style.Button}>Action</Dropdown.Toggle>
+                                                        <DropdownMenu>
+                                                            <Dropdown.Item as="button" onSelect={() => handleUpdateTransportEntity(transportEntity)}>Update</Dropdown.Item>
+                                                            <Dropdown.Divider />
+                                                            <Dropdown.Item as="button" onSelect={() => removeTransportEntity(transportEntity.id, props.token)}>Delete</Dropdown.Item>
+                                                        </DropdownMenu>
+                                                    </Dropdown>
                                                 </td>
                                             </tr>
                                         )}
@@ -178,6 +179,7 @@ function TransportDetails(props) {
                         </Card.Body>
                     </Accordion.Collapse>
                 </Card>
+
                 <Card>
                     <Accordion.Toggle as={Card.Header} eventKey="1">
                         Functionality # Trucks status and their loaded cargos
@@ -243,7 +245,7 @@ function TransportDetails(props) {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='col-md-5 mr-3' onClick={() => createTransportEntityFlag ? createTransportEntity() : updateTransportEntity()}>
+                    <Button className='col-md-5 mr-3' onClick={() => createTransportEntityFlag ? createTransportEntity(props.token) : updateTransportEntity(props.token)}>
                         {
                             createTransportEntityFlag ? "Create" : "Update"
                         }

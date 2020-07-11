@@ -38,8 +38,6 @@ class MainPage extends React.Component {
     async componentDidMount() {
         await axios.get(`http://localhost:9041/cities`)
             .then(res => {
-
-                console.log("componentDidMount", res.data)
                 this.setState({citiesList: res.data})
             })
             .catch(error => console.log('Cities cannot be loaded' + error));
