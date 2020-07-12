@@ -243,7 +243,7 @@ class MainPage extends React.Component {
                                     <Col md={{ span: 1, offset: 0 }}><p>or</p></Col>
 
                                     <Col md={{ span: 1, offset: 0 }}>
-                                        <Button id="body-button" style={{ minWidth: "200px" }} onClick={() => { this.handleModal() }}>Add more cargo</Button>
+                                        <Button id="body-button" style={{ minWidth: "200px" }} onClick={() => { this.handleModal() }}>Add more</Button>
                                     </Col>
 
                                 </Row>

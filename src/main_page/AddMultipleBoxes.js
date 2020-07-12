@@ -17,10 +17,22 @@ function MultipleCargo(props) {
         },
     ]);
 
+    const [multiplicator, setMult] = useState(1);
+
     const [weight, setWeight] = useState(22);
     const [width, setWidth] = useState(240);
     const [height, setHeight] = useState(240);
     const [length, setLength] = useState(1200);
+
+    const ColoredLine = ({ color }) => (
+        <hr
+            style={{
+                color: color,
+                backgroundColor: color,
+                height: 1
+            }}
+        />
+    );
 
 
     function createTransport() {
@@ -49,17 +61,18 @@ function MultipleCargo(props) {
         });
     }
 
-    function addNewBox() {
-        setBox([...boxes,
-        {
-            maximumWeight: weight,
-            volume: {
-                width: width,
-                height: height,
-                length: length,
-            }
-        }]);
-
+    function addNewBoxes(m) {
+        for (var i = 0; i < m; i++) {
+            setBox([...boxes,
+            {
+                maximumWeight: weight,
+                volume: {
+                    width: width,
+                    height: height,
+                    length: length,
+                }
+            }]);
+        }
     }
 
     function removeBox(index) {
@@ -79,16 +92,38 @@ function MultipleCargo(props) {
             <Modal show={props.showFlag} onHide={() => { }} animation='true'>
                 <Modal.Header>
                     <Modal.Title className="font-weight-bold ml-3">
-                        Cargo in order
+                        List of cargo
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
                         <Form.Group as={Row}>
-                            <Form.Label className='pl-4 font-italic' column sm="12">
-                                Cargo list:
+                            <Form.Label className='pl-4 font-italic' column sm="">
+                                Add new box(es):
                             </Form.Label>
                         </Form.Group>
+                        <Form.Group as={Row} className='mt-1 mr-7 ml-7 pt-1 pb-1'>
+                            <Col>
+                                <Form.Control type="number" size='sm' defaultValue={weight} onChange={(e) => setWeight(e.target.value)} />
+                            </Col>
+
+                            <Col>
+                                <Form.Control type="number" size='sm' defaultValue={width} onChange={(e) => setWidth(e.target.value)} />
+                            </Col>
+                            <Col>
+                                <Form.Control type="number" size='sm' defaultValue={height} onChange={(e) => setHeight(e.target.value)} />
+                            </Col>
+                            <Col>
+                                <Form.Control type="number" size='sm' defaultValue={length} onChange={(e) => setLength(e.target.value)} />
+                            </Col>
+                            <Col className="align-middle text-center">
+                                <Button style={{ minWidth: "80px" }} variant='outline-success' onClick={() => addNewBoxes(multiplicator)} size="sm"> Add box</Button>
+                            </Col>
+                            <Col>
+                                <Form.Control type="number" size='sm' defaultValue={multiplicator} onChange={(e) => setMult(e.target.value)} />
+                            </Col>
+                        </Form.Group>
+                        <ColoredLine color="orange" />
                         <Row>
                             <Form.Label className='text-center font-italic' column sm="2">Weight</Form.Label>
                             <Form.Label className='text-center font-italic' column sm="2">Width</Form.Label>
@@ -121,30 +156,12 @@ function MultipleCargo(props) {
                                     </Form.Label>
                                     <Form.Label className='text-center' column sm="4">
                                         <Button variant="outline-danger" size="sm" onClick={() => removeBox(index)}>
-                                        remove
+                                            Remove
                                         </Button>
                                     </Form.Label>
                                 </Row>
                             )
                         }
-
-                        <Form.Group as={Row} className='mt-1 mr-2 ml-1 pt-1 pb-1' style={{ border: '1px grey solid' }}>
-                            <Col>
-                                <Form.Control type="number" size='sm' defaultValue={weight} onChange={(e) => setWeight(e.target.value)} />
-                            </Col>
-                            <Col>
-                                <Form.Control type="number" size='sm' defaultValue={width} onChange={(e) => setWidth(e.target.value)} />
-                            </Col>
-                            <Col>
-                                <Form.Control type="number" size='sm' defaultValue={height} onChange={(e) => setHeight(e.target.value)} />
-                            </Col>
-                            <Col sm="3">
-                                <Form.Control type="number" size='sm' defaultValue={length} onChange={(e) => setLength(e.target.value)} />
-                            </Col>
-                            <Col className="align-middle text-center">
-                                <Button variant='outline-success' onClick={() => addNewBox() } size="sm"> add </Button>
-                            </Col>
-                        </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
