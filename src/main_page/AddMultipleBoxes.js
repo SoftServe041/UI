@@ -3,11 +3,10 @@ import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, 
 import axios from 'axios';
 
 function MultipleCargo(props) {
-    // let showFlag=props.showFlag;
 
     const [flag, setFlag] = useState(true);
 
-    const [compartments, setCompartments] = useState([
+    const [boxes, setBox] = useState([
         {
             maximumWeight: 22,
             volume: {
@@ -39,15 +38,34 @@ function MultipleCargo(props) {
             },
 
         }).then(response => {
-            console.log('responsing from create transport: ', response.status);
+            console.log('responsing from create cargo: ', response.status);
             if (response.status === 201) {
                 setFlag(true);
 
             }
         }).catch(error => {
-            console.log('erroring from create trans: ', error);
+            console.log('erroring from create cargo: ', error);
 
         });
+    }
+
+    function addNewBox() {
+        setBox([...boxes,
+        {
+            maximumWeight: weight,
+            volume: {
+                width: width,
+                height: height,
+                length: length,
+            }
+        }]);
+
+    }
+
+    function removeBox(index) {
+        let newBoxes = [].concat(boxes);
+        newBoxes.splice(index, 1);
+        setBox(newBoxes);
     }
 
     useEffect(() => {
@@ -58,30 +76,17 @@ function MultipleCargo(props) {
     });
     return (
         <div>
-            {console.log("срусл іваіва",props) }
             <Modal show={props.showFlag} onHide={() => { }} animation='true'>
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title className="font-weight-bold ml-3">
-                        Boxes
+                        Cargo in order
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-
-                        <Form.Group as={Row}>
-                            <Form.Label className='pl-4' column sm="4">
-                                Transport type
-                            </Form.Label>
-                            <Col sm="8">
-                                <Form.Control as="select" >
-                                    <option>Choose type</option>
-
-                                </Form.Control>
-                            </Col>
-                        </Form.Group>
                         <Form.Group as={Row}>
                             <Form.Label className='pl-4 font-italic' column sm="12">
-                                Compartments:
+                                Cargo list:
                             </Form.Label>
                         </Form.Group>
                         <Row>
@@ -89,12 +94,43 @@ function MultipleCargo(props) {
                             <Form.Label className='text-center font-italic' column sm="2">Width</Form.Label>
                             <Form.Label className='text-center font-italic' column sm="2">Height</Form.Label>
                             <Form.Label className='text-center font-italic' column sm="2">Length</Form.Label>
-                            <Form.Label className='text-center font-italic' column sm="4">Remove</Form.Label>
                         </Row>
+
+                        {
+                            boxes.map((box, index) =>
+                                <Row key={index}>
+                                    <Form.Label className='text-center' column sm="2">
+                                        {
+                                            box.maximumWeight
+                                        }
+                                    </Form.Label>
+                                    <Form.Label className='text-center' column sm="2">
+                                        {
+                                            box.volume.width
+                                        }
+                                    </Form.Label>
+                                    <Form.Label className='text-center' column sm="2">
+                                        {
+                                            box.volume.height
+                                        }
+                                    </Form.Label>
+                                    <Form.Label className='text-center' column sm="2">
+                                        {
+                                            box.volume.length
+                                        }
+                                    </Form.Label>
+                                    <Form.Label className='text-center' column sm="4">
+                                        <Button variant="outline-danger" size="sm" onClick={() => removeBox(index)}>
+                                        remove
+                                        </Button>
+                                    </Form.Label>
+                                </Row>
+                            )
+                        }
 
                         <Form.Group as={Row} className='mt-1 mr-2 ml-1 pt-1 pb-1' style={{ border: '1px grey solid' }}>
                             <Col>
-                                <Form.Control type="number" className='text-left' size='sm' defaultValue={weight} onChange={(e) => setWeight(e.target.value)} />
+                                <Form.Control type="number" size='sm' defaultValue={weight} onChange={(e) => setWeight(e.target.value)} />
                             </Col>
                             <Col>
                                 <Form.Control type="number" size='sm' defaultValue={width} onChange={(e) => setWidth(e.target.value)} />
@@ -106,16 +142,16 @@ function MultipleCargo(props) {
                                 <Form.Control type="number" size='sm' defaultValue={length} onChange={(e) => setLength(e.target.value)} />
                             </Col>
                             <Col className="align-middle text-center">
-                                <Button onClick={() => { }} size="sm">+</Button>
+                                <Button variant='outline-success' onClick={() => addNewBox() } size="sm"> add </Button>
                             </Col>
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='col-md-5 mr-3' onClick={() => { }}>
+                    <Button id="body-button" className='col-md-5 mr-3' onClick={() => { }}>
                         Create
                     </Button>
-                    <Button className='col-md-5 mr-4' variant='secondary' onClick={() => {props.handleModal()}}>Cancel</Button>
+                    <Button id="body-button2" className='col-md-5 mr-4' onClick={() => { props.handleModal() }}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
         </div>

@@ -34,7 +34,7 @@ class MainPage extends React.Component {
 
         this.handleSelectedDeparture = this.handleSelectedDeparture.bind(this);
         this.handleSelectedArrival = this.handleSelectedArrival.bind(this);
-        this.handleModal=this.handleModal.bind(this);
+        this.handleModal = this.handleModal.bind(this);
 
     }
 
@@ -123,8 +123,8 @@ class MainPage extends React.Component {
             this.setState({ arrival: this.state.departure, departure: tempReplace });
     }
 
-    handleModal(){
-        this.setState({showFlag:!this.state.showFlag})
+    handleModal() {
+        this.setState({ showFlag: !this.state.showFlag })
     }
 
 
@@ -243,7 +243,7 @@ class MainPage extends React.Component {
                                     <Col md={{ span: 1, offset: 0 }}><p>or</p></Col>
 
                                     <Col md={{ span: 1, offset: 0 }}>
-                                        <Button id="body-button" style={{minWidth:"300px"}} onClick={() => {this.handleModal()}}>Add boxes</Button>
+                                        <Button id="body-button" style={{ minWidth: "200px" }} onClick={() => { this.handleModal() }}>Add more cargo</Button>
                                     </Col>
 
                                 </Row>
@@ -268,7 +268,7 @@ class MainPage extends React.Component {
                         </Col>
                     </Row>
                 </Container>
-                <MultipleCargo showFlag={this.state.showFlag} handleModal={this.handleModal}/>
+                <MultipleCargo showFlag={this.state.showFlag} handleModal={this.handleModal} />
             </div>
         );
     }
