@@ -5,10 +5,9 @@ import './header.css';
 import icon from './user-icon1.png';
 import { Link } from 'react-router-dom';
 import { Overlay, Popover, Button, Row } from 'react-bootstrap';
-
+import axios from 'axios'; 
 import './loginmenu.css';
 import { useState, useRef } from 'react';
-
 
 
 function Greeting(props) {
@@ -17,8 +16,6 @@ function Greeting(props) {
 	}
 	return <NotLogedIn handleToken={props.handleToken} />;
 }
-
-
 
 
 class NotLogedIn extends React.Component {
@@ -85,7 +82,6 @@ const style = {
 	}
 }
 
-
 function UserLoggedIn(props) {
 	const [show, setShow] = useState(false);
 	const [target, setTarget] = useState(null);
@@ -97,6 +93,22 @@ function UserLoggedIn(props) {
 		userEmail: '',
 		ifAdmin: '',
 		ifLoggedIn: false
+	}
+
+	async function logOut() {
+		await axios({
+            'method': 'GET',
+            'url': 'http://localhost:8041/reset',
+            'headers': {
+                'Authorization': `Bearer_${sessionStorage.getItem('token1')}`
+            }
+        }).then(response => {
+            if (response.status === 200) {
+				props.handleToken(logoutData);
+			};
+        }).catch(error => {
+            console.log('error while getting orders: ', error);
+        });
 	}
 
 	return (
@@ -121,7 +133,7 @@ function UserLoggedIn(props) {
 								</Button>
 							</li>
 							<li>
-								<Button className="modal-button" onClick={() => { props.handleToken(logoutData) }}>
+								<Button className="modal-button" onClick={() => { logOut() }}>
 									<Link className="a" to="/">Log out</Link>
 								</Button>
 							</li>
@@ -142,8 +154,4 @@ UserLoggedIn.propTypes = {
 	ifAdmin: PropTypes.bool
 }
 
-
-
 export default Greeting;
-
-//ReactDOM.render(<Modal />, document.getElementById('loginmodule') )
