@@ -30,7 +30,6 @@ class MainPage extends React.Component {
             citiesList: [], 
             showFlag: false,
             listOfBoxes: [],
-            ifShowTable: false
         }
 
         this.handleSelectedDeparture = this.handleSelectedDeparture.bind(this);
@@ -50,14 +49,12 @@ class MainPage extends React.Component {
 
 
     handleListOfBoxes(receivedListOfBoxes) {
-        this.setState({ listOfBoxes: this.state.listOfBoxes.concat(receivedListOfBoxes), ifShowTable: true })
+        this.setState({ listOfBoxes: this.state.listOfBoxes.concat(receivedListOfBoxes) })
     }
 
     removeBox(index){
-        
         let temp = this.state.listOfBoxes;
         temp.splice(index, 1);
-        console.log("remove", index, temp);
         this.setState({listOfBoxes: temp})
     }
 
@@ -271,16 +268,7 @@ class MainPage extends React.Component {
                                     </Col>
                                 </Row>
                             </Form>
-
-
-
-                            {//(this.state.ifShowTable) 
-                            
-                           true && <GenerateTable data={this.state} removeBox={this.removeBox}/>}
-
-
-
-
+                            {(parseInt(this.state.listOfBoxes.length) !== 0) && <GenerateTable data={this.state} removeBox={this.removeBox}/>}
                         </Col>
                     </Row>
                 </Container>

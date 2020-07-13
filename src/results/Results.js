@@ -27,7 +27,7 @@ const routesArr = {
 class Results extends React.Component {
 	constructor(props) {
 		super(props);
-		console.log("props", this.props);
+		console.log("history", history);
 		this.state = {
 			departure: 'Departure',
 			arrival: 'Arrival',
@@ -38,7 +38,8 @@ class Results extends React.Component {
 			ifFormIncorrect: false,
 			ifSameHubSelected: false,
 			routes: routesArr,
-			citiesList: []
+			citiesList: [],
+			listOfBoxes: []
 		}
 
 		this.submitHandler = this.submitHandler.bind(this)
@@ -49,13 +50,11 @@ class Results extends React.Component {
 
 	componentDidMount() {
 		const dataFromMainPage = {
-			cargoWeight: history.location.weight,
-			cargoLength: history.location.length / 100,
-			cargoWidth: history.location.width / 100,
-			cargoHeight: history.location.height / 100,
+			sizeList: history.location.listOfBoxes,
 			departureHub: history.location.arrival,
-			arrivalHub: history.location.departure
+			arrivalHub: history.location.departure,
 		}
+		console.log("dataFromMainPage", dataFromMainPage);
 		this.getData(dataFromMainPage);
 		this.loadCities();
 
@@ -63,10 +62,7 @@ class Results extends React.Component {
 			this.setState({
 				departure: history.location.departure,
 				arrival: history.location.arrival,
-				weight: history.location.weight,
-				height: history.location.height,
-				width: history.location.width,
-				length: history.location.length,
+				listOfBoxes: history.location.listOfBoxes
 			});
 		}
 
@@ -93,7 +89,6 @@ class Results extends React.Component {
 				data: dataToSend
 			}
 		).then((response) => {
-			console.log(response);
 			this.setState({ routes: response.data });
 		}).catch((error) => {
 			console.log(error);
@@ -108,10 +103,7 @@ class Results extends React.Component {
 		e.preventDefault();
 		this.setState({ ifFormIncorrect: false, ifSameHubSelected: false });
 		let dataToSend = {
-			cargoWeight: this.state.weight,
-			cargoLength: this.state.length / 100,
-			cargoWidth: this.state.width / 100,
-			cargoHeight: this.state.height / 100,
+			sizeList: this.state.listOfBoxes,
 			departureHub: this.state.arrival,
 			arrivalHub: this.state.departure
 		};
@@ -182,6 +174,7 @@ class Results extends React.Component {
 							handleSelectedArrival={this.handleSelectedArrival}
 							data={this.state}
 							citiesList={this.state.citiesList}
+							listOfBoxes={this.state.listOfBoxes}
 						/>
 					</Col>
 				</Row>

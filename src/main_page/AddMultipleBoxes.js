@@ -87,30 +87,30 @@ function MultipleCargo(props) {
                         </Form.Group>
                         <ColoredLine color="orange" />
                         <Row>
-                            <Form.Label className='text-center font-italic' column sm="2">Weight</Form.Label>
-                            <Form.Label className='text-center font-italic' column sm="2">Width</Form.Label>
-                            <Form.Label className='text-center font-italic' column sm="2">Height</Form.Label>
-                            <Form.Label className='text-center font-italic' column sm="2">Length</Form.Label>
+                            <Form.Label className='text-center font-italic' column sm="2" style={{color: "black"}}>Weight</Form.Label>
+                            <Form.Label className='text-center font-italic' column sm="2" style={{color: "black"}}>Width</Form.Label>
+                            <Form.Label className='text-center font-italic' column sm="2" style={{color: "black"}}>Height</Form.Label>
+                            <Form.Label className='text-center font-italic' column sm="2" style={{color: "black"}}>Length</Form.Label>
                         </Row>
                         {
                             boxes.map((box, index) =>
                                 <Row key={index}>
-                                    <Form.Label className='text-center' column sm="2">
+                                    <Form.Label className='text-center' column sm="2" style={{color: "black"}}>
                                         {
                                             box.weight
                                         }
                                     </Form.Label>
-                                    <Form.Label className='text-center' column sm="2">
+                                    <Form.Label className='text-center' column sm="2" style={{color: "black"}}>
                                         {
                                             box.width
                                         }
                                     </Form.Label>
-                                    <Form.Label className='text-center' column sm="2">
+                                    <Form.Label className='text-center' column sm="2" style={{color: "black"}}>
                                         {
                                             box.height
                                         }
                                     </Form.Label>
-                                    <Form.Label className='text-center' column sm="2">
+                                    <Form.Label className='text-center' column sm="2" style={{color: "black"}}>
                                         {
                                             box.length
                                         }

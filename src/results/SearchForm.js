@@ -6,29 +6,32 @@ import cities from '../main_page/cities.json';
 import '../App.css';
 
 function SearchForm(props) {
+
+    let summ = 0;
+    function countWeight(listOfBoxes) {
+
+        listOfBoxes.map((box) => {
+            summ = parseInt(summ) + parseInt(box.weight);
+        })
+
+    }
+
+    countWeight(props.listOfBoxes);
+
     return (
         <Form onSubmit={props.submitHandler} onChange={props.handleChange}>
             <Row className='my-3'>
                 <Col>
-                    <h5>Cargo Information:</h5>                
+                    <h5>Cargo Information:</h5>
                 </Col>
             </Row>
             <Row className='my-3'>
                 <Col>
-                    <Form.Label>Weight (kg):</Form.Label>
-                    <Form.Control type="number" name="weight" placeholder={props.weight} min="1" max="22000" />
+                    <Form.Label>Quantity of boxes: {props.listOfBoxes.length}</Form.Label>
+
                 </Col>
                 <Col >
-                    <Form.Label>Length (cm):</Form.Label>
-                    <Form.Control type="number" name="length" placeholder={props.length} min="1" max="3000" />
-                </Col>
-                <Col >
-                    <Form.Label>Width (cm):</Form.Label>
-                    <Form.Control type="number" name="width" placeholder={props.width} min="1" max="3000" />
-                </Col>
-                <Col >
-                    <Form.Label>Height (cm):</Form.Label>
-                    <Form.Control type="number" name="height" placeholder={props.height} min="1" max="3000" />
+                    <Form.Label>Total weight: {summ}</Form.Label>
                 </Col>
             </Row>
             <Row className='my-3'>
