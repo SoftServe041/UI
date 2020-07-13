@@ -8,21 +8,20 @@ function MultipleCargo(props) {
 
     const [boxes, setBox] = useState([
         {
-            maximumWeight: 22,
+            weight: 21,
             volume: {
-                width: 240,
-                height: 240,
-                length: 1200,
+                width: 30,
+                height: 30,
+                length: 30,
             }
         },
     ]);
-
     const [multiplicator, setMult] = useState(1);
 
-    const [weight, setWeight] = useState(22);
-    const [width, setWidth] = useState(240);
-    const [height, setHeight] = useState(240);
-    const [length, setLength] = useState(1200);
+    const [weight, setWeight] = useState(1);
+    const [width, setWidth] = useState(30);
+    const [height, setHeight] = useState(30);
+    const [length, setLength] = useState(30);
 
     const ColoredLine = ({ color }) => (
         <hr
@@ -62,17 +61,17 @@ function MultipleCargo(props) {
     }
 
     function addNewBoxes(m) {
-        for (var i = 0; i < m; i++) {
-            setBox([...boxes,
-            {
-                maximumWeight: weight,
-                volume: {
+        let newBoxes = [];
+        for (let i = 0; i < m; i++) {
+            newBoxes[i] = {
+                weight: weight, volume: {
                     width: width,
                     height: height,
                     length: length,
                 }
-            }]);
+            }
         }
+        setBox(boxes.concat(newBoxes));
     }
 
     function removeBox(index) {
@@ -89,7 +88,7 @@ function MultipleCargo(props) {
     });
     return (
         <div>
-            <Modal show={props.showFlag} onHide={() => { }} animation='true'>
+            <Modal size="lg" show={props.showFlag} onHide={() => { }} animation='true'>
                 <Modal.Header>
                     <Modal.Title className="font-weight-bold ml-3">
                         List of cargo
@@ -116,9 +115,10 @@ function MultipleCargo(props) {
                             <Col>
                                 <Form.Control type="number" size='sm' defaultValue={length} onChange={(e) => setLength(e.target.value)} />
                             </Col>
-                            <Col className="align-middle text-center">
+                            <Col md="align-right">
                                 <Button style={{ minWidth: "80px" }} variant='outline-success' onClick={() => addNewBoxes(multiplicator)} size="sm"> Add box</Button>
                             </Col>
+                            <Col>x</Col>
                             <Col>
                                 <Form.Control type="number" size='sm' defaultValue={multiplicator} onChange={(e) => setMult(e.target.value)} />
                             </Col>
@@ -130,13 +130,12 @@ function MultipleCargo(props) {
                             <Form.Label className='text-center font-italic' column sm="2">Height</Form.Label>
                             <Form.Label className='text-center font-italic' column sm="2">Length</Form.Label>
                         </Row>
-
                         {
                             boxes.map((box, index) =>
                                 <Row key={index}>
                                     <Form.Label className='text-center' column sm="2">
                                         {
-                                            box.maximumWeight
+                                            box.weight
                                         }
                                     </Form.Label>
                                     <Form.Label className='text-center' column sm="2">
@@ -162,6 +161,7 @@ function MultipleCargo(props) {
                                 </Row>
                             )
                         }
+
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
