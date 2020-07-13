@@ -8,10 +8,10 @@ function MultipleCargo(props) {
     const [boxes, setBox] = useState([]);
     const [multiplicator, setMult] = useState(1);
 
-    const [weight, setWeight] = useState(1);
-    const [width, setWidth] = useState(30);
-    const [height, setHeight] = useState(30);
-    const [length, setLength] = useState(30);
+    const [cargoWeight, setWeight] = useState(1);
+    const [cargoWidth, setWidth] = useState(30);
+    const [cargoHeight, setHeight] = useState(30);
+    const [cargoLength, setLength] = useState(30);
 
     const ColoredLine = ({ color }) => (
         <hr
@@ -27,10 +27,10 @@ function MultipleCargo(props) {
         let newBoxes = [];
         for (let i = 0; i < m; i++) {
             newBoxes[i] = {
-                weight: weight,
-                width: width,
-                height: height,
-                length: length,
+                cargoWeight: cargoWeight,
+                cargoWidth: cargoWidth,
+                cargoHeight: cargoHeight,
+                cargoLength: cargoLength,
 
             }
         }
@@ -65,17 +65,17 @@ function MultipleCargo(props) {
                         </Form.Group>
                         <Form.Group as={Row} className='mt-1 mr-7 ml-7 pt-1 pb-1'>
                             <Col>
-                                <Form.Control type="number" size='sm' defaultValue={weight} onChange={(e) => setWeight(e.target.value)} />
+                                <Form.Control type="number" size='sm' defaultValue={cargoWeight} onChange={(e) => setWeight(e.target.value)} />
                             </Col>
 
                             <Col>
-                                <Form.Control type="number" size='sm' defaultValue={width} onChange={(e) => setWidth(e.target.value)} />
+                                <Form.Control type="number" size='sm' defaultValue={cargoWidth} onChange={(e) => setWidth(e.target.value)} />
                             </Col>
                             <Col>
-                                <Form.Control type="number" size='sm' defaultValue={height} onChange={(e) => setHeight(e.target.value)} />
+                                <Form.Control type="number" size='sm' defaultValue={cargoHeight} onChange={(e) => setHeight(e.target.value)} />
                             </Col>
                             <Col>
-                                <Form.Control type="number" size='sm' defaultValue={length} onChange={(e) => setLength(e.target.value)} />
+                                <Form.Control type="number" size='sm' defaultValue={cargoLength} onChange={(e) => setLength(e.target.value)} />
                             </Col>
                             <Col md="align-right">
                                 <Button style={{ minWidth: "80px" }} variant='outline-success' onClick={() => addNewBoxes(multiplicator)} size="sm"> Add box</Button>
@@ -97,22 +97,22 @@ function MultipleCargo(props) {
                                 <Row key={index}>
                                     <Form.Label className='text-center' column sm="2" style={{color: "black"}}>
                                         {
-                                            box.weight
+                                            box.cargoWeight
                                         }
                                     </Form.Label>
                                     <Form.Label className='text-center' column sm="2" style={{color: "black"}}>
                                         {
-                                            box.width
+                                            box.cargoWidth
                                         }
                                     </Form.Label>
                                     <Form.Label className='text-center' column sm="2" style={{color: "black"}}>
                                         {
-                                            box.height
+                                            box.cargoHeight
                                         }
                                     </Form.Label>
                                     <Form.Label className='text-center' column sm="2" style={{color: "black"}}>
                                         {
-                                            box.length
+                                            box.cargoLength
                                         }
                                     </Form.Label>
                                     <Form.Label className='text-center' column sm="4">

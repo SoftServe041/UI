@@ -31,10 +31,6 @@ class Results extends React.Component {
 		this.state = {
 			departure: 'Departure',
 			arrival: 'Arrival',
-			weight: '',
-			height: '',
-			width: '',
-			length: '',
 			ifFormIncorrect: false,
 			ifSameHubSelected: false,
 			routes: routesArr,
@@ -130,7 +126,7 @@ class Results extends React.Component {
 		this.setState({ arrival: e })
 	}
 
-	formValid = ({ departure, arrival, weight, length, width, height }) => {
+	formValid = ({ departure, arrival }) => {
 		let valid = true
 
 		if (departure === arrival) {
@@ -145,11 +141,6 @@ class Results extends React.Component {
 			valid = false
 		}
 
-		if (weight.length < 1) { return false }
-		if (height.length < 1) { return false }
-		if (length.length < 1) { return false }
-		if (width.length < 1) { return false }
-
 		return valid
 	}
 
@@ -161,10 +152,7 @@ class Results extends React.Component {
 						<SearchForm
 							departure={this.state.departure}
 							arrival={this.state.arrival}
-							weight={this.state.weight}
-							height={this.state.height}
-							width={this.state.width}
-							length={this.state.length}
+							cargoWeight={this.state.cargoWeight}
 							ifFormIncorrect={this.state.ifFormIncorrect}
 							submitHandler={this.submitHandler}
 							handleChange={this.handleChange}

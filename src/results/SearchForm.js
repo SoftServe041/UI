@@ -11,7 +11,7 @@ function SearchForm(props) {
     function countWeight(listOfBoxes) {
 
         listOfBoxes.map((box) => {
-            summ = parseInt(summ) + parseInt(box.weight);
+            summ = parseInt(summ) + parseInt(box.cargoWeight);
         })
 
     }
@@ -31,7 +31,7 @@ function SearchForm(props) {
 
                 </Col>
                 <Col >
-                    <Form.Label>Total weight: {summ}</Form.Label>
+                    <Form.Label>Total weight: {summ} kg</Form.Label>
                 </Col>
             </Row>
             <Row className='my-3'>
