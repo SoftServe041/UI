@@ -5,17 +5,7 @@ import axios from 'axios';
 function MultipleCargo(props) {
 
     const [flag, setFlag] = useState(true);
-
-    const [boxes, setBox] = useState([
-        {
-            weight: 21,
-            volume: {
-                width: 30,
-                height: 30,
-                length: 30,
-            }
-        },
-    ]);
+    const [boxes, setBox] = useState([]);
     const [multiplicator, setMult] = useState(1);
 
     const [weight, setWeight] = useState(1);
@@ -33,42 +23,15 @@ function MultipleCargo(props) {
         />
     );
 
-
-    function createTransport() {
-
-        axios({
-            'method': 'POST',
-            'url': "",
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
-                'Authorization': "",
-            },
-            data:
-            {
-            },
-
-        }).then(response => {
-            console.log('responsing from create cargo: ', response.status);
-            if (response.status === 201) {
-                setFlag(true);
-
-            }
-        }).catch(error => {
-            console.log('erroring from create cargo: ', error);
-
-        });
-    }
-
     function addNewBoxes(m) {
         let newBoxes = [];
         for (let i = 0; i < m; i++) {
             newBoxes[i] = {
-                weight: weight, volume: {
-                    width: width,
-                    height: height,
-                    length: length,
-                }
+                weight: weight,
+                width: width,
+                height: height,
+                length: length,
+
             }
         }
         setBox(boxes.concat(newBoxes));
@@ -82,7 +45,6 @@ function MultipleCargo(props) {
 
     useEffect(() => {
         if (flag) {
-
             setFlag(false);
         }
     });
@@ -140,17 +102,17 @@ function MultipleCargo(props) {
                                     </Form.Label>
                                     <Form.Label className='text-center' column sm="2">
                                         {
-                                            box.volume.width
+                                            box.width
                                         }
                                     </Form.Label>
                                     <Form.Label className='text-center' column sm="2">
                                         {
-                                            box.volume.height
+                                            box.height
                                         }
                                     </Form.Label>
                                     <Form.Label className='text-center' column sm="2">
                                         {
-                                            box.volume.length
+                                            box.length
                                         }
                                     </Form.Label>
                                     <Form.Label className='text-center' column sm="4">
@@ -165,10 +127,10 @@ function MultipleCargo(props) {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button id="body-button" className='col-md-5 mr-3' onClick={() => { }}>
-                        Create
+                    <Button id="body-button" className='col-md-5 mr-3' onClick={() => {props.handleListOfBoxes(boxes); setBox([]); props.handleModal()}}>
+                        Add Boxes
                     </Button>
-                    <Button id="body-button2" className='col-md-5 mr-4' onClick={() => { props.handleModal() }}>Cancel</Button>
+                    <Button id="body-button2" className='col-md-5 mr-4' onClick={() => {setBox([]); props.handleModal() }}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
         </div>
