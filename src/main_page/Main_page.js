@@ -11,7 +11,7 @@ import DropDownArrival from "./DropDownArrival";
 import { Redirect } from 'react-router-dom';
 import history from '../history';
 import MultipleCargo from './AddMultipleBoxes';
-
+import ModalError from "../error/modalErrorFF.js";
 
 class MainPage extends React.Component {
 
@@ -27,35 +27,47 @@ class MainPage extends React.Component {
             ifFormIncorrect: false,
             ifSameHubSelected: false,
             ifRedirect: false,
-            citiesList: [], 
+            citiesList: [],
             showFlag: false,
             listOfBoxes: [],
+            ifShowModalError: false,
+            errorMessage: '',
         }
-
+        
         this.handleSelectedDeparture = this.handleSelectedDeparture.bind(this);
         this.handleSelectedArrival = this.handleSelectedArrival.bind(this);
         this.handleModal = this.handleModal.bind(this);
         this.handleListOfBoxes = this.handleListOfBoxes.bind(this);
         this.removeBox = this.removeBox.bind(this);
+        this.ifError = this.ifError.bind(this);
+
+
     }
 
-    async componentDidMount() {
+    async componentDidMount(setIfShowModalError, setErrorMessage) {
         await axios.get(`http://localhost:9041/cities`)
             .then(res => {
                 this.setState({ citiesList: res.data })
             })
-            .catch(error => console.log('Cities cannot be loaded' + error));
+            .catch((error) => {
+               
+                this.setState({errorMessage: error.message, ifShowModalError: true});
+                console.log("in error city load", this.state.errorMessage, this.state.ifShowModalError);
+            });
     }
 
+    ifError(props) {
+        this.setState({ifShowModalError: false});
+    }
 
     handleListOfBoxes(receivedListOfBoxes) {
         this.setState({ listOfBoxes: this.state.listOfBoxes.concat(receivedListOfBoxes) })
     }
 
-    removeBox(index){
+    removeBox(index) {
         let temp = this.state.listOfBoxes;
         temp.splice(index, 1);
-        this.setState({listOfBoxes: temp})
+        this.setState({ listOfBoxes: temp })
     }
 
 
@@ -75,19 +87,19 @@ class MainPage extends React.Component {
 
 
 
-       if (cargoWeight.length >= 1 || cargoHeight.length >= 1 || cargoLength.length >= 1 || cargoWidth.length >= 1 ) {           
+        if (cargoWeight.length >= 1 || cargoHeight.length >= 1 || cargoLength.length >= 1 || cargoWidth.length >= 1) {
             let box = {
                 cargoWeight: cargoWeight,
                 cargoWidth: cargoWidth,
                 cargoHeight: cargoHeight,
                 cargoLength: cargoLength,
             }
-            this.setState({listOfBoxes: this.state.listOfBoxes.concat(box)})
+            this.setState({ listOfBoxes: this.state.listOfBoxes.concat(box) })
             valid = true;
             return valid;
         }
 
-        if(parseInt(listOfBoxes.length) === 0 ){
+        if (parseInt(listOfBoxes.length) === 0) {
             valid = false;
         }
 
@@ -145,6 +157,10 @@ class MainPage extends React.Component {
         return (
             <div>
 
+                {(this.state.ifShowModalError) && <ModalError ifShow={this.state.ifShowModalError}
+                    message={this.state.errorMessage}
+                    ifError={this.ifError} />}
+
                 <Row id="title-row">
                     <Col md={{ span: 3, offset: 5 }}>
                         <h2 className="title-text"> Search Routes </h2>
@@ -158,20 +174,20 @@ class MainPage extends React.Component {
                                 <Row style={{ paddingTop: '15px' }} >
                                     <Col>
                                         <Form.Label>
-                                            <h5 style={{color: "black"}}>Location:</h5>
+                                            <h5 style={{ color: "black" }}>Location:</h5>
                                         </Form.Label>
                                     </Col>
                                 </Row>
 
                                 <Row >
-                                    <Col md={{ span: 5, offset: 0 }}>
+                                    <Col md={{ span: 5, offset: 0 }} >
                                         <DropDownDeparture handleSelectedDeparture={this.handleSelectedDeparture}
                                             cities={this.state.citiesList}
                                             departure={this.state.departure}
                                         >
                                         </DropDownDeparture>
                                     </Col>
-                                    <Col md={{ span: 1 }} >
+                                    <Col md={{ span: 1 }} slyle={{ display: "flex", alignItems: "center" }} >
                                         <Button type="button"
                                             style={{ backgroundColor: '#ff8e09', borderColor: '#999999' }}
                                             onClick={() => {
@@ -193,14 +209,14 @@ class MainPage extends React.Component {
                                 <Row style={{ paddingTop: '15px' }}>
                                     <Col>
                                         <Form.Label>
-                                            <h5 style={{color: "black"}}>Cargo Information:</h5>
+                                            <h5 style={{ color: "black" }}>Cargo Information:</h5>
                                         </Form.Label>
                                     </Col>
                                 </Row>
 
                                 <Row>
                                     <Col >
-                                        <Form.Label style={{color: "black"}}>Weight (kg):</Form.Label>
+                                        <Form.Label style={{ color: "black" }}>Weight (kg):</Form.Label>
                                         <Form.Control type="number" name="cargoWeight" placeholder="kg" onInput={(e) => {
                                             if (parseInt(e.target.value) < 22000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
@@ -210,7 +226,7 @@ class MainPage extends React.Component {
                                         }} />
                                     </Col>
                                     <Col>
-                                        <Form.Label style={{color: "black"}}>Length (cm):</Form.Label>
+                                        <Form.Label style={{ color: "black" }}>Length (cm):</Form.Label>
                                         <Form.Control type="number" name="cargoLength" placeholder="Length" onInput={(e) => {
                                             if (parseInt(e.target.value) < 3000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
@@ -220,7 +236,7 @@ class MainPage extends React.Component {
                                         }} />
                                     </Col>
                                     <Col>
-                                        <Form.Label style={{color: "black"}}>Width (cm):</Form.Label>
+                                        <Form.Label style={{ color: "black" }}>Width (cm):</Form.Label>
                                         <Form.Control type="number" name="cargoWidth" placeholder="Width" onInput={(e) => {
                                             if (parseInt(e.target.value) < 3000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
@@ -230,7 +246,7 @@ class MainPage extends React.Component {
                                         }} />
                                     </Col>
                                     <Col>
-                                        <Form.Label style={{color: "black"}}>Height (cm):</Form.Label>
+                                        <Form.Label style={{ color: "black" }}>Height (cm):</Form.Label>
                                         <Form.Control type="number" name="cargoHeight" placeholder="Height" onInput={(e) => {
                                             if (parseInt(e.target.value) < 3000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
@@ -266,7 +282,7 @@ class MainPage extends React.Component {
                                     </Col>
                                 </Row>
                             </Form>
-                            {(parseInt(this.state.listOfBoxes.length) !== 0) && <GenerateTable data={this.state} removeBox={this.removeBox}/>}
+                            {(parseInt(this.state.listOfBoxes.length) !== 0) && <GenerateTable data={this.state} removeBox={this.removeBox} />}
                         </Col>
                     </Row>
                 </Container>
@@ -311,8 +327,8 @@ function GenerateTable(props) {
                                 <td className='pl-4 align-middle'>{box.cargoWidth} cm</td>
                                 <td className='pl-4 align-middle'>{box.cargoHeight} cm</td>
                                 <td className='text-center'>
-                                    <Button variant="" style={{ backgroundColor: "#ff8e09", borderColor: "#999999", color: "white" }} title="action" size='md' 
-                                    onClick={() => {props.removeBox(index)}}>
+                                    <Button variant="" style={{ backgroundColor: "#ff8e09", borderColor: "#999999", color: "white" }} title="action" size='md'
+                                        onClick={() => { props.removeBox(index) }}>
                                         Remove
                 </Button>
                                 </td>

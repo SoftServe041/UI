@@ -42,13 +42,13 @@ export default class UsersTabsMain extends React.Component {
                 </Row>
 
                 <Container id="load-body" >
-                    <Tabs class="nav nav-fill nav-tabs"
+                    <Tabs className="nav nav-fill nav-tabs"
                           activeKey={this.state.selectedTab}
                           onSelect={(key) => { this.handleSelectedTab(key) }}  >
-                        <Tab class="nav-item" eventKey="profile" title="Profile"  >
+                        <Tab className="nav-item" eventKey="profile" title="Profile"  >
                             <Profile data={this.props.data} />
                         </Tab>
-                        <Tab class="nav-item" eventKey="orders" title="Orders">
+                        <Tab className="nav-item" eventKey="orders" title="Orders">
                             <Orders data={this.props.data} />
                         </Tab>
                         <Tab className="nav-item" eventKey="billing" title="Billing Details">
