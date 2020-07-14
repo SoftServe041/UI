@@ -54,7 +54,6 @@ function SearchForm(props) {
             <Row className='my-3'>
                 <Col >
                     {(props.ifFormIncorrect) && (<p>Please make sure that you have filled all details correctly</p>)}
-                    {console.log(props.ifFormIncorrect)}
                 </Col>
             </Row>
         </Form>

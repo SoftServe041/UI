@@ -50,7 +50,9 @@ function MultipleCargo(props) {
     });
     return (
         <div>
-            <Modal size="lg" show={props.showFlag} onHide={() => { }} animation='true'>
+            <Modal size="lg" show={props.showFlag} onHide={() => { }} animation='true'
+                aria-labelledby="contained-modal-title-vcenter"
+                centered>
                 <Modal.Header>
                     <Modal.Title className="font-weight-bold ml-3">
                         List of cargo
@@ -87,30 +89,30 @@ function MultipleCargo(props) {
                         </Form.Group>
                         <ColoredLine color="orange" />
                         <Row>
-                            <Form.Label className='text-center font-italic' column sm="2" style={{color: "black"}}>Weight</Form.Label>
-                            <Form.Label className='text-center font-italic' column sm="2" style={{color: "black"}}>Width</Form.Label>
-                            <Form.Label className='text-center font-italic' column sm="2" style={{color: "black"}}>Height</Form.Label>
-                            <Form.Label className='text-center font-italic' column sm="2" style={{color: "black"}}>Length</Form.Label>
+                            <Form.Label className='text-center font-italic' column sm="2" style={{ color: "black" }}>Weight</Form.Label>
+                            <Form.Label className='text-center font-italic' column sm="2" style={{ color: "black" }}>Width</Form.Label>
+                            <Form.Label className='text-center font-italic' column sm="2" style={{ color: "black" }}>Height</Form.Label>
+                            <Form.Label className='text-center font-italic' column sm="2" style={{ color: "black" }}>Length</Form.Label>
                         </Row>
                         {
                             boxes.map((box, index) =>
                                 <Row key={index}>
-                                    <Form.Label className='text-center' column sm="2" style={{color: "black"}}>
+                                    <Form.Label className='text-center' column sm="2" style={{ color: "black" }}>
                                         {
                                             box.cargoWeight
                                         }
                                     </Form.Label>
-                                    <Form.Label className='text-center' column sm="2" style={{color: "black"}}>
+                                    <Form.Label className='text-center' column sm="2" style={{ color: "black" }}>
                                         {
                                             box.cargoWidth
                                         }
                                     </Form.Label>
-                                    <Form.Label className='text-center' column sm="2" style={{color: "black"}}>
+                                    <Form.Label className='text-center' column sm="2" style={{ color: "black" }}>
                                         {
                                             box.cargoHeight
                                         }
                                     </Form.Label>
-                                    <Form.Label className='text-center' column sm="2" style={{color: "black"}}>
+                                    <Form.Label className='text-center' column sm="2" style={{ color: "black" }}>
                                         {
                                             box.cargoLength
                                         }
@@ -127,10 +129,10 @@ function MultipleCargo(props) {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button id="body-button" className='col-md-5 mr-3' onClick={() => {props.handleListOfBoxes(boxes); setBox([]); props.handleModal()}}>
+                    <Button id="body-button" className='col-md-5 mr-3' onClick={() => { props.handleListOfBoxes(boxes); setBox([]); props.handleModal() }}>
                         Add Boxes
                     </Button>
-                    <Button id="body-button2" className='col-md-5 mr-4' onClick={() => {setBox([]); props.handleModal() }}>Cancel</Button>
+                    <Button id="body-button2" className='col-md-5 mr-4' onClick={() => { setBox([]); props.handleModal() }}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
         </div>

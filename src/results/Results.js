@@ -8,26 +8,25 @@ import '../App.css'
 import './style-result.css'
 
 const routesArr = {
-    "dateSorted": [
-        {
-            "trackingId": "ch42971",
-            "price": 4090,
-            "estimatedDeliveryDate": "2020-07-04"
-        }
-    ],
-    "priceSorted": [
-        {
-            "trackingId": "ch42971",
-            "price": 4090,
-            "estimatedDeliveryDate": "2020-07-04"
-        }
-    ]
+	"dateSorted": [
+		{
+			"trackingId": "ch42971",
+			"price": 4090,
+			"estimatedDeliveryDate": "2020-07-04"
+		}
+	],
+	"priceSorted": [
+		{
+			"trackingId": "ch42971",
+			"price": 4090,
+			"estimatedDeliveryDate": "2020-07-04"
+		}
+	]
 }
 
 class Results extends React.Component {
 	constructor(props) {
 		super(props);
-		console.log("history", history);
 		this.state = {
 			departure: 'Departure',
 			arrival: 'Arrival',
@@ -45,12 +44,25 @@ class Results extends React.Component {
 	}
 
 	componentDidMount() {
+
+		let convertToMeters = [];
+		if (!(parseInt(history.location.listOfBoxes).length > 0 || history.location.listOfBoxes === undefined)) {
+			(history.location.listOfBoxes.map((box) => {
+				let temp = (box) = {
+					cargoWeight: box.cargoWeight,
+					cargoWidth: box.cargoWidth / 100,
+					cargoHeight: box.cargoHeight / 100,
+					cargoLength: box.cargoLength / 100,
+				}
+				convertToMeters.push(temp);
+			}))
+		}
+
 		const dataFromMainPage = {
-			sizeList: history.location.listOfBoxes,
+			sizeList: convertToMeters,
 			departureHub: history.location.arrival,
 			arrivalHub: history.location.departure,
 		}
-		console.log("dataFromMainPage", dataFromMainPage);
 		this.getData(dataFromMainPage);
 		this.loadCities();
 
@@ -58,7 +70,7 @@ class Results extends React.Component {
 			this.setState({
 				departure: history.location.departure,
 				arrival: history.location.arrival,
-				listOfBoxes: history.location.listOfBoxes
+				listOfBoxes: convertToMeters
 			});
 		}
 
@@ -93,7 +105,7 @@ class Results extends React.Component {
 			}
 		})
 	}
-	
+
 
 	submitHandler = (e) => {
 		e.preventDefault();
@@ -108,7 +120,6 @@ class Results extends React.Component {
 			this.getData(dataToSend);
 		} else {
 			this.setState({ ifFormIncorrect: true })
-			console.error('Invalid form')
 		}
 	}
 

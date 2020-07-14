@@ -88,7 +88,6 @@ class MainPage extends React.Component {
         }
 
         if(parseInt(listOfBoxes.length) === 0 ){
-            console.log(listOfBoxes.length )
             valid = false;
         }
 
@@ -103,7 +102,6 @@ class MainPage extends React.Component {
             this.setState({ ifRedirect: true });
         } else {
             this.setState({ ifFormIncorrect: true });
-            console.error("Invalid form");
         }
     }
 
@@ -160,20 +158,20 @@ class MainPage extends React.Component {
                                 <Row style={{ paddingTop: '15px' }} >
                                     <Col>
                                         <Form.Label>
-                                            <h5>Location:</h5>
+                                            <h5 style={{color: "black"}}>Location:</h5>
                                         </Form.Label>
                                     </Col>
                                 </Row>
 
                                 <Row >
-                                    <Col>
+                                    <Col md={{ span: 5, offset: 0 }}>
                                         <DropDownDeparture handleSelectedDeparture={this.handleSelectedDeparture}
                                             cities={this.state.citiesList}
                                             departure={this.state.departure}
                                         >
                                         </DropDownDeparture>
                                     </Col>
-                                    <Col md={{ offset: 1 }} >
+                                    <Col md={{ span: 1 }} >
                                         <Button type="button"
                                             style={{ backgroundColor: '#ff8e09', borderColor: '#999999' }}
                                             onClick={() => {
@@ -182,7 +180,7 @@ class MainPage extends React.Component {
                                             &#8644;
                                         </Button>
                                     </Col>
-                                    <Col>
+                                    <Col md={{ span: 5, offset: 1 }}>
                                         <DropDownArrival handleSelectedArrival={this.handleSelectedArrival}
                                             cities={this.state.citiesList}
                                             arrival={this.state.arrival}
@@ -195,14 +193,14 @@ class MainPage extends React.Component {
                                 <Row style={{ paddingTop: '15px' }}>
                                     <Col>
                                         <Form.Label>
-                                            <h5>Cargo Information:</h5>
+                                            <h5 style={{color: "black"}}>Cargo Information:</h5>
                                         </Form.Label>
                                     </Col>
                                 </Row>
 
                                 <Row>
-                                    <Col md={{ span: 5, offset: 0 }}>
-                                        <Form.Label>Weight (kg):</Form.Label>
+                                    <Col >
+                                        <Form.Label style={{color: "black"}}>Weight (kg):</Form.Label>
                                         <Form.Control type="number" name="cargoWeight" placeholder="kg" onInput={(e) => {
                                             if (parseInt(e.target.value) < 22000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
@@ -212,7 +210,7 @@ class MainPage extends React.Component {
                                         }} />
                                     </Col>
                                     <Col>
-                                        <Form.Label>Length (cm):</Form.Label>
+                                        <Form.Label style={{color: "black"}}>Length (cm):</Form.Label>
                                         <Form.Control type="number" name="cargoLength" placeholder="Length" onInput={(e) => {
                                             if (parseInt(e.target.value) < 3000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
@@ -222,7 +220,7 @@ class MainPage extends React.Component {
                                         }} />
                                     </Col>
                                     <Col>
-                                        <Form.Label>Width (cm):</Form.Label>
+                                        <Form.Label style={{color: "black"}}>Width (cm):</Form.Label>
                                         <Form.Control type="number" name="cargoWidth" placeholder="Width" onInput={(e) => {
                                             if (parseInt(e.target.value) < 3000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
@@ -232,7 +230,7 @@ class MainPage extends React.Component {
                                         }} />
                                     </Col>
                                     <Col>
-                                        <Form.Label>Height (cm):</Form.Label>
+                                        <Form.Label style={{color: "black"}}>Height (cm):</Form.Label>
                                         <Form.Control type="number" name="cargoHeight" placeholder="Height" onInput={(e) => {
                                             if (parseInt(e.target.value) < 3000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
@@ -283,7 +281,6 @@ export default MainPage;
 
 
 function GenerateTable(props) {
-console.log(props)
     return (
         <  >
             <Row>
@@ -308,11 +305,11 @@ console.log(props)
                     <tbody>
                         {props.data.listOfBoxes.map((box, index) =>
                             <tr key={index}>
-                                <td className='pl-3 align-middle'>{parseInt(index) + 1}</td>
-                                <td className='pl-3 align-middle'>{box.cargoWeight}</td>
-                                <td className='pl-4 align-middle'>{box.cargoLength}</td>
-                                <td className='pl-4 align-middle'>{box.cargoWidth}</td>
-                                <td className='pl-4 align-middle'>{box.cargoHeight}</td>
+                                <td className='pl-3 align-middle'>{parseInt(index) + 1} </td>
+                                <td className='pl-3 align-middle'>{box.cargoWeight} kg</td>
+                                <td className='pl-4 align-middle'>{box.cargoLength} cm</td>
+                                <td className='pl-4 align-middle'>{box.cargoWidth} cm</td>
+                                <td className='pl-4 align-middle'>{box.cargoHeight} cm</td>
                                 <td className='text-center'>
                                     <Button variant="" style={{ backgroundColor: "#ff8e09", borderColor: "#999999", color: "white" }} title="action" size='md' 
                                     onClick={() => {props.removeBox(index)}}>
