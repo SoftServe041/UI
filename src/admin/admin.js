@@ -13,13 +13,13 @@ export default function Admin(props) {
     const [existedHubs, setExistedHubs] = useState([]);
     const [transportTypes, setTransportTypes] = useState([]);
 
-    if (props.data.ifLoggedIn == false) {
+    if (Boolean(props.data.ifAdmin) === false) {
         return <Redirect to='/' />
     }
     return (
         <div>
             <Row id="title-row">
-                <Col md={{ span: 3, offset: 5 }}>
+                <Col md={{span: 5, offset: 5}}>
                     <h2 className="title-text"> Adminstator's page </h2>
                 </Col>
             </Row>
@@ -42,16 +42,16 @@ export default function Admin(props) {
                     </Nav>
                     <Tab.Content>
                         <Tab.Pane eventKey="extratab">
-                            <TransportDetails transportTypes={transportTypes} />
+                            <TransportDetails transportTypes={transportTypes} token={props.data.token}/>
                         </Tab.Pane>
                         <Tab.Pane eventKey="users">
-                            <Users />
+                            <Users token={props.data.token}/>
                         </Tab.Pane>
                         <Tab.Pane eventKey="hubs">
-                            <Hubs setExistedHubs={setExistedHubs} existedHubs={existedHubs} />
+                            <Hubs setExistedHubs={setExistedHubs} existedHubs={existedHubs} token={props.data.token}/>
                         </Tab.Pane>
                         <Tab.Pane eventKey="transports">
-                            <Transport existedHubs={existedHubs} setTransportTypes={setTransportTypes} transportTypes={transportTypes} />
+                            <Transport existedHubs={existedHubs} setTransportTypes={setTransportTypes} transportTypes={transportTypes} token={props.data.token}/>
                         </Tab.Pane>
                     </Tab.Content>
                 </Tab.Container>

@@ -47,7 +47,7 @@ class MainPage extends React.Component {
     async componentDidMount(setIfShowModalError, setErrorMessage) {
         await axios.get(`http://localhost:9041/cities`)
             .then(res => {
-                this.setState({ citiesList: res.data })
+                this.setState({citiesList: res.data})
             })
             .catch((error) => {
                

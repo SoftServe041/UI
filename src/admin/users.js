@@ -3,7 +3,14 @@ import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, 
 import axios from 'axios';
 import ModalError from "../error/modalErrorFF.js";
 
-function Users() {
+const style = {
+    Button: {
+        "backgroundColor": "#ff8e09",
+        "border": "none"
+    }
+}
+
+function Users(props) {
     let urlForGetAllUsers = 'http://localhost:8041/admin/users?page=';
     let urlForUpdateDeleteUser = 'http://localhost:8041/admin/users/';
     let sessionToken = sessionStorage.getItem('token1');
@@ -48,14 +55,14 @@ function Users() {
         }
         return itemsArray;
     }
-    function getAllUsers() {
+    function getAllUsers(props) {
         axios({
             'method': 'GET',
             'url': urlForGetAllUsers + activePage + '&limit=5',
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': "Bearer_"+sessionToken,
+                'Authorization': `Bearer_${props}`,
             },
             'params': {
                 'search': 'parameter',
@@ -68,14 +75,14 @@ function Users() {
             console.log('erroring from getAllUsers: ', error);
         });
     }
-    function removeUser(userId) {
+    function removeUser(userId, props) {
         axios({
             'method': 'DELETE',
             'url': urlForUpdateDeleteUser + userId,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': sessionToken,
+                'Authorization': `Bearer_${props}`,
             },
 
         }).then(response => {
@@ -96,14 +103,14 @@ function Users() {
         setModalPhoneNumber(userToUpdate.phoneNumber);
         setShowUpdateModal(true);
     }
-    function updateUser(userToUpdate) {
+    function updateUser(userToUpdate, props) {
         axios({
             method: 'PUT',
             url: urlForUpdateDeleteUser + userToUpdate.id,
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': sessionToken,
+                'Authorization': `Bearer_${props}`,
             },
             data:
             {
@@ -126,7 +133,7 @@ function Users() {
     }
     useEffect(() => {
         if (flag) {
-            getAllUsers();
+            getAllUsers(props.token);
             setFlag(false);
         }
     });
@@ -154,11 +161,14 @@ function Users() {
                                 <td className='pl-4 align-middle'>{user.email}</td>
                                 <td className='pl-4 align-middle'>{user.phoneNumber}</td>
                                 <td className='text-center'>
-                                    <DropdownButton variant="info" title="action" size='md' >
-                                        <Dropdown.Item as="button" onSelect={() => handleUpdateAction(user)}>Update</Dropdown.Item>
-                                        <Dropdown.Divider />
-                                        <Dropdown.Item as="button" onSelect={() => removeUser(user.id)}>Delete</Dropdown.Item>
-                                    </DropdownButton>
+                                    <Dropdown size='md' >
+                                        <Dropdown.Toggle style={style.Button}>Action</Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item as="button" onSelect={() => handleUpdateAction(user)}>Update</Dropdown.Item>
+                                            <Dropdown.Divider />
+                                            <Dropdown.Item as="button" onSelect={() => removeUser(user.id, props.token)}>Delete</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                 </td>
                             </tr>
                         )}
@@ -207,7 +217,7 @@ function Users() {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='col-md-5 mr-3' onClick={() => updateUser(updatedUser)}>update</Button>
+                    <Button className='col-md-5 mr-3' onClick={() => updateUser(updatedUser, props.token)}>update</Button>
                     <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setShowUpdateModal(false)}>cancel</Button>
 
                 </Modal.Footer>
