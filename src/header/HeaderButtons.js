@@ -95,6 +95,7 @@ function UserLoggedIn(props) {
 		ifLoggedIn: false
 	}
 
+	
 	async function logOut() {
 		await axios({
             'method': 'GET',
@@ -104,11 +105,11 @@ function UserLoggedIn(props) {
             }
         }).then(response => {
             if (response.status === 200) {
-				props.handleToken(logoutData);
+				
 			};
         }).catch(error => {
-            console.log('error while getting orders: ', error);
-        });
+		});
+		props.handleToken(logoutData);
 	}
 
 	return (
@@ -148,10 +149,6 @@ function UserLoggedIn(props) {
 
 NotLogedIn.propTypes = {
 	ifShowModal: PropTypes.bool
-}
-
-UserLoggedIn.propTypes = {
-	ifAdmin: PropTypes.bool
 }
 
 export default Greeting;

@@ -1,10 +1,9 @@
-import React, { useState, setState } from 'react';
-import cities from './cities.json';
+import React from 'react';
 import axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import { Button, Container, Table, Dropdown } from "react-bootstrap";
+import { Button, Container, Table } from "react-bootstrap";
 import '../App.css';
 import DropDownDeparture from './DropDownDeparture';
 import DropDownArrival from "./DropDownArrival";
@@ -50,9 +49,7 @@ class MainPage extends React.Component {
                 this.setState({citiesList: res.data})
             })
             .catch((error) => {
-               
                 this.setState({errorMessage: error.message, ifShowModalError: true});
-                console.log("in error city load", this.state.errorMessage, this.state.ifShowModalError);
             });
     }
 

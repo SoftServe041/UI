@@ -28,8 +28,7 @@ export default class UsersTabsMain extends React.Component {
 
     render() {
 
-        console.log("if logged in in profile",this.props.data.ifLoggedIn )
-        if (this.props.data.ifLoggedIn == false) {
+        if (this.props.data.ifLoggedIn === false) {
             return <Redirect to='/' />
         }
 

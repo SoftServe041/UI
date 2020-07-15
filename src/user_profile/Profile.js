@@ -56,7 +56,6 @@ class Profile extends React.Component {
     }
 
     async componentDidMount(props) {
-        let data = JSON.stringify({})
 
         axios.get(`http://localhost:8041/user/profile/${this.props.data.userId}`, {
             data: {},
@@ -147,18 +146,6 @@ class Profile extends React.Component {
         if (this.state.address.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.phone.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         e.preventDefault()
-
-        const userInformation = {
-            email: this.state.email,
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            address: this.state.address,
-            phoneNumber: this.state.phone,
-        }
-
-        const password = {
-            password: this.state.password
-        }
 
         if (formValid(this.state)) {
             axios.put(urlUpdateUser, {
@@ -384,4 +371,3 @@ class Profile extends React.Component {
 
 
 export default Profile;
-

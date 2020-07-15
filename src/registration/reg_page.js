@@ -1,7 +1,5 @@
-import Footer from "../Footer/footer";
 import React from "react";
 import "./reg_page.css"
-import Header from "../header/Header.js"
 import Billing from "../Billing/billing";
 import ReactDOM from 'react-dom';
 import {Row, Col, Form, Container, Button} from 'react-bootstrap';
@@ -90,6 +88,8 @@ class RegPage extends React.Component {
                 formErrors.phone = phoneRegex.test(value)
                     ? ""
                     : "invalid phone number";
+                break;
+            default:
                 break;
         }
 

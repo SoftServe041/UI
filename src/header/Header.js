@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.png';
 import './header.css';
 import {Link} from 'react-router-dom';
-import { Row, Col } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 
 function Header(props) {
   return (

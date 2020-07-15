@@ -1,13 +1,12 @@
-import React, { Component, useState, useEffect } from 'react';
+import React from 'react';
 import '../main_page/main_page.css';
 import './error.css';
 import '../index.css';
 import { Modal, Button } from 'react-bootstrap';
 
 export default function ModalError(props) {
-    console.log(props);
     let responce = '';
-    if (props.message != undefined) {
+    if (props.message !== undefined) {
         responce = props.message;
     } else {
         responce = 'At the moment server can\'t execute your request. Try latter :-('

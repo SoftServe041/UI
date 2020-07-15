@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Card from "./Card/Card";
 import s from './BillingDetails.module.css'
-import { Modal, FormControl, Form, Col } from "react-bootstrap";
+import { Modal,  Form } from "react-bootstrap";
 import axios from 'axios'
 import ModalError from "../../error/modalErrorFF.js";
 
@@ -40,18 +40,12 @@ const BillingDetails = (props) => {
 
     function ifError() {
         let temp = !ifShowModalError;
-        console.log(temp);
         setIfShowModalError(temp);
     }
 
     let [cards, setCards] = useState([])
 
-    useEffect(() => {
-        if (flag) {
-            getCards()
-            setFlag(false);
-        }
-    });
+
 
 
     const getCards = () => {
@@ -66,6 +60,13 @@ const BillingDetails = (props) => {
             initialization(response.data);
         });
     }
+
+    useEffect(() => {
+        if (flag) {
+            getCards()
+            setFlag(false);
+        }
+    }, [flag, getCards]);
 
 
     const initialization = (data) => {

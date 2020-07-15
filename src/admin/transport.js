@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
+import { Pagination, Table, Dropdown, Button, Form, Modal, Row, Col } from "react-bootstrap";
 import axios from 'axios';
 import ModalError from "../error/modalErrorFF.js";
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
@@ -7,7 +7,6 @@ import DropdownMenu from 'react-bootstrap/DropdownMenu';
 function Transports(props) {
     let url = 'http://localhost:9041/admin/transport';
     let urlForTransportTypes = 'http://localhost:9041/admin/transport/types';
-    let sessionToken = sessionStorage.getItem('token1');
     const [pagination, setPagination] = useState([]);
     const [activePage, setActivePage] = useState(0);
     let existedHubs = props.existedHubs;
@@ -222,10 +221,9 @@ function Transports(props) {
             getAllTransports(props.token);
             setFlag(false);
         }
-    });
+    }, [flag, getAllTransports, props.token]);
     return (
         <div>
-            {console.log("in render check ifShowModalError", ifShowModalError)}
             {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
                 message={errorMessage}
                 ifError={ifError} />}

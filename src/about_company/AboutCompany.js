@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../App.css';
-import { Redirect } from 'react-router-dom';
 import { Row, Col, Container, Button, Image } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import img1 from "./files/img1.jpg";

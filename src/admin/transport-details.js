@@ -72,7 +72,6 @@ function TransportDetails(props) {
                 setCreateTransportEntityFlag(false);
             }
         }).catch(error => {
-            console.log('erroring from create transportEntity: ', error);
             setCreateTransportEntityFlag(false);
             setIfShowModalError(true);
             setErrorMessage(error.message);
@@ -101,7 +100,6 @@ function TransportDetails(props) {
                 setUpdateTrEnFlag(false);
             }
         }).catch(error => {
-            console.log('erroring from update transEntity: ', error);
             setUpdateTrEnFlag(false);
             setIfShowModalError(true);
             setErrorMessage(error.message);
@@ -122,7 +120,6 @@ function TransportDetails(props) {
                 setFlag(true);
             }
         }).catch(error => {
-            console.log('erroring from remove transportEntity: ', error);
             setIfShowModalError(true);
             setErrorMessage(error.message);
         });

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
+import { Pagination, Table, Dropdown, Button, Form, Modal, Row, Col } from "react-bootstrap";
 import axios from 'axios';
 import ModalError from "../error/modalErrorFF.js";
 
@@ -13,7 +13,6 @@ const style = {
 function Users(props) {
     let urlForGetAllUsers = 'http://localhost:8041/admin/users?page=';
     let urlForUpdateDeleteUser = 'http://localhost:8041/admin/users/';
-    let sessionToken = sessionStorage.getItem('token1');
     const [pagination, setPagination] = useState([]);
     const [activePage, setActivePage] = useState(1);
     let totalPage = 1;
@@ -31,7 +30,6 @@ function Users(props) {
 
     function ifError() {
         let temp = !ifShowModalError;
-        console.log(temp);
         setIfShowModalError(temp);
     }
 
@@ -71,7 +69,6 @@ function Users(props) {
         }).then(response => {
             if (response.status === 200) {
                 initializeData(response.data);
-                console.log (response.data);
             }
         }).catch(error => {
             console.log('erroring from getAllUsers: ', error);
@@ -94,7 +91,6 @@ function Users(props) {
         }).catch(error => {
             setIfShowModalError(true);
             setErrorMessage(error.message);
-            console.log('erroring from getAllUsers: ', error);
         });
     }
     function handleUpdateAction(userToUpdate) {
@@ -114,8 +110,6 @@ function Users(props) {
         let ifUserAdmin = [{name : "ROLE_USER"}];
         if (modalAdmin === "true") {ifUserAdmin.push({ name: 'ROLE_ADMIN' })}
         
-console.log(ifUserAdmin);
-
         axios({
             method: 'PUT',
             url: urlForUpdateDeleteUser + userToUpdate.id,
@@ -141,7 +135,6 @@ console.log(ifUserAdmin);
         }).catch(error => {
             setIfShowModalError(true);
             setErrorMessage(error.message);
-            console.log('erroring from update User: ', error);
         });
     }
     useEffect(() => {
@@ -149,7 +142,7 @@ console.log(ifUserAdmin);
             getAllUsers(props.token);
             setFlag(false);
         }
-    });
+    },[flag, getAllUsers, props.token]);
 
 
    const displayIfAdmin = (roles) => {
@@ -251,7 +244,6 @@ console.log(ifUserAdmin);
                                 </Dropdown>
                             </Col>
                         </Form.Group>
-                        {console.log(modalAdmin, "check if admin assigned")}
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>

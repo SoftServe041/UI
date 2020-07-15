@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import '../main_page/main_page.css';
 import './error.css';
 import '../index.css';

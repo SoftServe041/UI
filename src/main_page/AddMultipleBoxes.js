@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
-import axios from 'axios';
+import { Button, Form, Modal, Row, Col } from "react-bootstrap";
 
 function MultipleCargo(props) {
 
@@ -47,7 +46,7 @@ function MultipleCargo(props) {
         if (flag) {
             setFlag(false);
         }
-    });
+    },[flag]);
     return (
         <div>
             <Modal size="lg" show={props.showFlag} onHide={() => { }} animation='true'
