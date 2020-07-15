@@ -56,6 +56,14 @@
     padding-left: 30px;
 }
 
+#body-button2 {
+    background-color: #999999;
+    border-color: #999999;
+    padding-bottom: 10px;
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
 #modal-window{
     padding-bottom: 30px;
     padding-top: 50px;

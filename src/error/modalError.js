@@ -41,12 +41,12 @@ export default class ModalError extends Component {
        return(
             <div>
                  <Modal show={this.state.show} onHide={this.hideModal} animation='true' centered>
-                   <Modal.Header  closeButton className = "bg-warning"> 
+                   <Modal.Header  closeButton style={{backgroundColor: "#ff8e09"}}> 
                         <Modal.Title >OOPS!</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>{this.state.errorBody}</Modal.Body>
                     <Modal.Footer>
-                       <Button variant="outline-warning"  block onClick={this.hideModal}>
+                       <Button style={{backgroundColor: "#ff8e09"}}  block onClick={this.hideModal}>
                             Close
                         </Button>
                     </Modal.Footer>

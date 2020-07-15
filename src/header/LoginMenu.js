@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import axios from 'axios';
 import '../App.css';
+import ModalError from "../error/modalError.js";
 
 const formValid = ({ formErrors, email, password }) => {
     let valid = true;
@@ -17,9 +18,6 @@ const formValid = ({ formErrors, email, password }) => {
     return valid;
 }
 
-//RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
-// Final RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+[a-zA-Z0-9-]$/)
-//Marina's RegExp(/^((\w+.*\w+)@(\w+.\w+))$/)
 const emailRegex = RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+[a-zA-Z0-9-]$/)
 
 
@@ -89,7 +87,8 @@ class LogInMenu extends React.Component {
                     this.props.disableModal();
                 })
                 .catch(error => {
-                    this.setState({ ifLoginDetailsIncorrect: true });
+                    //this.setState({ ifLoginDetailsIncorrect: true });
+                    this.refs.modError.showModal(error.message.toString());
                 });
         } else {
             this.setState({ ifShowFormErrors: true })
@@ -110,6 +109,7 @@ class LogInMenu extends React.Component {
                 centered
 
             >
+                <ModalError ref='modError'/>
                 <Container id="modal-window">
 
                     <Form onSubmit={this.submitHandler}>

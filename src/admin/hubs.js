@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
 import cities from './admin_resource/cities.json';
 import axios from 'axios';
+import ModalError from "../error/modalErrorFF.js";
 
 const style = {
     Button: {
@@ -23,6 +24,15 @@ function Hubs(props) {
     const [currentHub, setCurrentHub] = useState({});
     const [relationListForCurrentHub, setRelationListForCurrentHub] = useState([]);
     const [newHubName, setNewHubName] = useState('');
+    let [ifShowModalError, setIfShowModalError] = useState(false);
+    let [errorMessage, setErrorMessage] = useState('');
+
+    function ifError() {
+        let temp = !ifShowModalError;
+        console.log(temp);
+        setIfShowModalError(temp);
+    }
+
     function initialiseExistedHubs(hubs) {
         setFlag(false);
         setExistedHubs(hubs);
@@ -72,8 +82,9 @@ function Hubs(props) {
                 setFlag(true);
                 setCreateHubFlag(false);
             }
-        }).catch(error => {
-            console.log('erroring from create Hub: ', error);
+        }).catch((error) => {
+            setIfShowModalError(true);
+            setErrorMessage(error.message);
             setCreateHubFlag(false);
         });
     }
@@ -100,7 +111,8 @@ function Hubs(props) {
                 setFlag(true);
             }
         }).catch(error => {
-            console.log('erroring from update Hub: ', error);
+            setIfShowModalError(true);
+            setErrorMessage(error.message);
             setUpdateHubFlag(false);
             setFlag(true);
         });
@@ -120,7 +132,8 @@ function Hubs(props) {
                 setFlag(true);
             }
         }).catch(error => {
-            console.log('erroring from remove Hub: ', error);
+            setIfShowModalError(true);
+            setErrorMessage(error.message);
         });
     }
     function handleShowRelation(hub, props) {
@@ -169,7 +182,8 @@ function Hubs(props) {
                 showRelationForCurrentHub(currentHub, props);
             }
         }).catch(error => {
-            console.log('erroring from create relation: ', error);
+            setIfShowModalError(true);
+            setErrorMessage(error.message);
         });
     }
     function removeRelation(relationHubName, props) {
@@ -191,7 +205,8 @@ function Hubs(props) {
                 showRelationForCurrentHub(currentHub, props);
             }
         }).catch(error => {
-            console.log('erroring from remove relation: ', error);
+            setIfShowModalError(true);
+            setErrorMessage(error.message);
         });
     }
     useEffect(() => {
@@ -201,6 +216,9 @@ function Hubs(props) {
     });
     return (
         <div className='component'>
+            {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
+                message={errorMessage}
+                ifError={ifError} />}
             <Table variant='dark' size='md' striped bordered hover >
                 <thead>
                     <tr>

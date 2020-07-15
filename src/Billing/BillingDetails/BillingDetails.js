@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from "./Card/Card";
 import s from './BillingDetails.module.css'
-import {Modal, FormControl, Form, Col} from "react-bootstrap";
+import { Modal, FormControl, Form, Col } from "react-bootstrap";
 import axios from 'axios'
+import ModalError from "../../error/modalErrorFF.js";
 
 const cscRegEx = /\b\d{3}\b/;
 const cardRegEx = /\b\d{16}\b/;
@@ -34,11 +35,16 @@ const BillingDetails = (props) => {
     let [errorExpirationYear, setErrorExpirationYear] = useState('')
     let [errorBillingAddress, setErrorBillingAddress] = useState('')
     let [flag, setFlag] = useState(true);
+    let [ifShowModalError, setIfShowModalError] = useState(false);
+    let [errorMessage, setErrorMessage] = useState('');
 
+    function ifError() {
+        let temp = !ifShowModalError;
+        console.log(temp);
+        setIfShowModalError(temp);
+    }
 
-    let [cards, setCards] = useState(
-        []    )
-
+    let [cards, setCards] = useState([])
 
     useEffect(() => {
         if (flag) {
@@ -46,6 +52,7 @@ const BillingDetails = (props) => {
             setFlag(false);
         }
     });
+
 
     const getCards = () => {
         axios({
@@ -57,8 +64,9 @@ const BillingDetails = (props) => {
             },
         }).then(response => {
             initialization(response.data);
-        })
+        });
     }
+
 
     const initialization = (data) => {
         setCards(data)
@@ -81,6 +89,7 @@ const BillingDetails = (props) => {
         return valid;
     }
 
+
     const refreshCardData = () => {
         setnameOnCard('')
         setCardNumber('')
@@ -95,6 +104,7 @@ const BillingDetails = (props) => {
         setErrorBillingAddress('')
     }
 
+
     const sendCard = () => {
         axios.post(`http://${url}/user/${userId}/billing-details`, {
             cardNumber: cardNumber,
@@ -103,29 +113,37 @@ const BillingDetails = (props) => {
             expirationMonth: expirationMonth,
             expirationYear: expirationYear,
             billingAddress: billingAddress
-        },           
+        },
 
-        {'headers': {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer_${token}`
-        }}).then(response => {
-            setFlag(true)
-        })
+            {
+                'headers': {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer_${token}`
+                }
+            }).then(response => {
+                setFlag(true)
+            }).catch((error) => {
+                setIfShowModalError(true);
+                setErrorMessage(error.message);
+            });
 
     }
 
+
     const deleteCard = (id) => {
         axios.delete(`http://${url}/user/${userId}/billing-details/${id}`,
-           { headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer_${token}`
-            },
-            data: {}
-        }).then(response => {
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer_${token}`
+                },
+                data: {}
+            }).then(response => {
 
-        }).catch(error => {
-        });
-
+            }).catch((error) => {
+                setIfShowModalError(true);
+                setErrorMessage(error.message);
+            });
         setFlag(true)
     }
 
@@ -135,9 +153,10 @@ const BillingDetails = (props) => {
         refreshCardData();
     }
 
+
     const handleChange = (e) => {
         e.preventDefault();
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         let error;
         switch (name) {
             case "cardNumber":
@@ -178,13 +197,13 @@ const BillingDetails = (props) => {
 
     const handleSubmit = () => {
         if (formValid({
-                errorCardName,
-                errorCardNumber,
-                errorCsc,
-                errorBillingAddress,
-                errorExpirationMonth,
-                errorExpirationYear,
-            },
+            errorCardName,
+            errorCardNumber,
+            errorCsc,
+            errorBillingAddress,
+            errorExpirationMonth,
+            errorExpirationYear,
+        },
             {
                 nameOnCard,
                 cardNumber,
@@ -203,6 +222,11 @@ const BillingDetails = (props) => {
 
     return (
         <div>
+
+            {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
+                message={errorMessage}
+                ifError={ifError} />}
+
             <div>
                 <p className={s.text}>
                     Please note that at least 1 card is required ??
@@ -215,8 +239,8 @@ const BillingDetails = (props) => {
                             </button>
                             <Form onSubmit={handleSubmit} onChange={handleChange}>
                                 <Modal show={show} size="lg"
-                                       aria-labelledby="contained-modal-title-vcenter"
-                                       centered>
+                                    aria-labelledby="contained-modal-title-vcenter"
+                                    centered>
                                     <Modal.Header>
                                         <Modal.Title>Creating new card</Modal.Title>
                                     </Modal.Header>
@@ -306,7 +330,7 @@ const BillingDetails = (props) => {
             <div>
                 {
                     cards.map((card, index) => {
-                        return <Card data={card} key={index} userId={userId} del={deleteCard}/>
+                        return <Card data={card} key={index} userId={userId} del={deleteCard} />
                     })
                 }
             </div>

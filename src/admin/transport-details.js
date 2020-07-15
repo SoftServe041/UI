@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Accordion, Card, Table, Dropdown, Button, Modal, Form, Col, Row } from "react-bootstrap";
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import axios from 'axios';
+import ModalError from "../error/modalErrorFF.js";
 
 const style = {
     Button: {
@@ -21,6 +22,13 @@ function TransportDetails(props) {
     const [pricePerKm, setPricePerKm] = useState(25);
     const [updateTrEnFlag, setUpdateTrEnFlag] = useState(false);
     const [idTransportEntity, setIdTransportEntity] = useState(-1);
+    let [ifShowModalError, setIfShowModalError] = useState(false);
+    let [errorMessage, setErrorMessage] = useState('');
+
+    function ifError() {
+        let temp = !ifShowModalError;
+        setIfShowModalError(temp);
+    }
 
     function initialiseExistedTransportEntities(transportEntities) {
         setFlag(false);
@@ -66,6 +74,8 @@ function TransportDetails(props) {
         }).catch(error => {
             console.log('erroring from create transportEntity: ', error);
             setCreateTransportEntityFlag(false);
+            setIfShowModalError(true);
+            setErrorMessage(error.message);
         });
     }
     function updateTransportEntity(props) {
@@ -93,6 +103,8 @@ function TransportDetails(props) {
         }).catch(error => {
             console.log('erroring from update transEntity: ', error);
             setUpdateTrEnFlag(false);
+            setIfShowModalError(true);
+            setErrorMessage(error.message);
         });
     }
     function removeTransportEntity(id, props) {
@@ -111,6 +123,8 @@ function TransportDetails(props) {
             }
         }).catch(error => {
             console.log('erroring from remove transportEntity: ', error);
+            setIfShowModalError(true);
+            setErrorMessage(error.message);
         });
     }
     function hideModal() {
@@ -132,6 +146,9 @@ function TransportDetails(props) {
     });
     return (
         <div>
+            {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
+                message={errorMessage}
+                ifError={ifError} />}
             <Accordion className='mt-5 ml-5 mr-5' defaultActiveKey="0">
                 <Card>
                     <Accordion.Toggle as={Card.Header} eventKey="0">
@@ -151,7 +168,7 @@ function TransportDetails(props) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {transportEntities.map((transportEntity, index) =>
+                                        {(transportEntities !== undefined) && transportEntities.map((transportEntity, index) =>
                                             <tr key={index}>
                                                 <td className='text-center align-middle'>
                                                     {transportEntity.type}

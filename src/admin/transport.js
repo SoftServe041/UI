@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
 import axios from 'axios';
+import ModalError from "../error/modalErrorFF.js";
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
 
 function Transports(props) {
@@ -33,14 +34,20 @@ function Transports(props) {
     const [length, setLength] = useState(1200);
     const [updateModalFlag, setUpdateModalFlag] = useState(false);
     const [currentTransport, setCurrentTransport] = useState({});
+    let [ifShowModalError, setIfShowModalError] = useState(false);
+    let [errorMessage, setErrorMessage] = useState('');
 
+    function ifError() {
+        let temp = !ifShowModalError;
+        setIfShowModalError(temp);
+    }
     const style = {
         Button: {
             "backgroundColor": "#ff8e09",
             "border": "none"
         }
     }
-
+    
     if (transportTypes.length === 0) {
         getAllTransportTypes(props);
     }
@@ -81,8 +88,9 @@ function Transports(props) {
                 initializeData(response.data);
             }
 
-        }).catch(error => {
-            console.log('erroring from getAllTrans: ', error);
+        }).catch((error) => {
+            setIfShowModalError(true);
+            setErrorMessage(error.message);
         });
     }
     function getAllTransportTypes(props) {
@@ -128,8 +136,9 @@ function Transports(props) {
                 setFlag(true);
                 setCreateModalFlag(false);
             }
-        }).catch(error => {
-            console.log('erroring from create trans: ', error);
+        }).catch((error) => {
+            setIfShowModalError(true);
+            setErrorMessage(error.message);
             setCreateModalFlag(false);
         });
     }
@@ -156,8 +165,9 @@ function Transports(props) {
                 setCreateModalFlag(false);
                 setUpdateModalFlag(false);
             }
-        }).catch(error => {
-            console.log('erroring from update trans: ', error);
+        }).catch((error) => {
+            setIfShowModalError(true);
+            setErrorMessage(error.message);
             setCreateModalFlag(false);
             setUpdateModalFlag(false);
         });
@@ -176,8 +186,9 @@ function Transports(props) {
             if (response.status === 200) {
                 setFlag(true);
             }
-        }).catch(error => {
-            console.log('erroring from remove transport: ', error);
+        }).catch((error) => {
+            setIfShowModalError(true);
+            setErrorMessage(error.message);
         });
     }
     function addNewCompartment() {
@@ -214,6 +225,10 @@ function Transports(props) {
     });
     return (
         <div>
+            {console.log("in render check ifShowModalError", ifShowModalError)}
+            {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
+                message={errorMessage}
+                ifError={ifError} />}
             <div className='component'>
                 <Table variant='dark' size='md' striped bordered hover >
                     <thead>

@@ -5,7 +5,6 @@ import Suggestions from './Suggestions'
 class Result extends React.Component {
 	constructor(props) {
 		super(props);
-		console.log("props", this.props);
 		this.state = {
 			selectedTab: 'price'
 		}
@@ -13,7 +12,6 @@ class Result extends React.Component {
 
 	handleSelectedTab(key) {
 		this.setState({selectedTab: key})
-		console.log('selectedTab', this.state.selectedTab)
 	}
 
 	render() {

@@ -8,37 +8,33 @@ import '../App.css'
 import './style-result.css'
 
 const routesArr = {
-    "dateSorted": [
-        {
-            "trackingId": "ch42971",
-            "price": 4090,
-            "estimatedDeliveryDate": "2020-07-04"
-        }
-    ],
-    "priceSorted": [
-        {
-            "trackingId": "ch42971",
-            "price": 4090,
-            "estimatedDeliveryDate": "2020-07-04"
-        }
-    ]
+	"dateSorted": [
+		{
+			"trackingId": "ch42971",
+			"price": 4090,
+			"estimatedDeliveryDate": "2020-07-04"
+		}
+	],
+	"priceSorted": [
+		{
+			"trackingId": "ch42971",
+			"price": 4090,
+			"estimatedDeliveryDate": "2020-07-04"
+		}
+	]
 }
 
 class Results extends React.Component {
 	constructor(props) {
 		super(props);
-		console.log("props", this.props);
 		this.state = {
 			departure: 'Departure',
 			arrival: 'Arrival',
-			weight: '',
-			height: '',
-			width: '',
-			length: '',
 			ifFormIncorrect: false,
 			ifSameHubSelected: false,
 			routes: routesArr,
-			citiesList: []
+			citiesList: [],
+			listOfBoxes: []
 		}
 
 		this.submitHandler = this.submitHandler.bind(this)
@@ -48,13 +44,24 @@ class Results extends React.Component {
 	}
 
 	componentDidMount() {
+
+		let convertToMeters = [];
+		if (!(parseInt(history.location.listOfBoxes).length > 0 || history.location.listOfBoxes === undefined)) {
+			(history.location.listOfBoxes.map((box) => {
+				let temp = (box) = {
+					cargoWeight: box.cargoWeight,
+					cargoWidth: box.cargoWidth / 100,
+					cargoHeight: box.cargoHeight / 100,
+					cargoLength: box.cargoLength / 100,
+				}
+				convertToMeters.push(temp);
+			}))
+		}
+
 		const dataFromMainPage = {
-			cargoWeight: history.location.weight,
-			cargoLength: history.location.length / 100,
-			cargoWidth: history.location.width / 100,
-			cargoHeight: history.location.height / 100,
+			sizeList: convertToMeters,
 			departureHub: history.location.arrival,
-			arrivalHub: history.location.departure
+			arrivalHub: history.location.departure,
 		}
 		this.getData(dataFromMainPage);
 		this.loadCities();
@@ -63,10 +70,7 @@ class Results extends React.Component {
 			this.setState({
 				departure: history.location.departure,
 				arrival: history.location.arrival,
-				weight: history.location.weight,
-				height: history.location.height,
-				width: history.location.width,
-				length: history.location.length,
+				listOfBoxes: convertToMeters
 			});
 		}
 
@@ -93,7 +97,6 @@ class Results extends React.Component {
 				data: dataToSend
 			}
 		).then((response) => {
-			console.log(response);
 			this.setState({ routes: response.data });
 		}).catch((error) => {
 			console.log(error);
@@ -102,16 +105,13 @@ class Results extends React.Component {
 			}
 		})
 	}
-	
+
 
 	submitHandler = (e) => {
 		e.preventDefault();
 		this.setState({ ifFormIncorrect: false, ifSameHubSelected: false });
 		let dataToSend = {
-			cargoWeight: this.state.weight,
-			cargoLength: this.state.length / 100,
-			cargoWidth: this.state.width / 100,
-			cargoHeight: this.state.height / 100,
+			sizeList: this.state.listOfBoxes,
 			departureHub: this.state.arrival,
 			arrivalHub: this.state.departure
 		};
@@ -120,7 +120,6 @@ class Results extends React.Component {
 			this.getData(dataToSend);
 		} else {
 			this.setState({ ifFormIncorrect: true })
-			console.error('Invalid form')
 		}
 	}
 
@@ -138,7 +137,7 @@ class Results extends React.Component {
 		this.setState({ arrival: e })
 	}
 
-	formValid = ({ departure, arrival, weight, length, width, height }) => {
+	formValid = ({ departure, arrival }) => {
 		let valid = true
 
 		if (departure === arrival) {
@@ -153,11 +152,6 @@ class Results extends React.Component {
 			valid = false
 		}
 
-		if (weight.length < 1) { return false }
-		if (height.length < 1) { return false }
-		if (length.length < 1) { return false }
-		if (width.length < 1) { return false }
-
 		return valid
 	}
 
@@ -169,10 +163,7 @@ class Results extends React.Component {
 						<SearchForm
 							departure={this.state.departure}
 							arrival={this.state.arrival}
-							weight={this.state.weight}
-							height={this.state.height}
-							width={this.state.width}
-							length={this.state.length}
+							cargoWeight={this.state.cargoWeight}
 							ifFormIncorrect={this.state.ifFormIncorrect}
 							submitHandler={this.submitHandler}
 							handleChange={this.handleChange}
@@ -182,6 +173,7 @@ class Results extends React.Component {
 							handleSelectedArrival={this.handleSelectedArrival}
 							data={this.state}
 							citiesList={this.state.citiesList}
+							listOfBoxes={this.state.listOfBoxes}
 						/>
 					</Col>
 				</Row>

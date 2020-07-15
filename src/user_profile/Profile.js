@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap'
 import axios from 'axios'
-
+import ModalError from "../error/modalError.js";
 import '../App.css';
 
 
@@ -58,8 +58,6 @@ class Profile extends React.Component {
     async componentDidMount(props) {
         let data = JSON.stringify({})
 
-        console.log("here is my token", this.props.data.token);
-
         axios.get(`http://localhost:8041/user/profile/${this.props.data.userId}`, {
             data: {},
             headers: {
@@ -76,7 +74,7 @@ class Profile extends React.Component {
                     phone: result.data.phoneNumber,
                 })
             })
-            .catch(error => console.log('Profile componentDidMount failed' + error));
+            .catch(error => this.refs.modError.showModal(error.message.toString()));
 
     }
 
@@ -162,8 +160,6 @@ class Profile extends React.Component {
             password: this.state.password
         }
 
-        console.log("on submit", this.props.data.token);
-
         if (formValid(this.state)) {
             axios.put(urlUpdateUser, {
                 firstName: this.state.firstName,
@@ -183,10 +179,10 @@ class Profile extends React.Component {
 
             )
                 .then(response => {
-                    console.log(response);
+                    
                 })
                 .catch(error => {
-                    alert('Something went wrong ' + error);
+                    this.refs.modError.showModal(error.message.toString());
                 });
 
             if (this.state.password.length > 4 && this.state.password === this.state.passwordRepeat) {
@@ -201,19 +197,12 @@ class Profile extends React.Component {
                 })
                     .then(response => {
                         console.log(response);
-                    })
-                    .catch(error => {
-                        alert('Something went wrong ' + error);
                     });
 
             }
 
         } else {
             this.setState({ ifShowFormErrors: true })
-            console.error("Invalid form");
-
-
-
         }
 
     }
@@ -223,10 +212,9 @@ class Profile extends React.Component {
         const { formErrors } = this.state;
 
         return (
-
-
-
             <Form onSubmit={this.submitHandler}>
+
+                <ModalError ref='modError' />
 
                 <Row id="space-between-rows">
                     <Col md={{ offset: 5 }}>
