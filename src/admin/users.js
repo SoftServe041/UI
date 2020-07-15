@@ -23,6 +23,7 @@ function Users(props) {
     const [modalLastName, setModalLastName] = useState('');
     const [modalEmail, setModalEmail] = useState('');
     const [modalPhoneNumber, setModalPhoneNumber] = useState('');
+    const [modalAdmin, setModalAdmin] = useState('');
     const [flag, setFlag] = useState(true);
     const [users, setUsers] = useState([]);
     let [ifShowModalError, setIfShowModalError] = useState(false);
@@ -101,6 +102,7 @@ function Users(props) {
         setModalLastName(userToUpdate.lastName);
         setModalEmail(userToUpdate.email);
         setModalPhoneNumber(userToUpdate.phoneNumber);
+        setModalAdmin(userToUpdate.admin);
         setShowUpdateModal(true);
     }
     function updateUser(userToUpdate, props) {
@@ -119,6 +121,7 @@ function Users(props) {
                 email: modalEmail,
                 address: userToUpdate.address,
                 phoneNumber: modalPhoneNumber,
+                admin: Boolean(modalAdmin)
             },
         }).then(response => {
             if (response.status === 200) {
@@ -150,6 +153,7 @@ function Users(props) {
                             <th className='text-center aling-middle'>Last name</th>
                             <th className='text-center aling-middle'>Email</th>
                             <th className='text-center aling-middle'>Phone number</th>
+                            <th className='text-center aling-middle'>Admin privilages</th>
                             <th className='text-center aling-middle'>Actions</th>
                         </tr>
                     </thead>
@@ -160,6 +164,7 @@ function Users(props) {
                                 <td className='pl-4 align-middle'>{user.lastName}</td>
                                 <td className='pl-4 align-middle'>{user.email}</td>
                                 <td className='pl-4 align-middle'>{user.phoneNumber}</td>
+                                <td className='pl-4 align-middle'>{user.admin}</td>
                                 <td className='text-center'>
                                     <Dropdown size='md' >
                                         <Dropdown.Toggle style={style.Button}>Action</Dropdown.Toggle>
@@ -214,10 +219,28 @@ function Users(props) {
                                 <Form.Control type="number" value={modalPhoneNumber} onChange={(e) => setModalPhoneNumber(e.target.value)} />
                             </Col>
                         </Form.Group>
+                        <Form.Group as={Row}>
+                            <Form.Label className='pl-4' column sm="4">
+                                Admin Privilages
+                            </Form.Label>
+                            <Col sm="7">
+                                {//} <Form.Control type="number" value={modalPhoneNumber} onChange={(e) => setModalAdmin(e.target.value)} />
+                                }
+
+                                <Dropdown onSelect={(e) => {setModalAdmin(e)}}>
+                                    <Dropdown.Toggle style={style.Button} >{modalAdmin}</Dropdown.Toggle>
+                                    <Dropdown.Menu >
+                                        <Dropdown.Item eventKey="true">true</Dropdown.Item>
+                                        <Dropdown.Item eventKey="false">false</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </Col>
+                        </Form.Group>
+                        {console.log(modalAdmin, "check if admin assigned")}
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='col-md-5 mr-3' onClick={() => updateUser(updatedUser, props.token)}>update</Button>
+                    <Button className='col-md-5 mr-3' style={style.Button} onClick={() => updateUser(updatedUser, props.token)}>update</Button>
                     <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setShowUpdateModal(false)}>cancel</Button>
 
                 </Modal.Footer>
