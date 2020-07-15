@@ -16,7 +16,7 @@ export default function ModalError(props) {
     return (
         <div>
             <Modal show={props.ifShow} animation='true' centered>
-                <Modal.Header closeButton style={{ backgroundColor: "#ff8e09" }}>
+                <Modal.Header  style={{ backgroundColor: "#ff8e09" }}>
                     <Modal.Title >OOPS!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>{responce}</Modal.Body>

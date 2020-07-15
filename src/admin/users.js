@@ -71,6 +71,7 @@ function Users(props) {
         }).then(response => {
             if (response.status === 200) {
                 initializeData(response.data);
+                console.log (response.data);
             }
         }).catch(error => {
             console.log('erroring from getAllUsers: ', error);
@@ -102,10 +103,19 @@ function Users(props) {
         setModalLastName(userToUpdate.lastName);
         setModalEmail(userToUpdate.email);
         setModalPhoneNumber(userToUpdate.phoneNumber);
-        setModalAdmin(userToUpdate.admin);
+        if (userToUpdate.roles.length === 2) {
+            setModalAdmin("true");
+        }
+        else { setModalAdmin("false"); }
         setShowUpdateModal(true);
     }
     function updateUser(userToUpdate, props) {
+
+        let ifUserAdmin = [{name : "ROLE_USER"}];
+        if (modalAdmin === "true") {ifUserAdmin.push({ name: 'ROLE_ADMIN' })}
+        
+console.log(ifUserAdmin);
+
         axios({
             method: 'PUT',
             url: urlForUpdateDeleteUser + userToUpdate.id,
@@ -121,7 +131,7 @@ function Users(props) {
                 email: modalEmail,
                 address: userToUpdate.address,
                 phoneNumber: modalPhoneNumber,
-                admin: Boolean(modalAdmin)
+                roles: ifUserAdmin
             },
         }).then(response => {
             if (response.status === 200) {
@@ -140,6 +150,14 @@ function Users(props) {
             setFlag(false);
         }
     });
+
+
+   const displayIfAdmin = (roles) => {
+        if (roles.length === 2) {return "true"}
+        return "false";
+    }
+    
+
     return (
         <div>
             {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
@@ -164,7 +182,7 @@ function Users(props) {
                                 <td className='pl-4 align-middle'>{user.lastName}</td>
                                 <td className='pl-4 align-middle'>{user.email}</td>
                                 <td className='pl-4 align-middle'>{user.phoneNumber}</td>
-                                <td className='pl-4 align-middle'>{user.admin}</td>
+                                <td className='pl-4 align-middle'> {displayIfAdmin(user.roles)}</td>
                                 <td className='text-center'>
                                     <Dropdown size='md' >
                                         <Dropdown.Toggle style={style.Button}>Action</Dropdown.Toggle>
@@ -224,10 +242,7 @@ function Users(props) {
                                 Admin Privilages
                             </Form.Label>
                             <Col sm="7">
-                                {//} <Form.Control type="number" value={modalPhoneNumber} onChange={(e) => setModalAdmin(e.target.value)} />
-                                }
-
-                                <Dropdown onSelect={(e) => {setModalAdmin(e)}}>
+                                <Dropdown onSelect={(e) => { setModalAdmin(e) }}>
                                     <Dropdown.Toggle style={style.Button} >{modalAdmin}</Dropdown.Toggle>
                                     <Dropdown.Menu >
                                         <Dropdown.Item eventKey="true">true</Dropdown.Item>
@@ -240,8 +255,8 @@ function Users(props) {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='col-md-5 mr-3' style={style.Button} onClick={() => updateUser(updatedUser, props.token)}>update</Button>
-                    <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setShowUpdateModal(false)}>cancel</Button>
+                    <Button className='col-md-5 mr-3' style={style.Button} onClick={() => updateUser(updatedUser, props.token)}>Update</Button>
+                    <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setShowUpdateModal(false)}>Cancel</Button>
 
                 </Modal.Footer>
             </Modal>
