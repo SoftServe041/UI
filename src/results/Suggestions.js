@@ -7,53 +7,45 @@ const url = "localhost:9041"
 
 function Suggestions(props) {
     function sendAxios(trackingId, deliveryDate, price, hubs, departureHub, arrivalHub, boxes) {
-        console.log("number")
-        console.log(props.userDetails.userId)
-        console.log("number")
-        console.log(props.userDetails.token)
+        let cargos = boxes;
+        let route = {
+            hubs
+        }
         let data = {
             "price": price,
             "estimatedDeliveryDate": deliveryDate,
             "departureHub": departureHub,
             "arrivalHub": arrivalHub,
             "trackingId": trackingId,
+            "cargos": cargos,
+            "route": route
         }
-        let cargos = boxes;
-        let route = {
-            hubs
-        }
-        console.log(route)
-        console.log(hubs)
-        // axios.post(`http://${url}/user/${props.userDetails.userId}`, {
-        //         cardNumber: cardNumber,
-        //         nameOnCard: nameOnCard,
-        //         csc: csc,
-        //         expirationMonth: expirationMonth,
-        //         expirationYear: expirationYear,
-        //         billingAddress: billingAddress
-        //     },
-        //
-        //     {
-        //         'headers': {
-        //             'Content-Type': 'application/json',
-        //             'Authorization': `Bearer_${props.userDetails.token}`
-        //         }
-        //     }).then(response => {
-        //     setFlag(true)
-        // }).catch((error) => {
-        //     setIfShowModalError(true);
-        //     setErrorMessage(error.message);
-        // });
-
-
-        console.log("axiosss")
+        console.log("Hi")
         console.log(data)
-        console.log(hubs)
-        console.log(props.userDetails)
-        console.log(trackingId)
-        console.log(deliveryDate)
-        console.log(price)
-        // console.log(cardId)
+        console.log("Hi")
+        axios.post(`http://${url}/user/${props.userDetails.userId}`, {
+                price: data.price,
+                estimatedDeliveryDate: data.estimatedDeliveryDate,
+                departureHub: data.departureHub,
+                arrivalHub: data.arrivalHub,
+                trackingId: data.trackingId,
+                cargos: data.cargos,
+                route: route
+            },
+            {
+                'headers':
+                    {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer_${props.userDetails.token}`
+                    }
+            }).then(response => {
+            console.log("Ok")
+        }).catch((error) => {
+            console.log(error);
+            if (error.status === 404) {
+                window.location = '/error';
+            }
+        });
     }
 
     const suggestionList = props.data.map((item) =>
@@ -64,7 +56,7 @@ function Suggestions(props) {
             boxes={props.boxes}
             hubs={props.cities}
             deliveryDate={item.estimatedDeliveryDate}
-            departure={item.departureHub}
+            departureHub={item.departureHub}
             arrivalHub={item.arrivalHub}
             send={sendAxios}
             dataOfUser={props.userDetails}

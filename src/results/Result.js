@@ -8,8 +8,6 @@ class Result extends React.Component {
 		this.state = {
 			selectedTab: 'price'
 		}
-		console.log("qaz")
-		console.log(props)
 	}
 
 

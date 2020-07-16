@@ -67,8 +67,8 @@ function Suggestion(props) {
 
 
 
-    const departure = props.departure
-    const arrival = props.arrival
+    const departure = props.departureHub
+    const arrival = props.arrivalHub
     const boxes = props.boxes
 
     const userDetails = props.dataOfUser;
@@ -138,7 +138,7 @@ function Suggestion(props) {
     }
 
     function send() {
-        props.send(trackingId, deliveryDate, price, props.hubs, departure, arrival)
+        props.send(trackingId, deliveryDate, price, props.hubs, departure, arrival,boxes)
         setIfConfirm(true)
         handleClose();
     }
@@ -200,7 +200,7 @@ function Suggestion(props) {
     return (
         <li key={props.id} className='suggestion-card'>
             {(isLoggedIn !== "true" && ifButtonClick === true) && <Redirect to='/registration'/>}
-            {(isLoggedIn === "true" && ifConfirm === true) && <Redirect to='/profile'/>}
+            {(String(isLoggedIn) === String("true") && ifConfirm === true) && <Redirect to='/profile'/>}
             <div>
                 <p>Price: {props.price}</p>
                 <p>
