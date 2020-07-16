@@ -8,7 +8,10 @@ class Result extends React.Component {
 		this.state = {
 			selectedTab: 'price'
 		}
+		console.log("qaz")
+		console.log(props)
 	}
+
 
 	handleSelectedTab(key) {
 		this.setState({selectedTab: key})
@@ -31,7 +34,12 @@ class Result extends React.Component {
 								eventKey='price'
 								title='Sort By Price:'
 							>
-								<Suggestions data={this.props.routes.priceSorted} />
+								<Suggestions
+									data={this.props.routes.priceSorted}
+									userDetails={this.props.data}
+									cities={this.props.citiesList}
+									boxes={this.props.listOfBoxes}
+								/>
 							</Tab>
 							<Tab
 								className='nav-item'
@@ -40,6 +48,9 @@ class Result extends React.Component {
 							>
 								<Suggestions
 									data={this.props.routes.dateSorted}
+									userDetails={this.props.data}
+									cities={this.props.citiesList}
+									boxes={this.props.listOfBoxes}
 								/>
 							</Tab>
 						</Tabs>

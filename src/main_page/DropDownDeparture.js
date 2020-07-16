@@ -52,8 +52,8 @@ const CustomMenu = React.forwardRef(
 
 function GenerateDropDownRows(cities) {
 
-    const departureList = cities.cities.map((c) =>
-        <Dropdown.Item key={c.name} eventKey={c.name}>
+    const departureList = cities.cities.map((c,index) =>
+        <Dropdown.Item key={index} eventKey={index}>
             {c.name}
         </Dropdown.Item>
     );

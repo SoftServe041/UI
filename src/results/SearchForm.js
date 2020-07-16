@@ -7,6 +7,8 @@ import '../App.css';
 
 function SearchForm(props) {
 
+
+
     let summ = 0;
     function countWeight(listOfBoxes) {
 
@@ -17,6 +19,7 @@ function SearchForm(props) {
     }
 
     countWeight(props.listOfBoxes);
+
 
     return (
         <Form onSubmit={props.submitHandler} onChange={props.handleChange}>

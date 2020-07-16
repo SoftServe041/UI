@@ -12,7 +12,7 @@ import { useState, useRef } from 'react';
 
 function Greeting(props) {
 	if (props.ifLoggedIn) {
-		return <UserLoggedIn ifAdmin={props.ifAdmin} email={props.email} handleToken={props.handleToken} />;
+		return <UserLoggedIn ifAdmin={Boolean(props.ifAdmin)} email={props.email} handleToken={props.handleToken} />;
 	}
 	return <NotLogedIn handleToken={props.handleToken} />;
 }
