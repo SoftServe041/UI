@@ -9,14 +9,12 @@ import axios from 'axios';
 import './loginmenu.css';
 import { useState, useRef } from 'react';
 
-
 function Greeting(props) {
 	if (props.ifLoggedIn) {
 		return <UserLoggedIn ifAdmin={props.ifAdmin} email={props.email} handleToken={props.handleToken} />;
 	}
 	return <NotLogedIn handleToken={props.handleToken} />;
 }
-
 
 class NotLogedIn extends React.Component {
 	constructor(props) {
@@ -43,13 +41,10 @@ class NotLogedIn extends React.Component {
 				top: '0',
 				right: '0',
 				paddingTop: '15px',
-
 			}
 		}
 		return (
-
 			<div style={style.divAbsolute}>
-
 				<div className="Div-Login" >
 					<h4 onClick={this.enableModal} className="h4" >LogIn</h4>
 					{
@@ -57,12 +52,10 @@ class NotLogedIn extends React.Component {
 							disableModal={this.disableModal}
 							handleToken={this.props.handleToken} />
 					}
-
 				</div>
 				<div className="Div-Login1" >
 					<h4 >|</h4>
 				</div>
-
 				<div className="Div-Login" >
 					<Link className="a" to="/registration">
 						<h4 >SignUp</h4>
@@ -78,7 +71,6 @@ const style = {
 		position: 'absolute',
 		top: '5px',
 		right: '0',
-
 	}
 }
 
@@ -95,7 +87,6 @@ function UserLoggedIn(props) {
 		ifLoggedIn: false
 	}
 
-	
 	async function logOut() {
 		await axios({
             'method': 'GET',
@@ -105,11 +96,11 @@ function UserLoggedIn(props) {
             }
         }).then(response => {
             if (response.status === 200) {
-				
+				props.handleToken(logoutData);
 			};
         }).catch(error => {
+			props.handleToken(logoutData);
 		});
-		props.handleToken(logoutData);
 	}
 
 	return (
@@ -145,7 +136,6 @@ function UserLoggedIn(props) {
 		</div>
 	);
 }
-
 
 NotLogedIn.propTypes = {
 	ifShowModal: PropTypes.bool

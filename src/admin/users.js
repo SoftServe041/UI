@@ -150,7 +150,6 @@ function Users(props) {
         return "false";
     }
     
-
     return (
         <div>
             {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
@@ -249,13 +248,10 @@ function Users(props) {
                 <Modal.Footer>
                     <Button className='col-md-5 mr-3' style={style.Button} onClick={() => updateUser(updatedUser, props.token)}>Update</Button>
                     <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setShowUpdateModal(false)}>Cancel</Button>
-
                 </Modal.Footer>
             </Modal>
         </div>
     );
-
 }
-
 
 export default Users;

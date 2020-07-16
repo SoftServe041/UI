@@ -36,7 +36,6 @@ export default class ModalError extends Component {
       this.setState({ show: false });
     };
 
-
   render(){
        return(
             <div>

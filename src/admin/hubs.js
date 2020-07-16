@@ -11,7 +11,6 @@ const style = {
     }
 }
 
-
 function Hubs(props) {
     let url = 'http://localhost:9041/admin/hub';
     let urlForReltion = 'http://localhost:9041/admin/hub/relation';
@@ -125,7 +124,6 @@ function Hubs(props) {
                 'content-type': 'application/json',
                 'Authorization': `Bearer_${props.token}`,
             },
-
         }).then(response => {
             if (response.status === 200) {
                 setFlag(true);
@@ -156,7 +154,6 @@ function Hubs(props) {
             initialiseRelationForCurrentHub(response.data);
         }).catch(error => {
             console.log('erroring from showRelationForCurrentHub: ', error);
-
         });
     }
     function initialiseRelationForCurrentHub(relations) {
@@ -291,7 +288,6 @@ function Hubs(props) {
                 <Modal.Footer>
                     <Button className='col-md-5 mr-3' onClick={() => updateHub(props)}>update</Button>
                     <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setUpdateHubFlag(false)}>cancel</Button>
-
                 </Modal.Footer>
             </Modal>
             <Modal show={createHubFlag} onHide={() => setCreateHubFlag(false)} animation='true'>

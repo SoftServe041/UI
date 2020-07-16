@@ -6,7 +6,6 @@ import Orders from "./Orders";
 import { Redirect } from 'react-router-dom';
 import BillingDetails from "../Billing/BillingDetails/BillingDetails";
 
-
 export default class UsersTabsMain extends React.Component {
     constructor(props) {
         super(props);
@@ -23,7 +22,6 @@ export default class UsersTabsMain extends React.Component {
             ['billing', 'Billing Details'],
         ]);
         this.setState({ selectedTab: key, headerText: tabMap.get(key) })
-
     }
 
     render() {
@@ -39,7 +37,6 @@ export default class UsersTabsMain extends React.Component {
                         <h2 className="title-text"> {this.state.headerText}  </h2>
                     </Col>
                 </Row>
-
                 <Container id="load-body" >
                     <Tabs className="nav nav-fill nav-tabs"
                           activeKey={this.state.selectedTab}

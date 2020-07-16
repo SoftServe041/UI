@@ -4,27 +4,20 @@ import axios from 'axios'
 import ModalError from "../error/modalError.js";
 import '../App.css';
 
-
-
-
 const formValid = ({ formErrors, email, password }) => {
     let valid = true;
 
     Object.values(formErrors).forEach(val => {
         val.length > 0 && (valid = false);
     });
-
     if (email.length < 1) { valid = false; return valid }
-
+    
     return valid;
 }
 
-//Marina's RegExp(/^((\w+.*\w+)@(\w+.\w+))$/)
 const emailRegex = RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+[a-zA-Z0-9-]$/)
 const nameRegex = RegExp(/^[a-zA-Z]{2,20}$/)
 const phoneRegex = RegExp(/^[0-9 -()]{11,20}$/)
-
-
 
 class Profile extends React.Component {
     constructor(props) {
@@ -38,7 +31,6 @@ class Profile extends React.Component {
             password: '',
             passwordRepeat: '',
 
-
             formErrors: {
                 firstName: '',
                 lastName: '',
@@ -50,9 +42,7 @@ class Profile extends React.Component {
             },
             ifFieldsEmpty: false,
             ifLoginDetailsIncorrect: false,
-
         }
-
     }
 
     async componentDidMount(props) {
@@ -63,8 +53,7 @@ class Profile extends React.Component {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer_${this.props.data.token}`
             }
-        })
-            .then(result => {
+        }).then(result => {
                 this.setState({
                     firstName: result.data.firstName,
                     lastName: result.data.lastName,
@@ -72,11 +61,8 @@ class Profile extends React.Component {
                     address: result.data.address,
                     phone: result.data.phoneNumber,
                 })
-            })
-            .catch(error => this.refs.modError.showModal(error.message.toString()));
-
+            }).catch(error => this.refs.modError.showModal(error.message.toString()));
     }
-
 
     handleChange = (e) => {
         e.preventDefault();
@@ -84,7 +70,6 @@ class Profile extends React.Component {
         this.setState({ ifLoginDetailsIncorrect: false })
         const { name, value } = e.target;
         let formErrors = this.state.formErrors;
-
 
         switch (name) {
             case 'email':
@@ -132,9 +117,7 @@ class Profile extends React.Component {
                 break;
         }
         this.setState({ formErrors, [name]: value })
-
     }
-
 
     submitHandler = (e, props) => {
         const urlUpdateUser = `http://localhost:8041/user/profile/${this.props.data.userId}`;
@@ -159,16 +142,9 @@ class Profile extends React.Component {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer_${this.props.data.token}`,
                     'Accept': 'application/json'
-
                 }
-
-            }
-
-            )
-                .then(response => {
-                    
-                })
-                .catch(error => {
+            }).then(response => {                   
+            }).catch(error => {
                     this.refs.modError.showModal(error.message.toString());
                 });
 
@@ -179,19 +155,16 @@ class Profile extends React.Component {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
                         'Authorization': `Bearer_${this.props.data.token}`
-
                     }
                 })
                     .then(response => {
                         console.log(response);
                     });
-
             }
 
         } else {
             this.setState({ ifShowFormErrors: true })
         }
-
     }
 
     render() {
@@ -200,7 +173,6 @@ class Profile extends React.Component {
 
         return (
             <Form onSubmit={this.submitHandler}>
-
                 <ModalError ref='modError' />
 
                 <Row id="space-between-rows">
@@ -227,7 +199,6 @@ class Profile extends React.Component {
                     </Col>
                 </Row>
 
-
                 <Row >
                     <Col md={{ span: 2, offset: 3 }}>
                         <p  >    Last Name: </p>
@@ -244,7 +215,6 @@ class Profile extends React.Component {
                         {this.state.ifShowFormErrors && (<span className="Span">{formErrors.lastName}</span>)}
                     </Col>
                 </Row>
-
 
                 <Row >
                     <Col md={{ span: 2, offset: 3 }}>
@@ -263,8 +233,6 @@ class Profile extends React.Component {
                     </Col>
                 </Row>
 
-
-
                 <Row >
                     <Col md={{ span: 2, offset: 3 }}>
                         <p  >    Phone: </p>
@@ -282,7 +250,6 @@ class Profile extends React.Component {
                     </Col>
                 </Row>
 
-
                 <Row >
                     <Col md={{ span: 2, offset: 3 }}>
                         <p  >    Address: </p>
@@ -299,7 +266,6 @@ class Profile extends React.Component {
                         {this.state.ifShowFormErrors && (<span className="Span">{formErrors.address}</span>)}
                     </Col>
                 </Row>
-
 
                 <Row>
                     <Col md={{ offset: 5 }}>
@@ -335,13 +301,11 @@ class Profile extends React.Component {
                     </Col>
                 </Row>
 
-
                 <Row id="space-between-rows">
                     <Col md={{ offset: 5 }}>
                         {this.state.ifShowFormErrors && (<span className="Span">{formErrors.passwordRepeat}</span>)}
                     </Col>
                 </Row>
-
 
                 <Row id="space-between-rows">
                     <Col md={{ offset: 5 }}>
@@ -356,18 +320,9 @@ class Profile extends React.Component {
                                 </Button>
                     </Col>
                 </Row>
-
-
             </Form>
-
-
         )
-
     }
-
 }
-
-
-
 
 export default Profile;

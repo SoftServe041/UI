@@ -32,29 +32,27 @@ class MainPage extends React.Component {
             ifShowModalError: false,
             errorMessage: '',
         }
-        
+
         this.handleSelectedDeparture = this.handleSelectedDeparture.bind(this);
         this.handleSelectedArrival = this.handleSelectedArrival.bind(this);
         this.handleModal = this.handleModal.bind(this);
         this.handleListOfBoxes = this.handleListOfBoxes.bind(this);
         this.removeBox = this.removeBox.bind(this);
         this.ifError = this.ifError.bind(this);
-
-
     }
 
     async componentDidMount(setIfShowModalError, setErrorMessage) {
         await axios.get(`http://localhost:9041/cities`)
             .then(res => {
-                this.setState({citiesList: res.data})
+                this.setState({ citiesList: res.data })
             })
             .catch((error) => {
-                this.setState({errorMessage: error.message, ifShowModalError: true});
+                this.setState({ errorMessage: error.message, ifShowModalError: true });
             });
     }
 
     ifError(props) {
-        this.setState({ifShowModalError: false});
+        this.setState({ ifShowModalError: false });
     }
 
     handleListOfBoxes(receivedListOfBoxes) {
@@ -66,7 +64,6 @@ class MainPage extends React.Component {
         temp.splice(index, 1);
         this.setState({ listOfBoxes: temp })
     }
-
 
     formValid = ({ departure, arrival, cargoWeight, cargoLength, cargoWidth, cargoHeight, listOfBoxes }) => {
         let valid = true;
@@ -81,8 +78,6 @@ class MainPage extends React.Component {
         if (departure === "Departure" || arrival === "Arrival") {
             valid = false;
         }
-
-
 
         if (cargoWeight.length >= 1 || cargoHeight.length >= 1 || cargoLength.length >= 1 || cargoWidth.length >= 1) {
             let box = {
@@ -102,7 +97,6 @@ class MainPage extends React.Component {
 
         return valid;
     }
-
 
     submitHandler = e => {
         this.setState({ ifFormIncorrect: false, ifSameHubSelected: false });
@@ -143,9 +137,7 @@ class MainPage extends React.Component {
         this.setState({ showFlag: !this.state.showFlag })
     }
 
-
     render() {
-
         if (this.state.ifRedirect) {
             history.push(this.state);
             return <Redirect to='/routes' />
@@ -199,7 +191,6 @@ class MainPage extends React.Component {
                                             arrival={this.state.arrival}
                                         >
                                         </DropDownArrival>
-
                                     </Col>
                                 </Row>
 
@@ -255,13 +246,11 @@ class MainPage extends React.Component {
 
                                 </Row>
                                 <Row>
-
                                     <Col style={{ paddingTop: "30px" }} md={{ span: 2, offset: 9 }}  >
                                         <Button style={{ minWidth: "150px", backgroundColor: "#ff8e09", borderColor: "#999999" }} onClick={() => { this.handleModal() }}>
                                             or add multiple boxes</Button>
                                     </Col>
                                 </Row>
-
 
                                 <Row>
                                     <Col>
@@ -289,9 +278,7 @@ class MainPage extends React.Component {
     }
 }
 
-
 export default MainPage;
-
 
 function GenerateTable(props) {
     return (
@@ -301,8 +288,6 @@ function GenerateTable(props) {
                     <h5>List of boxes</h5>
                 </Col>
             </Row>
-
-
             <Row>
                 <Table variant='dark' size='md' striped bordered hover>
                     <thead>
@@ -327,14 +312,12 @@ function GenerateTable(props) {
                                     <Button variant="" style={{ backgroundColor: "#ff8e09", borderColor: "#999999", color: "white" }} title="action" size='md'
                                         onClick={() => { props.removeBox(index) }}>
                                         Remove
-                </Button>
+                                    </Button>
                                 </td>
                             </tr>
                         )}
                     </tbody>
                 </Table>
-
-
             </Row>
         </ >);
 }

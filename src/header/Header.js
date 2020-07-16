@@ -8,8 +8,6 @@ function Header(props) {
   return (
     <Row className="Div-Absolute">
       <header className="Main-header">
-
-
         <Link to="/" >
           <div className="Div-image">
             <img src={logo} className="Logo" alt="logo" />
@@ -25,7 +23,6 @@ function Header(props) {
     </Row>
   );
 }
-
 
 export default Header;
 

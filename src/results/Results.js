@@ -25,10 +25,6 @@ const routesArr = {
 	]
 }
 
-
-
-
-
 class Results extends React.Component {
 	constructor(props) {
 		super(props);
@@ -56,7 +52,6 @@ class Results extends React.Component {
 	}
 
 	componentDidMount() {
-
 		let convertToMeters = [];
 		if (!(parseInt(history.location.listOfBoxes).length > 0 || history.location.listOfBoxes === undefined)) {
 			(history.location.listOfBoxes.map((box) => {
@@ -69,7 +64,6 @@ class Results extends React.Component {
 				convertToMeters.push(temp);
 			}))
 		}
-
 		const dataFromMainPage = {
 			sizeList: convertToMeters,
 			departureHub: history.location.arrival,
@@ -85,7 +79,6 @@ class Results extends React.Component {
 				listOfBoxes: convertToMeters
 			});
 		}
-
 	}
 
 	async loadCities() {
@@ -113,7 +106,6 @@ class Results extends React.Component {
 			this.setState({ifShowModalError: true, errorMessage: error.message});
 		});
 	}
-
 
 	submitHandler = (e) => {
 		e.preventDefault();

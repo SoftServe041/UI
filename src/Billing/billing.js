@@ -14,15 +14,12 @@ import './billing.css'
 const cscRegEx = /\b\d{3}\b/;
 const cardRegEx = /\b\d{16}\b/;
 
-
 const formValid = ({ formErrors, ...rest }) => {
     let valid = true;
-
 
     Object.values(formErrors).forEach(val => {
         val.length > 0 && (valid = false);
     });
-
 
     Object.values(rest).forEach(val => {
         val === null && (valid = false);
@@ -32,8 +29,6 @@ const formValid = ({ formErrors, ...rest }) => {
 };
 
 class Billing extends React.Component {
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -51,11 +46,9 @@ class Billing extends React.Component {
         }
     }
 
-
     accessModError = (error) => {
         this.refs.modError.showModal(error);
     }
-
 
     handleSubmit = e => {
         e.preventDefault();
@@ -110,14 +103,11 @@ class Billing extends React.Component {
                         : "";
                 break;
         }
-
         this.setState({ formErrors, [name]: value });
-
     };
 
     render() {
         const { formErrors } = this.state;
-
         return (
             <BrowserRouter>
                 <div id='body'>
@@ -217,10 +207,8 @@ class Billing extends React.Component {
                                     </Row>
                                     <Row>
                                         <Col md={{ span: 3, offset: 5 }}>
-
                                             <Button id="body-button" type="submit"
                                                 onClick={this.handleSubmit}> Submit </Button>
-
                                         </Col>
                                     </Row>
                                 </Form>
@@ -231,8 +219,6 @@ class Billing extends React.Component {
                             </Col>
                         </Row>
                     </Container>
-
-
                     <Footer />
                 </div>
             </BrowserRouter>

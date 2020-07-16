@@ -10,9 +10,7 @@ function Footer() {
         <Row className="footer">
             <Col md={{ span: 3, offset: 1 }}>
                 <p className="p1">© 2020 Cargo Hub. All rights reserved </p>
-
             </Col>
-
             <Col className="icons" md={{ span: 2, offset: 6 }} style={{padding: '10px'}}>
                 <Row>
                     <a href="https://www.facebook.com/" rel="noopener noreferrer" target="_blank" ><img style={{ height: '40px' }} src={fb} alt="" /></a>

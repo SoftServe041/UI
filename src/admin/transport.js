@@ -50,6 +50,7 @@ function Transports(props) {
     if (transportTypes.length === 0) {
         getAllTransportTypes(props);
     }
+
     function initializeData(data) {
         setTransports(data.content);
         setPagination(formPagination(activePage, data.totalPages));
@@ -105,7 +106,6 @@ function Transports(props) {
             if (response.status === 200) {
                 setTransportTypes(response.data)
             }
-
         }).catch(error => {
             console.log('erroring from getAllTransTypes: ', error);
         });
@@ -180,7 +180,6 @@ function Transports(props) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer_${props.token}`,
             }
-
         }).then(response => {
             if (response.status === 200) {
                 setFlag(true);
@@ -200,7 +199,6 @@ function Transports(props) {
                 length: length,
             }
         }]);
-
     }
     function removeCompartment(index) {
         let newCompartments = [].concat(compartments);
@@ -408,8 +406,6 @@ function Transports(props) {
             </Modal>
         </div>
     );
-
 }
-
 
 export default Transports;

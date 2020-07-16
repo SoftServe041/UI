@@ -25,7 +25,6 @@ const formValid = ({formErrors, ...rest}) => {
 
 class RegPage extends React.Component {
 
-
     constructor(props) {
         super(props);
         this.state = {
@@ -94,7 +93,6 @@ class RegPage extends React.Component {
         }
 
         this.setState({formErrors, [name]: value});
-
     };
 
     render() {
@@ -125,7 +123,6 @@ class RegPage extends React.Component {
                                         </Form.Label>
                                     </Col>
                                 </Row>
-
                                 <Row>
                                     <Col>
                                         <Form.Control
@@ -160,7 +157,6 @@ class RegPage extends React.Component {
                                         </Form.Label>
                                     </Col>
                                 </Row>
-
                                 <Row>
                                     <Col>
                                         <Form.Control
@@ -239,6 +235,5 @@ class RegPage extends React.Component {
         );
     }
 }
-
 
 export default RegPage;

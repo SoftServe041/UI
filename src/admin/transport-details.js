@@ -65,7 +65,6 @@ function TransportDetails(props) {
                 pricePerKm: pricePerKm,
 
             },
-
         }).then(response => {
             if (response.status === 201) {
                 setFlag(true);
@@ -114,7 +113,6 @@ function TransportDetails(props) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer_${props}`,
             },
-
         }).then(response => {
             if (response.status === 200) {
                 setFlag(true);
@@ -151,7 +149,6 @@ function TransportDetails(props) {
                     <Accordion.Toggle as={Card.Header} eventKey="0">
                         <h3 className='text-center align-middle font-weight-bold'>Transport details</h3>
                     </Accordion.Toggle>
-
                     <Accordion.Collapse className='grey-bg' eventKey="0">
                         <Card.Body>
                             <div className='component-small'>
@@ -193,7 +190,6 @@ function TransportDetails(props) {
                         </Card.Body>
                     </Accordion.Collapse>
                 </Card>
-
                 <Card>
                     <Accordion.Toggle as={Card.Header} eventKey="1">
                         Functionality # Trucks status and their loaded cargos

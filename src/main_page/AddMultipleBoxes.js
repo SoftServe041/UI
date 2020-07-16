@@ -30,7 +30,6 @@ function MultipleCargo(props) {
                 cargoWidth: cargoWidth,
                 cargoHeight: cargoHeight,
                 cargoLength: cargoLength,
-
             }
         }
         setBox(boxes.concat(newBoxes));
@@ -68,7 +67,6 @@ function MultipleCargo(props) {
                             <Col>
                                 <Form.Control type="number" size='sm' defaultValue={cargoWeight} onChange={(e) => setWeight(e.target.value)} />
                             </Col>
-
                             <Col>
                                 <Form.Control type="number" size='sm' defaultValue={cargoWidth} onChange={(e) => setWidth(e.target.value)} />
                             </Col>
@@ -124,7 +122,6 @@ function MultipleCargo(props) {
                                 </Row>
                             )
                         }
-
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
@@ -136,8 +133,6 @@ function MultipleCargo(props) {
             </Modal>
         </div>
     );
-
 }
-
 
 export default MultipleCargo;

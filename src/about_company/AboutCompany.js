@@ -8,8 +8,6 @@ import png2 from "./files/inst-2.png";
 import png3 from "./files/inst-3.png";
 import png4 from "./files/inst-4.png";
 
-
-
 export default function AboutCompany() {
     return (
         <div>
@@ -27,7 +25,6 @@ export default function AboutCompany() {
                     </Col>
                 </Row>
 
-
                 <Row id="space-between-rows">
                     <Col md={{ span: 3, offset: 5 }} > <h4>Our History</h4></Col>
                 </Row>
@@ -37,7 +34,6 @@ export default function AboutCompany() {
                     Our customers receive cost optimization and time savings for logistics processes with us. <br /> We are grateful to each Client for their trust and we are proud to cooperate with anyone who trusts us with their goods!</p>
                     </Col>
                 </Row>
-
 
                 <Row id="space-between-rows">
                     <Col md={{ span: 3, offset: 5 }} > <h4>How do we work?</h4></Col>
@@ -49,8 +45,6 @@ export default function AboutCompany() {
                     <Col><Image src={png4} fluid /> <h6 style={{ paddingTop: "1rem" }}>Receive your parcle</h6></Col>
                 </Row>
 
-
-
                 <Row style={{ margin: "35px" }}>
                     <Col md={{ span: 4, offset: 5 }} >
                         <Button style={{ backgroundColor: "#ff8e09", border: "none" }}>
@@ -60,7 +54,6 @@ export default function AboutCompany() {
                         </Button>
                     </Col>
                 </Row>
-
 
             </Container>
         </div>
