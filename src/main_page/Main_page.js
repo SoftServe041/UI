@@ -1,5 +1,5 @@
 import React, { useState, setState } from 'react';
-import cities from './cities.json';
+//import cities from './cities.json';
 import axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -151,6 +151,7 @@ class MainPage extends React.Component {
 
         if (this.state.ifRedirect) {
             history.push(this.state);
+            {console.log(this.state)}
             return <Redirect to='/routes' />
         }
 

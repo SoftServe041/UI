@@ -7,7 +7,26 @@ import Result from './Result'
 import '../App.css'
 import './style-result.css'
 
+
 const routesArr = {
+    "dateSorted": [
+      {
+        "trackingId": "ch42971",
+        "price": 4090,
+        "estimatedDeliveryDate": "2020-07-04"
+      }
+    ],
+    "priceSorted": [
+      {
+        "trackingId": "ch42971",
+        "price": 4090,
+        "estimatedDeliveryDate": "2020-07-04"
+      }
+    ]
+  }
+
+
+/*const routesArr = {const routesArr = {
     "dateSorted": [
         {
             "trackingId": "ch42971",
@@ -70,34 +89,19 @@ const routesArr = {
     ]
 }
 
+*/
 class Results extends React.Component {
     constructor(props) {
         super(props);
+        console.log(history, props)
         this.state = {
             departure: 'Departure',
             arrival: 'Arrival',
             ifFormIncorrect: false,
             ifSameHubSelected: false,
             routes: routesArr,
-            listOfBoxes:  [
-                {
-                    "weight": "2000",
-                    "width": "100",
-                    "height": "100",
-                    "length": "300",
-                },
-                {
-                    "weight": "1800",
-                    "width": "4000",
-                    "height": "200",
-                    "length": "800",
-                },
-            ],
-            citiesList: [
-                "Kyiv",
-                "Lviv",
-                "Odesa",
-            ]
+            listOfBoxes:  [],
+            citiesList: []
         }
 
         this.submitHandler = this.submitHandler.bind(this)

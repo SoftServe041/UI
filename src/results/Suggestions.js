@@ -6,6 +6,9 @@ import axios from "axios";
 const url = "localhost:9041"
 
 function Suggestions(props) {
+
+    console.log(props)
+
     function sendAxios(trackingId, deliveryDate, price, hubs, departureHub, arrivalHub, boxes) {
         let cargos = boxes;
         let route = {
@@ -20,6 +23,19 @@ function Suggestions(props) {
             "cargos": cargos,
             "route": route
         }
+
+        const test = {
+            
+            price: data.price,
+            estimatedDeliveryDate: data.estimatedDeliveryDate,
+            departureHub: data.departureHub,
+            arrivalHub: data.arrivalHub,
+            trackingId: data.trackingId,
+            cargos: data.cargos,
+            route: route
+        }
+        console.log(test);
+        
         console.log("Hi")
         console.log(data)
         console.log("Hi")

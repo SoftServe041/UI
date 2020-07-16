@@ -38,10 +38,10 @@ function GenerateDropDownRows(cards) {
 function getTable(hubs) {
     const departureList = hubs.map((c, index) =>
         <tr key={index}>
-            <td>{c.weight}</td>
-            <td>{c.width}</td>
-            <td>{c.height}</td>
-            <td>{c.length}</td>
+            <td>{c.cargoWeight}</td>
+            <td>{c.cargoWidth}</td>
+            <td>{c.cargoHeight}</td>
+            <td>{c.cargoLength}</td>
         </tr>
     );
 
