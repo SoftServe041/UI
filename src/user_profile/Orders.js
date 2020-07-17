@@ -85,8 +85,7 @@ function Orders(props) {
                             <th className='text-center aling-middle'>Estimated delivery date</th>
                             <th className='text-center aling-middle'>Departure</th>
                             <th className='text-center aling-middle'>Arrival</th>
-                            <th className='text-center aling-middle'>Cargo weight</th>
-                            <th className='text-center aling-middle'>Delivery status</th>
+                              <th className='text-center aling-middle'>Delivery status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -97,7 +96,6 @@ function Orders(props) {
                                 <td className='text-center align-middle'>{order.estimatedDeliveryDate}</td>
                                 <td className='text-center align-middle'>{order.departureHub}</td>
                                 <td className='text-center align-middle'>{order.arrivalHub}</td>
-                                <td className='text-center align-middle'>{order.weight}</td>
                                 <td className='text-center align-middle'>{order.deliveryStatus}</td>
                             </tr>
                         )}
