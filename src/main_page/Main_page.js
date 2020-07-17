@@ -81,7 +81,6 @@ class MainPage extends React.Component {
             valid = false;
         }
 
-
         if (cargoWeight.length >= 1 || cargoHeight.length >= 1 || cargoLength.length >= 1 || cargoWidth.length >= 1) {
             let box = {
                 weight: weight,
