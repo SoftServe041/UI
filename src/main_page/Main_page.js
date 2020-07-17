@@ -328,11 +328,11 @@ function GenerateTable(props) {
                             <td className='text-center'>
                                 <Button variant="" style={{ backgroundColor: "#ff8e09", borderColor: "#999999", color: "white" }} title="action" size='md'
                                         onClick={() => { props.removeBox(index) }}>
-                                    Remove
-                                </Button>
-                            </td>
-                        </tr>
-                    )}
+                    Remove
+                    </Button>
+                </td>
+            </tr>
+            )}
                     </tbody>
                 </Table>
 
