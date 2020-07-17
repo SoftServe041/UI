@@ -68,7 +68,7 @@ class MainPage extends React.Component {
     }
 
 
-    formValid = ({departure, arrival, weight, length, width, height, listOfBoxes}) => {
+    formValid = ({ departure, arrival, cargoWeight, cargoLength, cargoWidth, cargoHeight, listOfBoxes }) => {
         let valid = true;
 
         if (departure === arrival) {
@@ -83,7 +83,6 @@ class MainPage extends React.Component {
         }
 
 
-        // if (weight.length >= 1 || height.length >= 1 || length.length >= 1 || width.length >= 1) {
         if (cargoWeight.length >= 1 || cargoHeight.length >= 1 || cargoLength.length >= 1 || cargoWidth.length >= 1) {
             let box = {
                 weight: weight,
