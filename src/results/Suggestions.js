@@ -1,15 +1,14 @@
 import React from 'react';
 import Suggestion from './Suggestion';
 import axios from "axios";
+import { Col } from 'react-bootstrap';
 
 
 const url = "localhost:9041"
 
 function Suggestions(props) {
 
-    console.log(props)
-
-    function sendAxios(trackingId, deliveryDate, price, hubs, departureHub, arrivalHub, boxes) {
+    function sendAxios(trackingId, deliveryDate, price, hubs, departure, arrival, boxes) {
         let cargos = boxes;
         let route = {
             hubs
@@ -17,15 +16,17 @@ function Suggestions(props) {
         let data = {
             "price": price,
             "estimatedDeliveryDate": deliveryDate,
-            "departureHub": departureHub,
-            "arrivalHub": arrivalHub,
+            "departureHub": departure,
+            "arrivalHub": arrival,
             "trackingId": trackingId,
             "cargos": cargos,
             "route": route
         }
+        
 
-        const test = {
-            
+        console.log("HHHHHHHH", hubs);
+    
+        let dataToSend = {
             price: data.price,
             estimatedDeliveryDate: data.estimatedDeliveryDate,
             departureHub: data.departureHub,
@@ -34,34 +35,24 @@ function Suggestions(props) {
             cargos: data.cargos,
             route: route
         }
-        console.log(test);
-        
-        console.log("Hi")
-        console.log(data)
-        console.log("Hi")
-        axios.post(`http://${url}/user/${props.userDetails.userId}`, {
-                price: data.price,
-                estimatedDeliveryDate: data.estimatedDeliveryDate,
-                departureHub: data.departureHub,
-                arrivalHub: data.arrivalHub,
-                trackingId: data.trackingId,
-                cargos: data.cargos,
-                route: route
+        console.log(props.userDetails.userId, " Id ", dataToSend)
+
+        axios({
+            method: 'POST',
+            url: `http://${url}/${props.userDetails.userId}`,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer_${props.userDetails.token}`
             },
-            {
-                'headers':
-                    {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer_${props.userDetails.token}`
-                    }
-            }).then(response => {
-            console.log("Ok")
-        }).catch((error) => {
-            console.log(error);
-            if (error.status === 404) {
-                window.location = '/error';
-            }
-        });
+            data: dataToSend
+        }).then(response => {
+                console.log("Ok")
+            }).catch((error) => {
+                console.log(error);
+                if (error.status === 404) {
+                    window.location = '/error';
+                }
+            });
     }
 
     const suggestionList = props.data.map((item) =>
@@ -70,10 +61,10 @@ function Suggestions(props) {
             id={item.trackingId}
             price={item.price}
             boxes={props.boxes}
-            hubs={props.cities}
+            hubs={item.hubs}
             deliveryDate={item.estimatedDeliveryDate}
-            departureHub={item.departureHub}
-            arrivalHub={item.arrivalHub}
+            departure={props.departure}
+            arrival={props.arrival}
             send={sendAxios}
             dataOfUser={props.userDetails}
         />

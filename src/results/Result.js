@@ -1,5 +1,5 @@
 import React from 'react'
-import {Tabs, Tab, Container, Row, Col} from 'react-bootstrap'
+import { Tabs, Tab, Container, Row, Col } from 'react-bootstrap'
 import Suggestions from './Suggestions'
 
 class Result extends React.Component {
@@ -8,16 +8,17 @@ class Result extends React.Component {
 		this.state = {
 			selectedTab: 'price'
 		}
+		console.log(props)
 	}
 
 
 	handleSelectedTab(key) {
-		this.setState({selectedTab: key})
+		this.setState({ selectedTab: key })
 	}
 
 	render() {
 		return (
-			<Container style={{backgroundColor: '#c2c2c2'}}>
+			<Container style={{ backgroundColor: '#c2c2c2' }}>
 				<Row>
 					<Col>
 						<Tabs
@@ -32,7 +33,10 @@ class Result extends React.Component {
 								eventKey='price'
 								title='Sort By Price:'
 							>
+								{ console.log("GGGGGGGG", this.props.routes.priceSorted) }
 								<Suggestions
+									departure={this.props.departure}
+									arrival={this.props.arrival}
 									data={this.props.routes.priceSorted}
 									userDetails={this.props.data}
 									cities={this.props.citiesList}
@@ -45,6 +49,8 @@ class Result extends React.Component {
 								title='Sort By Delivery Date:'
 							>
 								<Suggestions
+									departure={this.props.departure}
+									arrival={this.props.arrival}
 									data={this.props.routes.dateSorted}
 									userDetails={this.props.data}
 									cities={this.props.citiesList}

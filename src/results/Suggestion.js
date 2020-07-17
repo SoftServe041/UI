@@ -38,10 +38,10 @@ function GenerateDropDownRows(cards) {
 function getTable(hubs) {
     const departureList = hubs.map((c, index) =>
         <tr key={index}>
-            <td>{c.cargoWeight}</td>
-            <td>{c.cargoWidth}</td>
-            <td>{c.cargoHeight}</td>
-            <td>{c.cargoLength}</td>
+            <td>{c.weight}</td>
+            <td>{c.width}</td>
+            <td>{c.height}</td>
+            <td>{c.length}</td>
         </tr>
     );
 
@@ -67,8 +67,8 @@ function Suggestion(props) {
 
 
 
-    const departure = props.departureHub
-    const arrival = props.arrivalHub
+    const departure = props.departure
+    const arrival = props.arrival
     const boxes = props.boxes
 
     const userDetails = props.dataOfUser;

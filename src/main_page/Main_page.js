@@ -20,10 +20,10 @@ class MainPage extends React.Component {
         this.state = {
             departure: 'Departure',
             arrival: 'Arrival',
-            cargoWeight: '',
-            cargoHeight: '',
-            cargoWidth: '',
-            cargoLength: '',
+            weight: '',
+            height: '',
+            width: '',
+            length: '',
             ifFormIncorrect: false,
             ifSameHubSelected: false,
             ifRedirect: false,
@@ -71,7 +71,7 @@ class MainPage extends React.Component {
     }
 
 
-    formValid = ({ departure, arrival, cargoWeight, cargoLength, cargoWidth, cargoHeight, listOfBoxes }) => {
+    formValid = ({ departure, arrival, weight, length, width, height, listOfBoxes }) => {
         let valid = true;
 
         if (departure === arrival) {
@@ -87,12 +87,12 @@ class MainPage extends React.Component {
 
 
 
-        if (cargoWeight.length >= 1 || cargoHeight.length >= 1 || cargoLength.length >= 1 || cargoWidth.length >= 1) {
+        if (weight.length >= 1 || height.length >= 1 || length.length >= 1 || width.length >= 1) {
             let box = {
-                cargoWeight: cargoWeight,
-                cargoWidth: cargoWidth,
-                cargoHeight: cargoHeight,
-                cargoLength: cargoLength,
+                weight: weight,
+                width: width,
+                height: height,
+                length: length,
             }
             this.setState({ listOfBoxes: this.state.listOfBoxes.concat(box) })
             valid = true;
@@ -218,7 +218,7 @@ class MainPage extends React.Component {
                                 <Row>
                                     <Col >
                                         <Form.Label style={{ color: "black" }}>Weight (kg):</Form.Label>
-                                        <Form.Control type="number" name="cargoWeight" placeholder="kg" onInput={(e) => {
+                                        <Form.Control type="number" name="weight" placeholder="kg" onInput={(e) => {
                                             if (parseInt(e.target.value) < 22000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
                                             } else {
@@ -228,7 +228,7 @@ class MainPage extends React.Component {
                                     </Col>
                                     <Col>
                                         <Form.Label style={{ color: "black" }}>Length (cm):</Form.Label>
-                                        <Form.Control type="number" name="cargoLength" placeholder="Length" onInput={(e) => {
+                                        <Form.Control type="number" name="length" placeholder="Length" onInput={(e) => {
                                             if (parseInt(e.target.value) < 3000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
                                             } else {
@@ -238,7 +238,7 @@ class MainPage extends React.Component {
                                     </Col>
                                     <Col>
                                         <Form.Label style={{ color: "black" }}>Width (cm):</Form.Label>
-                                        <Form.Control type="number" name="cargoWidth" placeholder="Width" onInput={(e) => {
+                                        <Form.Control type="number" name="width" placeholder="Width" onInput={(e) => {
                                             if (parseInt(e.target.value) < 3000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
                                             } else {
@@ -248,7 +248,7 @@ class MainPage extends React.Component {
                                     </Col>
                                     <Col>
                                         <Form.Label style={{ color: "black" }}>Height (cm):</Form.Label>
-                                        <Form.Control type="number" name="cargoHeight" placeholder="Height" onInput={(e) => {
+                                        <Form.Control type="number" name="height" placeholder="Height" onInput={(e) => {
                                             if (parseInt(e.target.value) < 3000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
                                             } else {
@@ -323,10 +323,10 @@ function GenerateTable(props) {
                         {props.data.listOfBoxes.map((box, index) =>
                             <tr key={index}>
                                 <td className='pl-3 align-middle'>{parseInt(index) + 1} </td>
-                                <td className='pl-3 align-middle'>{box.cargoWeight} kg</td>
-                                <td className='pl-4 align-middle'>{box.cargoLength} cm</td>
-                                <td className='pl-4 align-middle'>{box.cargoWidth} cm</td>
-                                <td className='pl-4 align-middle'>{box.cargoHeight} cm</td>
+                                <td className='pl-3 align-middle'>{box.weight} kg</td>
+                                <td className='pl-4 align-middle'>{box.length} cm</td>
+                                <td className='pl-4 align-middle'>{box.width} cm</td>
+                                <td className='pl-4 align-middle'>{box.height} cm</td>
                                 <td className='text-center'>
                                     <Button variant="" style={{ backgroundColor: "#ff8e09", borderColor: "#999999", color: "white" }} title="action" size='md'
                                         onClick={() => { props.removeBox(index) }}>

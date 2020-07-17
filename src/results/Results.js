@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row, Col} from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import history from '../history'
 import SearchForm from './SearchForm'
 import axios from 'axios'
@@ -10,20 +10,20 @@ import './style-result.css'
 
 const routesArr = {
     "dateSorted": [
-      {
-        "trackingId": "ch42971",
-        "price": 4090,
-        "estimatedDeliveryDate": "2020-07-04"
-      }
+        {
+            "trackingId": "ch42971",
+            "price": 4090,
+            "estimatedDeliveryDate": "2020-07-04"
+        }
     ],
     "priceSorted": [
-      {
-        "trackingId": "ch42971",
-        "price": 4090,
-        "estimatedDeliveryDate": "2020-07-04"
-      }
+        {
+            "trackingId": "ch42971",
+            "price": 4090,
+            "estimatedDeliveryDate": "2020-07-04"
+        }
     ]
-  }
+}
 
 
 /*const routesArr = {const routesArr = {
@@ -100,7 +100,7 @@ class Results extends React.Component {
             ifFormIncorrect: false,
             ifSameHubSelected: false,
             routes: routesArr,
-            listOfBoxes:  [],
+            listOfBoxes: [],
             citiesList: []
         }
 
@@ -116,10 +116,10 @@ class Results extends React.Component {
         if (!(parseInt(history.location.listOfBoxes).length > 0 || history.location.listOfBoxes === undefined)) {
             (history.location.listOfBoxes.map((box) => {
                 let temp = (box) = {
-                    cargoWeight: box.cargoWeight,
-                    cargoWidth: box.cargoWidth / 100,
-                    cargoHeight: box.cargoHeight / 100,
-                    cargoLength: box.cargoLength / 100,
+                    weight: parseFloat(box.weight),
+                    width: box.width / 100,
+                    height: box.height / 100,
+                    length: box.length / 100,
                 }
                 convertToMeters.push(temp);
             }))
@@ -146,7 +146,7 @@ class Results extends React.Component {
     async loadCities() {
         await axios.get(`http://localhost:9041/cities`)
             .then(res => {
-                this.setState({citiesList: res.data})
+                this.setState({ citiesList: res.data })
             })
             .catch(error => console.log('Cities cannot be loaded' + error));
     }
@@ -164,7 +164,8 @@ class Results extends React.Component {
                 data: dataToSend
             }
         ).then((response) => {
-            this.setState({routes: response.data});
+            console.log("checking routes", response.data)
+            this.setState({ routes: response.data });
         }).catch((error) => {
             console.log(error);
             if (error.status === 404) {
@@ -176,7 +177,7 @@ class Results extends React.Component {
 
     submitHandler = (e) => {
         e.preventDefault();
-        this.setState({ifFormIncorrect: false, ifSameHubSelected: false});
+        this.setState({ ifFormIncorrect: false, ifSameHubSelected: false });
         let dataToSend = {
             sizeList: this.state.listOfBoxes,
             departureHub: this.state.arrival,
@@ -186,32 +187,32 @@ class Results extends React.Component {
         if (this.formValid(this.state)) {
             this.getData(dataToSend);
         } else {
-            this.setState({ifFormIncorrect: true})
+            this.setState({ ifFormIncorrect: true })
         }
     }
 
     handleChange = (e) => {
-        this.setState({[e.target.name]: e.target.value})
+        this.setState({ [e.target.name]: e.target.value })
         e.preventDefault()
-        this.setState({ifFormIncorrect: false})
+        this.setState({ ifFormIncorrect: false })
     }
 
     handleSelectedDeparture(e) {
-        this.setState({departure: e})
+        this.setState({ departure: e })
     }
 
     handleSelectedArrival(e) {
-        this.setState({arrival: e})
+        this.setState({ arrival: e })
     }
 
-    formValid = ({departure, arrival}) => {
+    formValid = ({ departure, arrival }) => {
         let valid = true
 
         if (departure === arrival) {
-            this.setState({ifSameHubSelected: true})
+            this.setState({ ifSameHubSelected: true })
             valid = false
         } else {
-            this.setState({ifSameHubSelected: false})
+            this.setState({ ifSameHubSelected: false })
             valid = true
         }
 
@@ -226,11 +227,11 @@ class Results extends React.Component {
         return (
             <div>
                 <Row id='results'>
-                    <Col md={{span: 8, offset: 2}}>
+                    <Col md={{ span: 8, offset: 2 }}>
                         <SearchForm
                             departure={this.state.departure}
                             arrival={this.state.arrival}
-                            cargoWeight={this.state.cargoWeight}
+                            weight={this.state.weight}
                             ifFormIncorrect={this.state.ifFormIncorrect}
                             submitHandler={this.submitHandler}
                             handleChange={this.handleChange}
@@ -245,6 +246,8 @@ class Results extends React.Component {
                     </Col>
                 </Row>
                 <Result
+                    departure={this.state.departure}
+                    arrival={this.state.arrival}
                     routes={this.state.routes}
                     data={this.props.data}
                     citiesList={this.state.citiesList}
