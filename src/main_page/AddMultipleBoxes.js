@@ -27,14 +27,16 @@ function MultipleCargo(props) {
         let newBoxes = [];
         for (let i = 0; i < m; i++) {
             newBoxes[i] = {
-                cargoWeight: weight,
-                cargoWidth: width,
-                cargoHeight: height,
-                cargoLength: length,
-                // cweight: weight,
-                // width: width,
-                // height: height,
-                // length: length,
+                // cargoWeight: weight,
+                // cargoWidth: width,
+                // cargoHeight: height,
+                // cargoLength: length,
+
+
+                cargoWeight: cargoWeight,
+                cargoWidth: cargoWidth,
+                cargoHeight: cargoHeight,
+                cargoLength: cargoLength,
             }
         }
         setBox(boxes.concat(newBoxes));
