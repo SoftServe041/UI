@@ -27,6 +27,7 @@ function MultipleCargo(props) {
         let newBoxes = [];
         for (let i = 0; i < m; i++) {
             newBoxes[i] = {
+                //working version
                 // cargoWeight: weight,
                 // cargoWidth: width,
                 // cargoHeight: height,
