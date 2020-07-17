@@ -1,7 +1,7 @@
 //import cities from './cities.json';
-import React from 'react';
+// import React from 'react';
 //Working version
-//import React, {useState, setState} from 'react';
+import React, {useState, setState} from 'react';
 import axios from 'axios';
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
