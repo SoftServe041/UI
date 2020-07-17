@@ -8,7 +8,6 @@ class Result extends React.Component {
 		this.state = {
 			selectedTab: 'price'
 		}
-		console.log(props)
 	}
 
 
@@ -33,7 +32,6 @@ class Result extends React.Component {
 								eventKey='price'
 								title='Sort By Price:'
 							>
-								{ console.log("GGGGGGGG", this.props.routes.priceSorted) }
 								<Suggestions
 									departure={this.props.departure}
 									arrival={this.props.arrival}

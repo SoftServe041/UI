@@ -25,75 +25,9 @@ const routesArr = {
     ]
 }
 
-
-/*const routesArr = {const routesArr = {
-    "dateSorted": [
-        {
-            "trackingId": "ch42971",
-            "price": 4090,
-            "estimatedDeliveryDate": "2020-07-04",
-            "departureHub": "Kyiv",
-            "arrivalHub": "Kharkov",
-            "cargos": [
-                {
-                    "weight": "20",
-                    "width": "1",
-                    "height": "1",
-                    "length": "3",
-                },
-				{
-					"weight": "18",
-					"width": "40",
-					"height": "2",
-					"length": "8",
-				},
-            ],
-            "route":{
-                "hubs":[
-                    "Kyiv",
-                    "Lviv",
-                    "Odesa"
-                ]
-            }
-        }
-    ],
-    "priceSorted": [
-        {
-            "trackingId": "ch42971",
-            "price": 4090,
-            "estimatedDeliveryDate": "2020-07-04",
-            "departureHub": "Kyiv",
-            "arrivalHub": "Kharkov",
-            "cargos": [
-                {
-                    "weight": "20",
-                    "width": "1",
-                    "height": "1",
-                    "length": "3",
-                },
-                {
-                    "weight": "18",
-                    "width": "40",
-                    "height": "2",
-                    "length": "8",
-                },
-            ],
-            "route":{
-                "hubs":[
-                        "Kyiv",
-                        "Lviv",
-                        "Odesa",
-                ]
-            }
-        }
-    ]
-}
-
-*/
 class Results extends React.Component {
     constructor(props) {
         super(props);
-        console.log(history, props)
         this.state = {
             departure: 'Departure',
             arrival: 'Arrival',
@@ -164,7 +98,6 @@ class Results extends React.Component {
                 data: dataToSend
             }
         ).then((response) => {
-            console.log("checking routes", response.data)
             this.setState({ routes: response.data });
         }).catch((error) => {
             console.log(error);

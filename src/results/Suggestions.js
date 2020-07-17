@@ -24,8 +24,7 @@ function Suggestions(props) {
         }
         
 
-        console.log("HHHHHHHH", hubs);
-    
+
         let dataToSend = {
             price: data.price,
             estimatedDeliveryDate: data.estimatedDeliveryDate,
@@ -35,7 +34,6 @@ function Suggestions(props) {
             cargos: data.cargos,
             route: route
         }
-        console.log(props.userDetails.userId, " Id ", dataToSend)
 
         axios({
             method: 'POST',
