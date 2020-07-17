@@ -1,5 +1,3 @@
-// import React, {useState, setState} from 'react';
-//import cities from './cities.json';
 import React from 'react';
 import axios from 'axios';
 import Form from "react-bootstrap/Form";
@@ -51,9 +49,7 @@ class MainPage extends React.Component {
                 this.setState({citiesList: res.data})
             })
             .catch((error) => {
-
-                this.setState({errorMessage: error.message, ifShowModalError: true});
-                console.log("in error city load", this.state.errorMessage, this.state.ifShowModalError);
+                this.setState({ errorMessage: error.message, ifShowModalError: true });
             });
     }
 
