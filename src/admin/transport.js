@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
+import { Pagination, Table, Dropdown, Button, Form, Modal, Row, Col } from "react-bootstrap";
 import axios from 'axios';
 import ModalError from "../error/modalErrorFF.js";
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
@@ -7,7 +7,6 @@ import DropdownMenu from 'react-bootstrap/DropdownMenu';
 function Transports(props) {
     let url = 'http://localhost:9041/admin/transport';
     let urlForTransportTypes = 'http://localhost:9041/admin/transport/types';
-    let sessionToken = sessionStorage.getItem('token1');
     const [pagination, setPagination] = useState([]);
     const [activePage, setActivePage] = useState(0);
     let existedHubs = props.existedHubs;
@@ -51,6 +50,7 @@ function Transports(props) {
     if (transportTypes.length === 0) {
         getAllTransportTypes(props);
     }
+
     function initializeData(data) {
         setTransports(data.content);
         setPagination(formPagination(activePage, data.totalPages));
@@ -106,7 +106,6 @@ function Transports(props) {
             if (response.status === 200) {
                 setTransportTypes(response.data)
             }
-
         }).catch(error => {
             console.log('erroring from getAllTransTypes: ', error);
         });
@@ -181,7 +180,6 @@ function Transports(props) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer_${props.token}`,
             }
-
         }).then(response => {
             if (response.status === 200) {
                 setFlag(true);
@@ -201,7 +199,6 @@ function Transports(props) {
                 length: length,
             }
         }]);
-
     }
     function removeCompartment(index) {
         let newCompartments = [].concat(compartments);
@@ -222,10 +219,9 @@ function Transports(props) {
             getAllTransports(props.token);
             setFlag(false);
         }
-    });
+    }, [flag, getAllTransports, props.token]);
     return (
         <div>
-            {console.log("in render check ifShowModalError", ifShowModalError)}
             {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
                 message={errorMessage}
                 ifError={ifError} />}
@@ -410,8 +406,6 @@ function Transports(props) {
             </Modal>
         </div>
     );
-
 }
-
 
 export default Transports;

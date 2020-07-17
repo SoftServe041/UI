@@ -16,8 +16,6 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     </a>
 ));
 
-// forwardRef again here!
-// Dropdown needs access to the DOM of the Menu to measure it
 const CustomMenu = React.forwardRef(
     ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
         const [value, setValue] = useState('');
@@ -35,7 +33,6 @@ const CustomMenu = React.forwardRef(
                     placeholder="Type to filter..."
                     onChange={(e) => setValue(e.target.value)}
                     value={value}
-
                 />
                 <ul className="list-unstyled">
                     {React.Children.toArray(children).filter(
@@ -47,8 +44,6 @@ const CustomMenu = React.forwardRef(
         );
     },
 );
-
-
 
 function GenerateDropDownRows(cities) {
     // const arrivalList = cities.cities.map((c,index) =>
@@ -66,27 +61,19 @@ function GenerateDropDownRows(cities) {
             {arrivalList}
         </Dropdown.Menu>
     );
-
 }
-
-
-
 
 export default class DropDownArrival extends React.Component {
     constructor(props) {
         super(props);
     }
-
     render() {
-
         return (
-
             <Dropdown onSelect={this.props.handleSelectedArrival} style={{ backgroundColor: 'white', padding: '7px', borderRadius: '5px' }}>
                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components" >
                     {this.props.arrival}
                 </Dropdown.Toggle>
                 <GenerateDropDownRows cities={this.props.cities} />
-
             </Dropdown>
         );
     }

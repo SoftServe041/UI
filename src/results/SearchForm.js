@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import DropDownDeparture from '../main_page/DropDownDeparture';
 import DropDownArrival from "../main_page/DropDownArrival";
-import cities from '../main_page/cities.json';
 import '../App.css';
 
 function SearchForm(props) {
@@ -11,11 +10,10 @@ function SearchForm(props) {
 
     let summ = 0;
     function countWeight(listOfBoxes) {
-
+        return(
         listOfBoxes.map((box) => {
-            summ = parseInt(summ) + parseInt(box.weight);
-        })
-
+            summ = parseInt(summ) + parseInt(box.cargoWeight);
+        }))
     }
 
     countWeight(props.listOfBoxes);

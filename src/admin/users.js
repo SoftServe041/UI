@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
+import { Pagination, Table, Dropdown, Button, Form, Modal, Row, Col } from "react-bootstrap";
 import axios from 'axios';
 import ModalError from "../error/modalErrorFF.js";
 
@@ -13,7 +13,6 @@ const style = {
 function Users(props) {
     let urlForGetAllUsers = 'http://localhost:8041/admin/users?page=';
     let urlForUpdateDeleteUser = 'http://localhost:8041/admin/users/';
-    let sessionToken = sessionStorage.getItem('token1');
     const [pagination, setPagination] = useState([]);
     const [activePage, setActivePage] = useState(1);
     let totalPage = 1;
@@ -23,6 +22,7 @@ function Users(props) {
     const [modalLastName, setModalLastName] = useState('');
     const [modalEmail, setModalEmail] = useState('');
     const [modalPhoneNumber, setModalPhoneNumber] = useState('');
+    const [modalAdmin, setModalAdmin] = useState('');
     const [flag, setFlag] = useState(true);
     const [users, setUsers] = useState([]);
     let [ifShowModalError, setIfShowModalError] = useState(false);
@@ -30,7 +30,6 @@ function Users(props) {
 
     function ifError() {
         let temp = !ifShowModalError;
-        console.log(temp);
         setIfShowModalError(temp);
     }
 
@@ -92,7 +91,6 @@ function Users(props) {
         }).catch(error => {
             setIfShowModalError(true);
             setErrorMessage(error.message);
-            console.log('erroring from getAllUsers: ', error);
         });
     }
     function handleUpdateAction(userToUpdate) {
@@ -101,9 +99,17 @@ function Users(props) {
         setModalLastName(userToUpdate.lastName);
         setModalEmail(userToUpdate.email);
         setModalPhoneNumber(userToUpdate.phoneNumber);
+        if (userToUpdate.roles.length === 2) {
+            setModalAdmin("true");
+        }
+        else { setModalAdmin("false"); }
         setShowUpdateModal(true);
     }
     function updateUser(userToUpdate, props) {
+
+        let ifUserAdmin = [{name : "ROLE_USER"}];
+        if (modalAdmin === "true") {ifUserAdmin.push({ name: 'ROLE_ADMIN' })}
+        
         axios({
             method: 'PUT',
             url: urlForUpdateDeleteUser + userToUpdate.id,
@@ -119,6 +125,7 @@ function Users(props) {
                 email: modalEmail,
                 address: userToUpdate.address,
                 phoneNumber: modalPhoneNumber,
+                roles: ifUserAdmin
             },
         }).then(response => {
             if (response.status === 200) {
@@ -128,7 +135,6 @@ function Users(props) {
         }).catch(error => {
             setIfShowModalError(true);
             setErrorMessage(error.message);
-            console.log('erroring from update User: ', error);
         });
     }
     useEffect(() => {
@@ -136,7 +142,14 @@ function Users(props) {
             getAllUsers(props.token);
             setFlag(false);
         }
-    });
+    },[flag, getAllUsers, props.token]);
+
+
+   const displayIfAdmin = (roles) => {
+        if (roles.length === 2) {return "true"}
+        return "false";
+    }
+    
     return (
         <div>
             {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
@@ -150,6 +163,7 @@ function Users(props) {
                             <th className='text-center aling-middle'>Last name</th>
                             <th className='text-center aling-middle'>Email</th>
                             <th className='text-center aling-middle'>Phone number</th>
+                            <th className='text-center aling-middle'>Admin privilages</th>
                             <th className='text-center aling-middle'>Actions</th>
                         </tr>
                     </thead>
@@ -160,6 +174,7 @@ function Users(props) {
                                 <td className='pl-4 align-middle'>{user.lastName}</td>
                                 <td className='pl-4 align-middle'>{user.email}</td>
                                 <td className='pl-4 align-middle'>{user.phoneNumber}</td>
+                                <td className='pl-4 align-middle'> {displayIfAdmin(user.roles)}</td>
                                 <td className='text-center'>
                                     <Dropdown size='md' >
                                         <Dropdown.Toggle style={style.Button}>Action</Dropdown.Toggle>
@@ -214,18 +229,29 @@ function Users(props) {
                                 <Form.Control type="number" value={modalPhoneNumber} onChange={(e) => setModalPhoneNumber(e.target.value)} />
                             </Col>
                         </Form.Group>
+                        <Form.Group as={Row}>
+                            <Form.Label className='pl-4' column sm="4">
+                                Admin Privilages
+                            </Form.Label>
+                            <Col sm="7">
+                                <Dropdown onSelect={(e) => { setModalAdmin(e) }}>
+                                    <Dropdown.Toggle style={style.Button} >{modalAdmin}</Dropdown.Toggle>
+                                    <Dropdown.Menu >
+                                        <Dropdown.Item eventKey="true">true</Dropdown.Item>
+                                        <Dropdown.Item eventKey="false">false</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </Col>
+                        </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='col-md-5 mr-3' onClick={() => updateUser(updatedUser, props.token)}>update</Button>
-                    <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setShowUpdateModal(false)}>cancel</Button>
-
+                    <Button className='col-md-5 mr-3' style={style.Button} onClick={() => updateUser(updatedUser, props.token)}>Update</Button>
+                    <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setShowUpdateModal(false)}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
         </div>
     );
-
 }
-
 
 export default Users;

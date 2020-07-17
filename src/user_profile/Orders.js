@@ -15,7 +15,6 @@ function Orders(props) {
 
     function ifError() {
         let temp = !ifShowModalError;
-        console.log(temp);
         setIfShowModalError(temp);
     }
 

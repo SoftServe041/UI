@@ -49,7 +49,7 @@ class App extends React.Component {
 
     handleToken(data) {
 
-        if (data.ifLoggedIn != undefined) {
+        if (data.ifLoggedIn !== undefined) {
             this.setState({
                 token: data.token,
                 userId: data.id,
@@ -96,7 +96,6 @@ class App extends React.Component {
         return (
             <div style={{overflowX: 'hidden'}}>
                 <TokenContext.Provider>
-
                     <Router history={history}>
                         <Suspense fallback={<div>Loading...</div>}>
                             <Header/>

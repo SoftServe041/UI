@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
+import { Table, Dropdown,  Button, Form, Modal, Row, Col } from "react-bootstrap";
 import cities from './admin_resource/cities.json';
 import axios from 'axios';
 import ModalError from "../error/modalErrorFF.js";
@@ -10,7 +10,6 @@ const style = {
         "border": "none"
     }
 }
-
 
 function Hubs(props) {
     let url = 'http://localhost:9041/admin/hub';
@@ -29,7 +28,6 @@ function Hubs(props) {
 
     function ifError() {
         let temp = !ifShowModalError;
-        console.log(temp);
         setIfShowModalError(temp);
     }
 
@@ -126,7 +124,6 @@ function Hubs(props) {
                 'content-type': 'application/json',
                 'Authorization': `Bearer_${props.token}`,
             },
-
         }).then(response => {
             if (response.status === 200) {
                 setFlag(true);
@@ -157,7 +154,6 @@ function Hubs(props) {
             initialiseRelationForCurrentHub(response.data);
         }).catch(error => {
             console.log('erroring from showRelationForCurrentHub: ', error);
-
         });
     }
     function initialiseRelationForCurrentHub(relations) {
@@ -292,7 +288,6 @@ function Hubs(props) {
                 <Modal.Footer>
                     <Button className='col-md-5 mr-3' onClick={() => updateHub(props)}>update</Button>
                     <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setUpdateHubFlag(false)}>cancel</Button>
-
                 </Modal.Footer>
             </Modal>
             <Modal show={createHubFlag} onHide={() => setCreateHubFlag(false)} animation='true'>

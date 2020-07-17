@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Card from "./Card/Card";
 import s from './BillingDetails.module.css'
-import { Modal, FormControl, Form, Col } from "react-bootstrap";
+import { Modal,  Form } from "react-bootstrap";
 import axios from 'axios'
 import ModalError from "../../error/modalErrorFF.js";
 
 const cscRegEx = /\b\d{3}\b/;
 const cardRegEx = /\b\d{16}\b/;
-
 
 const url = "localhost:8041";
 
@@ -15,10 +14,7 @@ const BillingDetails = (props) => {
 
     const userId = props.data.userId
     const token = props.data.token
-
-
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -40,19 +36,10 @@ const BillingDetails = (props) => {
 
     function ifError() {
         let temp = !ifShowModalError;
-        console.log(temp);
         setIfShowModalError(temp);
     }
 
     let [cards, setCards] = useState([])
-
-    useEffect(() => {
-        if (flag) {
-            getCards()
-            setFlag(false);
-        }
-    });
-
 
     const getCards = () => {
         axios({
@@ -67,11 +54,16 @@ const BillingDetails = (props) => {
         });
     }
 
+    useEffect(() => {
+        if (flag) {
+            getCards()
+            setFlag(false);
+        }
+    }, [flag, getCards]);
 
     const initialization = (data) => {
         setCards(data)
     }
-
 
     const formValid = (errors, data) => {
         let valid = true;
@@ -89,7 +81,6 @@ const BillingDetails = (props) => {
         return valid;
     }
 
-
     const refreshCardData = () => {
         setnameOnCard('')
         setCardNumber('')
@@ -104,7 +95,6 @@ const BillingDetails = (props) => {
         setErrorBillingAddress('')
     }
 
-
     const sendCard = () => {
         axios.post(`http://${url}/user/${userId}/billing-details`, {
             cardNumber: cardNumber,
@@ -114,7 +104,6 @@ const BillingDetails = (props) => {
             expirationYear: expirationYear,
             billingAddress: billingAddress
         },
-
             {
                 'headers': {
                     'Content-Type': 'application/json',
@@ -126,9 +115,7 @@ const BillingDetails = (props) => {
                 setIfShowModalError(true);
                 setErrorMessage(error.message);
             });
-
     }
-
 
     const deleteCard = (id) => {
         axios.delete(`http://${url}/user/${userId}/billing-details/${id}`,
@@ -147,12 +134,10 @@ const BillingDetails = (props) => {
         setFlag(true)
     }
 
-
     const createCardAndAddToData = () => {
         sendCard()
         refreshCardData();
     }
-
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -194,7 +179,6 @@ const BillingDetails = (props) => {
         }
     }
 
-
     const handleSubmit = () => {
         if (formValid({
             errorCardName,
@@ -219,14 +203,11 @@ const BillingDetails = (props) => {
         setFlag(true);
     }
 
-
     return (
         <div>
-
             {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
                 message={errorMessage}
                 ifError={ifError} />}
-
             <div>
                 <p className={s.text}>
                     Please note that at least 1 card is required ??
@@ -337,4 +318,5 @@ const BillingDetails = (props) => {
         </div>
     )
 }
+
 export default BillingDetails;
