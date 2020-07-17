@@ -26,6 +26,27 @@
     background-color: #c2c2c2;
 }
 
+.csv-image {
+    margin: 3%;
+    width: 60%;
+    margin-left: 8%;
+    border: black solid 1px;
+}
+
+.csv-button {
+    width: 60%;
+    margin-left: 8%;
+    border: black solid 1px;
+}
+
+.csv-response {
+    margin-top: 20%;
+    margin-left: 1%;
+    font-size: 2em;
+}
+
+
+
 .nav-link{
     color: #2d2929;
 }
