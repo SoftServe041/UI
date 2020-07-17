@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
-import axios from 'axios';
+import { Button, Form, Modal, Row, Col } from "react-bootstrap";
 
 function MultipleCargo(props) {
 
@@ -31,7 +30,6 @@ function MultipleCargo(props) {
                 cargoWidth: cargoWidth,
                 cargoHeight: cargoHeight,
                 cargoLength: cargoLength,
-
             }
         }
         setBox(boxes.concat(newBoxes));
@@ -47,7 +45,7 @@ function MultipleCargo(props) {
         if (flag) {
             setFlag(false);
         }
-    });
+    },[flag]);
     return (
         <div>
             <Modal size="lg" show={props.showFlag} onHide={() => { }} animation='true'
@@ -69,7 +67,6 @@ function MultipleCargo(props) {
                             <Col>
                                 <Form.Control type="number" size='sm' defaultValue={cargoWeight} onChange={(e) => setWeight(e.target.value)} />
                             </Col>
-
                             <Col>
                                 <Form.Control type="number" size='sm' defaultValue={cargoWidth} onChange={(e) => setWidth(e.target.value)} />
                             </Col>
@@ -125,7 +122,6 @@ function MultipleCargo(props) {
                                 </Row>
                             )
                         }
-
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
@@ -137,8 +133,6 @@ function MultipleCargo(props) {
             </Modal>
         </div>
     );
-
 }
-
 
 export default MultipleCargo;

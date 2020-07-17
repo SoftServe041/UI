@@ -6,6 +6,7 @@ import axios from 'axios'
 import Result from './Result'
 import '../App.css'
 import './style-result.css'
+import ModalError from "../error/modalErrorFF.js";
 
 const routesArr = {
 	"dateSorted": [
@@ -34,17 +35,23 @@ class Results extends React.Component {
 			ifSameHubSelected: false,
 			routes: routesArr,
 			citiesList: [],
-			listOfBoxes: []
+			listOfBoxes: [],
+			ifShowModalError: false,
+			errorMessage: ''
 		}
 
 		this.submitHandler = this.submitHandler.bind(this)
 		this.handleChange = this.handleChange.bind(this)
 		this.handleSelectedDeparture = this.handleSelectedDeparture.bind(this)
 		this.handleSelectedArrival = this.handleSelectedArrival.bind(this)
+		this.ifError = this.ifError.bind(this)
+	}
+
+	ifError() {
+		this.setState({ifShowModalError: false});
 	}
 
 	componentDidMount() {
-
 		let convertToMeters = [];
 		if (!(parseInt(history.location.listOfBoxes).length > 0 || history.location.listOfBoxes === undefined)) {
 			(history.location.listOfBoxes.map((box) => {
@@ -57,7 +64,6 @@ class Results extends React.Component {
 				convertToMeters.push(temp);
 			}))
 		}
-
 		const dataFromMainPage = {
 			sizeList: convertToMeters,
 			departureHub: history.location.arrival,
@@ -66,22 +72,20 @@ class Results extends React.Component {
 		this.getData(dataFromMainPage);
 		this.loadCities();
 
-		if (history.location.departure != undefined) {
+		if (history.location.departure !== undefined) {
 			this.setState({
 				departure: history.location.departure,
 				arrival: history.location.arrival,
 				listOfBoxes: convertToMeters
 			});
 		}
-
 	}
 
 	async loadCities() {
 		await axios.get(`http://localhost:9041/cities`)
 			.then(res => {
 				this.setState({ citiesList: res.data })
-			})
-			.catch(error => console.log('Cities cannot be loaded' + error));
+			});
 	}
 
 	async getData(dataToSend) {
@@ -99,13 +103,9 @@ class Results extends React.Component {
 		).then((response) => {
 			this.setState({ routes: response.data });
 		}).catch((error) => {
-			console.log(error);
-			if (error.status === 404) {
-				window.location = '/error';
-			}
-		})
+			this.setState({ifShowModalError: true, errorMessage: error.message});
+		});
 	}
-
 
 	submitHandler = (e) => {
 		e.preventDefault();
@@ -158,6 +158,9 @@ class Results extends React.Component {
 	render() {
 		return (
 			<div>
+				{(this.state.ifShowModalError) && <ModalError ifShow={this.state.ifShowModalError}
+					message={this.state.errorMessage}
+					ifError={this.ifError} />}
 				<Row id='results'>
 					<Col md={{ span: 8, offset: 2 }}>
 						<SearchForm

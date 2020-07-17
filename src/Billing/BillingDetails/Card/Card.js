@@ -1,28 +1,22 @@
 import React from 'react';
 import s from './Card.module.css'
 
-
-
-function Card(props){
+function Card(props) {
 
     let dan = props.data
     let userId = props.userId
 
-    function del()
-    {
+    function del() {
         props.del(dan.id)
     }
-    function getNumb(val,index)
-    {
-        return (val.substr(index,4) + " ");
+    function getNumb(val, index) {
+        return (val.substr(index, 4) + " ");
     }
 
-    function splitCardNumber(card_numbers)
-    {
+    function splitCardNumber(card_numbers) {
         let str = "";
-        for (let i = 0 ;i <= card_numbers.length;i+=4)
-        {
-            str += getNumb(card_numbers,i);
+        for (let i = 0; i <= card_numbers.length; i += 4) {
+            str += getNumb(card_numbers, i);
         }
         return str;
     }
@@ -40,7 +34,6 @@ function Card(props){
                         {splitCardNumber(dan.cardNumber)}
                     </p>
                 </div>
-
                 <div>
                     <div className={s.item}>
                         <p className={s.type_text_numbers}>
@@ -51,9 +44,9 @@ function Card(props){
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
     )
 }
+
 export default Card;
