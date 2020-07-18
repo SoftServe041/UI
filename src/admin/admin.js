@@ -2,7 +2,7 @@ import React, { useState, } from 'react';
 import Users from './users.js';
 import Hubs from './hubs.js';
 import Transport from './transport.js';
-import TransportDetails from './transport-details.js';
+import ExtraFunctionalities from './extra-functionalities.js';
 import './admin.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tab, Nav, Container, Col, Row } from "react-bootstrap";
@@ -14,7 +14,7 @@ export default function Admin(props) {
     const [transportTypes, setTransportTypes] = useState([]);
 
     if (Boolean(props.data.ifAdmin) === false) {
-        return <Redirect to='/' />
+      //  return <Redirect to='/' />
     }
     return (
         <div>
@@ -24,7 +24,7 @@ export default function Admin(props) {
                 </Col>
             </Row>
             <Container id="load-body">
-                <Tab.Container defaultActiveKey="transports">
+                <Tab.Container defaultActiveKey="extratab">
                     <Nav variant="tabs bg-title-black" fill>
                         <Nav.Item className='col-md-2 ml-3 h4 font-weight-bold'>
                             <Nav.Link className='title-text grey-bg mb-1 mt-1' eventKey="users">Users</Nav.Link>
@@ -42,7 +42,7 @@ export default function Admin(props) {
                     </Nav>
                     <Tab.Content>
                         <Tab.Pane eventKey="extratab">
-                            <TransportDetails transportTypes={transportTypes} token={props.data.token}/>
+                            <ExtraFunctionalities transportTypes={transportTypes} token={props.data.token}/>
                         </Tab.Pane>
                         <Tab.Pane eventKey="users">
                             <Users token={props.data.token}/>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Accordion, Card, Table, Dropdown, Button, Modal, Form, Col, Row } from "react-bootstrap";
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
+import CsvHandler from './csv-handler.js';
 import axios from 'axios';
 import ModalError from "../error/modalErrorFF.js";
 
@@ -11,7 +12,7 @@ const style = {
     }
 }
 
-function TransportDetails(props) {
+function ExtraFunctionalities(props) {
     let url = 'http://localhost:9041/admin/transport/details';
     let transportTypes = props.transportTypes;
     const [transportEntities, setTransportEntities] = useState([]);
@@ -46,7 +47,8 @@ function TransportDetails(props) {
         }).then(response => {
             initialiseExistedTransportEntities(response.data.content);
         }).catch(error => {
-            console.log('erroring from getExisteTransporEntiy: ', error);
+            // setIfShowModalError(true);
+            // setErrorMessage(error.message);
         });
     }
     function createTransportEntity(props) {
@@ -144,12 +146,12 @@ function TransportDetails(props) {
             {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
                 message={errorMessage}
                 ifError={ifError} />}
-            <Accordion className='mt-5 ml-5 mr-5' defaultActiveKey="0">
+            <Accordion className='mt-5 ml-5 mr-5' defaultActiveKey="csv-loader">
                 <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="0">
+                    <Accordion.Toggle as={Card.Header} eventKey="transport-detail">
                         <h3 className='text-center align-middle font-weight-bold'>Transport details</h3>
                     </Accordion.Toggle>
-                    <Accordion.Collapse className='grey-bg' eventKey="0">
+                    <Accordion.Collapse className='grey-bg' eventKey="transport-detail">
                         <Card.Body>
                             <div className='component-small'>
                                 <Table variant='dark' size='md' striped bordered hover >
@@ -191,11 +193,13 @@ function TransportDetails(props) {
                     </Accordion.Collapse>
                 </Card>
                 <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="1">
-                        Functionality # Trucks status and their loaded cargos
+                    <Accordion.Toggle as={Card.Header} eventKey="csv-loader">
+                        <h3 className='text-center align-middle font-weight-bold'>CSV loader</h3>
                     </Accordion.Toggle>
-                    <Accordion.Collapse eventKey="1">
-                        <Card.Body>Hello! I'm another body</Card.Body>
+                    <Accordion.Collapse className='grey-bg' eventKey="csv-loader">
+                        <Card.Body>
+                            <CsvHandler token = {props.token} />
+                        </Card.Body>
                     </Accordion.Collapse>
                 </Card>
                 <Card>
@@ -267,4 +271,4 @@ function TransportDetails(props) {
     );
 }
 
-export default TransportDetails;
+export default ExtraFunctionalities;
