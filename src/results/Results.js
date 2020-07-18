@@ -8,21 +8,22 @@ import '../App.css'
 import './style-result.css'
 import ModalError from "../error/modalErrorFF.js";
 
+
 const routesArr = {
-	"dateSorted": [
-		{
-			"trackingId": "ch42971",
-			"price": 4090,
-			"estimatedDeliveryDate": "2020-07-04"
-		}
-	],
-	"priceSorted": [
-		{
-			"trackingId": "ch42971",
-			"price": 4090,
-			"estimatedDeliveryDate": "2020-07-04"
-		}
-	]
+    "dateSorted": [
+        {
+            "trackingId": "ch42971",
+            "price": 4090,
+            "estimatedDeliveryDate": "2020-07-04"
+        }
+    ],
+    "priceSorted": [
+        {
+            "trackingId": "ch42971",
+            "price": 4090,
+            "estimatedDeliveryDate": "2020-07-04"
+        }
+    ]
 }
 
 class Results extends React.Component {
