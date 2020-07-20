@@ -33,10 +33,10 @@ function MultipleCargo(props) {
                 // cargoLength: length,
 
 
-                cargoWeight: cargoWeight,
-                cargoWidth: cargoWidth,
-                cargoHeight: cargoHeight,
-                cargoLength: cargoLength,
+                weight: weight,
+                width: width,
+                height: height,
+                length: length,
             }
         }
         setBox(boxes.concat(newBoxes));

@@ -65,7 +65,7 @@ class MainPage extends React.Component {
         this.setState({listOfBoxes: temp})
     }
 
-    formValid = ({ departure, arrival, cargoWeight, cargoLength, cargoWidth, cargoHeight, listOfBoxes }) => {
+    formValid = ({ departure, arrival, weight, length, width, height, listOfBoxes }) => {
         let valid = true;
 
         if (departure === arrival) {
@@ -79,7 +79,7 @@ class MainPage extends React.Component {
             valid = false;
         }
 
-        if (cargoWeight.length >= 1 || cargoHeight.length >= 1 || cargoLength.length >= 1 || cargoWidth.length >= 1) {
+        if (weight.length >= 1 || height.length >= 1 || length.length >= 1 || width.length >= 1) {
             let box = {
                 weight: weight,
                 width: width,
@@ -309,10 +309,10 @@ function GenerateTable(props) {
                     {props.data.listOfBoxes.map((box, index) =>
                         <tr key={index}>
                             <td className='pl-3 align-middle'>{parseInt(index) + 1} </td>
-                            <td className='pl-3 align-middle'>{box.cargoWeight} kg</td>
-                            <td className='pl-4 align-middle'>{box.cargoLength} cm</td>
-                            <td className='pl-4 align-middle'>{box.cargoWidth} cm</td>
-                            <td className='pl-4 align-middle'>{box.cargoHeight} cm</td>
+                            <td className='pl-3 align-middle'>{box.weight} kg</td>
+                            <td className='pl-4 align-middle'>{box.length} cm</td>
+                            <td className='pl-4 align-middle'>{box.width} cm</td>
+                            <td className='pl-4 align-middle'>{box.height} cm</td>
                             <td className='text-center'>
                                 <Button variant="" style={{ backgroundColor: "#ff8e09", borderColor: "#999999", color: "white" }} title="action" size='md'
                                         onClick={() => { props.removeBox(index) }}>

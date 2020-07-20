@@ -57,10 +57,10 @@ class Results extends React.Component {
 		if (!(parseInt(history.location.listOfBoxes).length > 0 || history.location.listOfBoxes === undefined)) {
 			(history.location.listOfBoxes.map((box) => {
 				let temp = (box) = {
-					cargoWeight: box.cargoWeight,
-					cargoWidth: box.cargoWidth / 100,
-					cargoHeight: box.cargoHeight / 100,
-					cargoLength: box.cargoLength / 100,
+					weight: box.weight,
+					width: box.width / 100,
+					height: box.height / 100,
+					length: box.length / 100,
 				}
 				convertToMeters.push(temp);
 			}))
@@ -167,7 +167,7 @@ class Results extends React.Component {
 						<SearchForm
 							departure={this.state.departure}
 							arrival={this.state.arrival}
-							cargoWeight={this.state.cargoWeight}
+							weight={this.state.weight}
 							ifFormIncorrect={this.state.ifFormIncorrect}
 							submitHandler={this.submitHandler}
 							handleChange={this.handleChange}

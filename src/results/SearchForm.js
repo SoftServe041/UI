@@ -12,7 +12,7 @@ function SearchForm(props) {
     function countWeight(listOfBoxes) {
         return(
         listOfBoxes.map((box) => {
-            summ = parseInt(summ) + parseInt(box.cargoWeight);
+            summ = parseInt(summ) + parseInt(box.weight);
         }))
     }
 
