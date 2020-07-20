@@ -53,8 +53,9 @@ export default function CsvHandler(props) {
       formedItems = formUsers(items);
     } else if (item.hasOwnProperty('maximumWeight') && item.hasOwnProperty('width')) {
       resource = 'TRANSPORTS';
+      formedItems = formTransports(items);
     } else {
-      resource = 'HUBS';
+      resource = '';
     }
     formImageLogic(resource, formedItems, '');
   }
@@ -64,29 +65,32 @@ export default function CsvHandler(props) {
     switch (resource) {
       case 'USERS':
         logic = <Row className='mt-2'>
-                  <Col sm='5'>
-                    <Image src={userImage} className='csv-image' rounded />
-                    <Button className='csv-button' onClick={() => {
-                      registerUsers(resource, items);
-                      setShowItemsFlag('hidden');
-                    }}>Send to server</Button>
-                  </Col>
-                  <Col sm='7'>
-                    <p className='csv-response'>{responseText}</p>
-                  </Col>
-                </Row>
-                break;
+          <Col sm='5'>
+            <Image src={userImage} className='csv-image' rounded />
+            <Button className='csv-button' onClick={() => {
+              registerUsers(resource, items);
+              setShowItemsFlag('hidden');
+            }}>Send to server</Button>
+          </Col>
+          <Col sm='7'>
+            <p className='csv-response'>{responseText}</p>
+          </Col>
+        </Row>
+        break;
       case 'TRANSPORTS':
         logic = <Row className='mt-2'>
-                  <Col sm='5'>
-                    <Image src={transportImage} className='csv-image' rounded />
-                    <Button className='csv-button' onClick={() => {}}>Send to server</Button>
-                  </Col>
-                  <Col sm='7'>
-                    <p className='csv-response'>{responseText}</p>
-                  </Col>
-                </Row>
-                break;
+          <Col sm='5'>
+            <Image src={transportImage} className='csv-image' rounded />
+            <Button className='csv-button' onClick={() => {
+              createTransports(resource, items);
+              setShowItemsFlag('hidden');
+            }}>Send to server</Button>
+          </Col>
+          <Col sm='7'>
+            <p className='csv-response'>{responseText}</p>
+          </Col>
+        </Row>
+        break;
       case 'HUBS':
         logic = <div>
           <Image src={hubImage} className='csv-image' rounded />
@@ -99,6 +103,7 @@ export default function CsvHandler(props) {
   }
 
   const registerUsers = (resource, items) => {
+    console.log('create users: ', items);
     axios({
       method: 'POST',
       url: 'http://localhost:8041/admin/batch/registration',
@@ -110,7 +115,7 @@ export default function CsvHandler(props) {
       data: items,
     }).then(response => {
       if (response.status === 201) {
-        formImageLogic(resource, items, items.length + " items has been created.\n Follow to tab Users to look at them.");
+        formImageLogic(resource, items, items.length + " items has been created. Follow to tab Users to look at them.");
       }
     }).catch(error => {
       formImageLogic(resource, items, error.message + ". Try later!");
@@ -139,6 +144,48 @@ export default function CsvHandler(props) {
       users.push(user);
     });
     return users;
+  }
+
+  const createTransports = (resource, items) => {
+    console.log('create transports: ', items);
+    axios({
+      method: 'POST',
+      url: 'http://localhost:9041/admin/transport/batch',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer_${token}`,
+      },
+      data: items,
+    }).then(response => {
+      if (response.status === 201) {
+        formImageLogic(resource, items, items.length + " items has been created. Follow to tab Transports to look at them.");
+      }
+    }).catch(error => {
+      formImageLogic(resource, items, error.message + ". Try later!");
+    });
+  }
+
+  const formTransports = (items) => {
+    let transports = [];
+    items.map((item) => {
+      let transport = {
+        hubName: item.hubName,
+        compartments: [
+          {
+            maximumWeight: item.maximumWeight,
+            volume: {
+              width: item.width,
+              height: item.height,
+              length: item.length,
+            }
+          }
+        ],
+        type: item.type,
+      }
+      transports.push(transport);
+    });
+    return transports;
   }
 
   useEffect(() => {
