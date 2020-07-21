@@ -65,7 +65,7 @@ function getTable(hubs) {
 
 function Suggestion(props) {
 
-
+console.log(props);
 
     const departure = props.departure
     const arrival = props.arrival

@@ -46,6 +46,8 @@ class Results extends React.Component {
 		this.handleSelectedDeparture = this.handleSelectedDeparture.bind(this)
 		this.handleSelectedArrival = this.handleSelectedArrival.bind(this)
 		this.ifError = this.ifError.bind(this)
+
+		console.log(props);
 	}
 
 	ifError() {
