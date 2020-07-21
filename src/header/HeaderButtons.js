@@ -11,7 +11,7 @@ import { useState, useRef } from 'react';
 
 function Greeting(props) {
 	if (props.ifLoggedIn) {
-		return <UserLoggedIn ifAdmin={Boolean(props.ifAdmin)} email={props.email} handleToken={props.handleToken} />;
+		return <UserLoggedIn ifAdmin={props.ifAdmin} email={props.email} handleToken={props.handleToken} />;
 	}
 	return <NotLogedIn handleToken={props.handleToken} />;
 }
@@ -78,7 +78,8 @@ function UserLoggedIn(props) {
 	const [show, setShow] = useState(false);
 	const [target, setTarget] = useState(null);
 	const ref = useRef(null);
-	const link = ( Boolean(props.ifAdmin) === true) ? "/admin" : "/profile";
+	console.log(props);
+	const link = ( props.ifAdmin === "true") ? "/admin" : "/profile";
 	const logoutData = {
 		token: '',
 		userId: '',

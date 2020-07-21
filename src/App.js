@@ -36,7 +36,7 @@ class App extends React.Component {
         let sessionUserEmail = sessionStorage.getItem('userEmail');
         let sessionIfAdmin = sessionStorage.getItem('ifAdmin');
         let sessionIfLoggedIn = sessionStorage.getItem('ifLoggedIn');
-
+        
         if (sessionToken !== null) {
             this.setState({
                 token: sessionToken,
@@ -46,6 +46,8 @@ class App extends React.Component {
                 ifLoggedIn: sessionIfLoggedIn
             });
         }
+
+        console.log(sessionIfAdmin, this.state)
         
     }
 

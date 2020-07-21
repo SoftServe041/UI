@@ -8,6 +8,8 @@ const url = "localhost:9041"
 
 function Suggestions(props) {
 
+    console.log(props);
+
     function sendAxios(trackingId, deliveryDate, price, hubs, departure, arrival, boxes) {
         let cargos = boxes;
         let route = {

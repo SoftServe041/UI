@@ -10,20 +10,20 @@ import ModalError from "../error/modalErrorFF.js";
 
 
 const routesArr = {
-	"dateSorted": [
-		{
-			"trackingId": "ch42971",
-			"price": 4090,
-			"estimatedDeliveryDate": "2020-07-04"
-		}
-	],
-	"priceSorted": [
-		{
-			"trackingId": "ch42971",
-			"price": 4090,
-			"estimatedDeliveryDate": "2020-07-04"
-		}
-	]
+    "dateSorted": [
+        {
+            "trackingId": "ch42971",
+            "price": 4090,
+            "estimatedDeliveryDate": "2020-07-04"
+        }
+    ],
+    "priceSorted": [
+        {
+            "trackingId": "ch42971",
+            "price": 4090,
+            "estimatedDeliveryDate": "2020-07-04"
+        }
+    ]
 }
 
 class Results extends React.Component {
@@ -47,20 +47,17 @@ class Results extends React.Component {
 		this.handleSelectedArrival = this.handleSelectedArrival.bind(this)
 		this.ifError = this.ifError.bind(this)
 
+		console.log(props);
 	}
 
 	ifError() {
-		this.setState({ ifShowModalError: false });
+		this.setState({ifShowModalError: false});
 	}
 
 	componentDidMount() {
-
-		let sessionDeparture = sessionStorage.getItem('departure');
-        let sessionArrival = sessionStorage.getItem('arrival');
-		let sessionListOfBoxes = JSON.parse(sessionStorage.getItem('listOfBoxes'));
 		let convertToMeters = [];
-		if (!(parseInt(sessionListOfBoxes).length > 0 || sessionListOfBoxes === undefined || sessionListOfBoxes === null)) {
-			(sessionListOfBoxes.map((box) => {
+		if (!(parseInt(history.location.listOfBoxes).length > 0 || history.location.listOfBoxes === undefined)) {
+			(history.location.listOfBoxes.map((box) => {
 				let temp = (box) = {
 					weight: box.weight,
 					width: box.width / 100,
@@ -72,21 +69,19 @@ class Results extends React.Component {
 		}
 		const dataFromMainPage = {
 			sizeList: convertToMeters,
-			departureHub: sessionArrival,
-			arrivalHub: sessionDeparture,
+			departureHub: history.location.arrival,
+			arrivalHub: history.location.departure,
 		}
 		this.getData(dataFromMainPage);
 		this.loadCities();
 
-		if (sessionDeparture !== undefined) {
+		if (history.location.departure !== undefined) {
 			this.setState({
-				departure: sessionDeparture,
-				arrival: sessionArrival,
+				departure: history.location.departure,
+				arrival: history.location.arrival,
 				listOfBoxes: convertToMeters
 			});
 		}
-
-
 	}
 
 	async loadCities() {
@@ -111,7 +106,7 @@ class Results extends React.Component {
 		).then((response) => {
 			this.setState({ routes: response.data });
 		}).catch((error) => {
-			this.setState({ ifShowModalError: true, errorMessage: error.message });
+			this.setState({ifShowModalError: true, errorMessage: error.message});
 		});
 	}
 
@@ -186,12 +181,7 @@ class Results extends React.Component {
 						/>
 					</Col>
 				</Row>
-				<Result routes={this.state.routes}
-					data={this.props}
-					listOfBoxes={this.state.listOfBoxes}
-					citiesList={this.state.citiesList}
-					departure={this.state.departure}
-					arrival={this.state.arrival} />
+				<Result routes={this.state.routes} data={this.props}/>
 			</div>
 		)
 	}

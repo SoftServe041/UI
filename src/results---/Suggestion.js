@@ -65,6 +65,8 @@ function getTable(boxes) {
 
 function Suggestion(props) {
 
+console.log(props);
+
     const departure = props.departure
     const arrival = props.arrival
     const boxes = props.boxes
