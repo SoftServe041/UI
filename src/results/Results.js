@@ -173,9 +173,7 @@ class Results extends React.Component {
 							ifFormIncorrect={this.state.ifFormIncorrect}
 							submitHandler={this.submitHandler}
 							handleChange={this.handleChange}
-							handleSelectedDeparture={
-								this.handleSelectedDeparture
-							}
+							handleSelectedDeparture={this.handleSelectedDeparture}
 							handleSelectedArrival={this.handleSelectedArrival}
 							data={this.state}
 							citiesList={this.state.citiesList}
@@ -183,7 +181,7 @@ class Results extends React.Component {
 						/>
 					</Col>
 				</Row>
-				<Result routes={this.state.routes} />
+				<Result routes={this.state.routes} data={this.props}/>
 			</div>
 		)
 	}
