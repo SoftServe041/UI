@@ -78,8 +78,8 @@ function UserLoggedIn(props) {
 	const [show, setShow] = useState(false);
 	const [target, setTarget] = useState(null);
 	const ref = useRef(null);
-	console.log(props);
-	const link = ( props.ifAdmin === "true") ? "/admin" : "/profile";
+
+	const link = ( props.ifAdmin == true ) ? "/admin" : "/profile";
 	const logoutData = {
 		token: '',
 		userId: '',
