@@ -110,6 +110,7 @@ function Hubs(props) {
             }
         }).catch(error => {
             setIfShowModalError(true);
+            console.log(error.message);
             setErrorMessage(error.message);
             setUpdateHubFlag(false);
             setFlag(true);

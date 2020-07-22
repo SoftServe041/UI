@@ -89,6 +89,7 @@ function Transports(props) {
             }
 
         }).catch((error) => {
+            console.log(error);
             setIfShowModalError(true);
             setErrorMessage(error.message);
         });
