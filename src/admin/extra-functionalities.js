@@ -65,7 +65,6 @@ function ExtraFunctionalities(props) {
                 type: type,
                 averageSpeed: averageSpeed,
                 pricePerKm: pricePerKm,
-                cellSize: 3
 
             },
         }).then(response => {
@@ -94,6 +93,7 @@ function ExtraFunctionalities(props) {
                 type: type,
                 averageSpeed: averageSpeed,
                 pricePerKm: pricePerKm,
+                cellSize: 3,
             },
 
         }).then(response => {
@@ -203,7 +203,14 @@ function ExtraFunctionalities(props) {
                         </Card.Body>
                     </Accordion.Collapse>
                 </Card>
-
+                <Card>
+                    <Accordion.Toggle as={Card.Header} eventKey="1">
+                        Functionality # Cargoes status and their carrying trucks
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey="1">
+                        <Card.Body>Hello! I'm another body</Card.Body>
+                    </Accordion.Collapse>
+                </Card>
             </Accordion>
             <Modal show={createTransportEntityFlag || updateTrEnFlag} onHide={() => hideModal()} animation='true'>
                 <Modal.Header closeButton>
