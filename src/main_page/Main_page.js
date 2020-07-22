@@ -47,7 +47,7 @@ class MainPage extends React.Component {
                 this.setState({ citiesList: res.data })
             })
             .catch((error) => {
-                this.setState({ errorMessage: error.message, ifShowModalError: true });
+                this.setState({ errorMessage: error.response.data.message, ifShowModalError: true });
             });
     }
 

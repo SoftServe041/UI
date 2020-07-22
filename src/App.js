@@ -98,7 +98,6 @@ class App extends React.Component {
         const TokenContext = React.createContext(this.handleToken);
         return (
             <div style={{ overflowX: 'hidden' }}>
-                      {  console.log( this.state)}
                 <TokenContext.Provider>
                     <Router history={history}>
                         <Suspense fallback={<div>Loading...</div>}>

@@ -47,8 +47,8 @@ function ExtraFunctionalities(props) {
         }).then(response => {
             initialiseExistedTransportEntities(response.data.content);
         }).catch(error => {
-            // setIfShowModalError(true);
-            // setErrorMessage(error.message);
+            setIfShowModalError(true);
+            setErrorMessage(error.response.data.message);
         });
     }
     function createTransportEntity(props) {
@@ -75,7 +75,7 @@ function ExtraFunctionalities(props) {
         }).catch(error => {
             setCreateTransportEntityFlag(false);
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
     function updateTransportEntity(props) {
@@ -103,7 +103,7 @@ function ExtraFunctionalities(props) {
         }).catch(error => {
             setUpdateTrEnFlag(false);
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
     function removeTransportEntity(id, props) {
@@ -121,7 +121,7 @@ function ExtraFunctionalities(props) {
             }
         }).catch(error => {
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
     function hideModal() {

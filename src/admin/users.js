@@ -90,7 +90,7 @@ function Users(props) {
             }
         }).catch(error => {
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
     function handleUpdateAction(userToUpdate) {
@@ -136,7 +136,7 @@ function Users(props) {
             }
         }).catch(error => {
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
     useEffect(() => {

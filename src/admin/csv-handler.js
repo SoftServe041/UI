@@ -118,7 +118,7 @@ export default function CsvHandler(props) {
         formImageLogic(resource, items, items.length + " items has been created. Follow to tab Users to look at them.");
       }
     }).catch(error => {
-      formImageLogic(resource, items, error.message + ". Try later!");
+      formImageLogic(resource, items, error.response.data.message + ". Try later!");
     });
   }
 
@@ -162,7 +162,7 @@ export default function CsvHandler(props) {
         formImageLogic(resource, items, items.length + " items has been created. Follow to tab Transports to look at them.");
       }
     }).catch(error => {
-      formImageLogic(resource, items, error.message + ". Try later!");
+      formImageLogic(resource, items, error.response.data.message + ". Try later!");
     });
   }
 

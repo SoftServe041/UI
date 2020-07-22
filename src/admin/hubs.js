@@ -82,7 +82,7 @@ function Hubs(props) {
             }
         }).catch((error) => {
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
             setCreateHubFlag(false);
         });
     }
@@ -110,8 +110,7 @@ function Hubs(props) {
             }
         }).catch(error => {
             setIfShowModalError(true);
-            console.log(error.message);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
             setUpdateHubFlag(false);
             setFlag(true);
         });
@@ -131,7 +130,7 @@ function Hubs(props) {
             }
         }).catch(error => {
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
     function handleShowRelation(hub, props) {
@@ -180,7 +179,7 @@ function Hubs(props) {
             }
         }).catch(error => {
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
     function removeRelation(relationHubName, props) {
@@ -203,7 +202,7 @@ function Hubs(props) {
             }
         }).catch(error => {
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
     useEffect(() => {

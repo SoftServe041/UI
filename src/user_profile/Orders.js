@@ -57,7 +57,7 @@ function Orders(props) {
             initializeData(response.data);
         }).catch((error) => {
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
 

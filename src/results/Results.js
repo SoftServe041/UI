@@ -111,7 +111,7 @@ class Results extends React.Component {
 		).then((response) => {
 			this.setState({ routes: response.data });
 		}).catch((error) => {
-			this.setState({ ifShowModalError: true, errorMessage: error.message });
+			this.setState({ ifShowModalError: true, errorMessage: error.response.data.message });
 		});
 	}
 
