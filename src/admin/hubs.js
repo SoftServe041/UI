@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Dropdown,  Button, Form, Modal, Row, Col } from "react-bootstrap";
+import { Table, Dropdown, Button, Form, Modal, Row, Col } from "react-bootstrap";
 import cities from './admin_resource/cities.json';
 import axios from 'axios';
 import ModalError from "../error/modalErrorFF.js";
@@ -110,7 +110,12 @@ function Hubs(props) {
             }
         }).catch(error => {
             setIfShowModalError(true);
-            setErrorMessage(error.response.data.message);
+            if ( error.response !== undefined) {
+                setErrorMessage(error.response.data.message);
+            }
+            else {
+                setErrorMessage(error.message);
+            }
             setUpdateHubFlag(false);
             setFlag(true);
         });
