@@ -99,17 +99,19 @@ function Users(props) {
         setModalLastName(userToUpdate.lastName);
         setModalEmail(userToUpdate.email);
         setModalPhoneNumber(userToUpdate.phoneNumber);
-        if (userToUpdate.roles.length === 2) {
-            setModalAdmin("true");
+        if (userToUpdate.roles !== undefined) {
+            if (userToUpdate.roles.length === 2) {
+                setModalAdmin("true");
+            }
+            else { setModalAdmin("false"); }
+            setShowUpdateModal(true);
         }
-        else { setModalAdmin("false"); }
-        setShowUpdateModal(true);
     }
     function updateUser(userToUpdate, props) {
 
-        let ifUserAdmin = [{name : "ROLE_USER"}];
-        if (modalAdmin === "true") {ifUserAdmin.push({ name: 'ROLE_ADMIN' })}
-        
+        let ifUserAdmin = [{ name: "ROLE_USER" }];
+        if (modalAdmin === "true") { ifUserAdmin.push({ name: 'ROLE_ADMIN' }) }
+
         axios({
             method: 'PUT',
             url: urlForUpdateDeleteUser + userToUpdate.id,
@@ -142,14 +144,16 @@ function Users(props) {
             getAllUsers(props.token);
             setFlag(false);
         }
-    },[flag, getAllUsers, props.token]);
+    }, [flag, getAllUsers, props.token]);
 
 
-   const displayIfAdmin = (roles) => {
-        if (roles.length === 2) {return "true"}
+    const displayIfAdmin = (roles) => {
+        if (roles !== undefined){
+        if (roles.length === 2) { return "true" }
         return "false";
+        }
     }
-    
+
     return (
         <div>
             {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
