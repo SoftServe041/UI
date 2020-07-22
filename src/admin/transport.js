@@ -89,8 +89,9 @@ function Transports(props) {
             }
 
         }).catch((error) => {
+            console.log(error);
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
     function getAllTransportTypes(props) {
@@ -137,7 +138,7 @@ function Transports(props) {
             }
         }).catch((error) => {
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
             setCreateModalFlag(false);
         });
     }
@@ -166,7 +167,7 @@ function Transports(props) {
             }
         }).catch((error) => {
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
             setCreateModalFlag(false);
             setUpdateModalFlag(false);
         });
@@ -186,7 +187,7 @@ function Transports(props) {
             }
         }).catch((error) => {
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
     function addNewCompartment() {

@@ -82,8 +82,7 @@ class LogInMenu extends React.Component {
                     this.props.disableModal();
                 })
                 .catch(error => {
-                    //this.setState({ ifLoginDetailsIncorrect: true });
-                    this.refs.modError.showModal(error.message.toString());
+                    this.refs.modError.showModal(error.response.data.message);
                 });
         } else {
             this.setState({ ifShowFormErrors: true })

@@ -55,10 +55,9 @@ function Orders(props) {
             },
         }).then(response => {
             initializeData(response.data);
-            console.log(response.data)
         }).catch((error) => {
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
 

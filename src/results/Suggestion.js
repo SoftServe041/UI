@@ -35,8 +35,8 @@ function GenerateDropDownRows(cards) {
 
 }
 
-function getTable(hubs) {
-    const departureList = hubs.map((c, index) =>
+function getTable(boxes) {
+    const departureList = boxes.map((c, index) =>
         <tr key={index}>
             <td>{c.weight}</td>
             <td>{c.width}</td>
@@ -64,8 +64,6 @@ function getTable(hubs) {
 }
 
 function Suggestion(props) {
-
-
 
     const departure = props.departure
     const arrival = props.arrival

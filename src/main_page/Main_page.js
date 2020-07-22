@@ -7,7 +7,7 @@ import { Button, Container, Table } from "react-bootstrap";
 import '../App.css';
 import DropDownDeparture from './DropDownDeparture';
 import DropDownArrival from "./DropDownArrival";
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import history from '../history';
 import MultipleCargo from './AddMultipleBoxes';
 import ModalError from "../error/modalErrorFF.js";
@@ -47,7 +47,7 @@ class MainPage extends React.Component {
                 this.setState({ citiesList: res.data })
             })
             .catch((error) => {
-                this.setState({ errorMessage: error.message, ifShowModalError: true });
+                this.setState({ errorMessage: error.response.data.message, ifShowModalError: true });
             });
     }
 
@@ -56,37 +56,37 @@ class MainPage extends React.Component {
     }
 
     handleListOfBoxes(receivedListOfBoxes) {
-        this.setState({listOfBoxes: this.state.listOfBoxes.concat(receivedListOfBoxes)})
+        this.setState({ listOfBoxes: this.state.listOfBoxes.concat(receivedListOfBoxes) })
     }
 
     removeBox(index) {
         let temp = this.state.listOfBoxes;
         temp.splice(index, 1);
-        this.setState({listOfBoxes: temp})
+        this.setState({ listOfBoxes: temp })
     }
 
-    formValid = ({ departure, arrival, cargoWeight, cargoLength, cargoWidth, cargoHeight, listOfBoxes }) => {
+    formValid = ({ departure, arrival, weight, length, width, height, listOfBoxes }) => {
         let valid = true;
 
         if (departure === arrival) {
-            this.setState({ifSameHubSelected: true})
+            this.setState({ ifSameHubSelected: true })
             valid = false;
         } else {
-            this.setState({ifSameHubSelected: false})
+            this.setState({ ifSameHubSelected: false })
         }
 
         if (departure === "Departure" || arrival === "Arrival") {
             valid = false;
         }
 
-        if (cargoWeight.length >= 1 || cargoHeight.length >= 1 || cargoLength.length >= 1 || cargoWidth.length >= 1) {
+        if (weight.length >= 1 || height.length >= 1 || length.length >= 1 || width.length >= 1) {
             let box = {
                 weight: weight,
                 width: width,
                 height: height,
                 length: length,
             }
-            this.setState({listOfBoxes: this.state.listOfBoxes.concat(box)})
+            this.setState({ listOfBoxes: this.state.listOfBoxes.concat(box) })
             valid = true;
             return valid;
         }
@@ -99,152 +99,153 @@ class MainPage extends React.Component {
     }
 
     submitHandler = e => {
-        this.setState({ifFormIncorrect: false, ifSameHubSelected: false});
+        this.setState({ ifFormIncorrect: false, ifSameHubSelected: false });
 
         if (this.formValid(this.state)) {
-            this.setState({ifRedirect: true});
+            this.setState({ ifRedirect: true });
         } else {
-            this.setState({ifFormIncorrect: true});
+            this.setState({ ifFormIncorrect: true });
         }
     }
 
     handleChange = (e) => {
-        this.setState({[e.target.name]: e.target.value})
+        this.setState({ [e.target.name]: e.target.value })
         e.preventDefault();
-        this.setState({ifFormIncorrect: false})
+        this.setState({ ifFormIncorrect: false })
     }
 
     handleSelectedDeparture(e) {
-        this.setState({departure: e});
+        this.setState({ departure: e });
     }
 
     handleSelectedArrival(e) {
-        this.setState({arrival: e});
+        this.setState({ arrival: e });
     }
 
     handleSwitch(arrival, departure) {
         const tempReplace = arrival;
         if (arrival === "Arrival" && departure === "Departure") {
         } else if (arrival === "Arrival") {
-            this.setState({arrival: departure, departure: "Departure"});
+            this.setState({ arrival: departure, departure: "Departure" });
         } else if (departure === "Departure") {
-            this.setState({arrival: "Arrival", departure: arrival});
+            this.setState({ arrival: "Arrival", departure: arrival });
         } else
-            this.setState({arrival: this.state.departure, departure: tempReplace});
+            this.setState({ arrival: this.state.departure, departure: tempReplace });
     }
 
     handleModal() {
-        this.setState({showFlag: !this.state.showFlag})
+        this.setState({ showFlag: !this.state.showFlag })
     }
 
     render() {
         if (this.state.ifRedirect) {
-            history.push(this.state);
-            {
-                console.log(this.state)
-            }
-            return <Redirect to='/routes'/>
+            //history.push(this.state);
+            sessionStorage.setItem('departure', this.state.departure);
+            sessionStorage.setItem('arrival', this.state.arrival);
+            sessionStorage.setItem('listOfBoxes', JSON.stringify(this.state.listOfBoxes));
+
+            return <Redirect to='/routes' />
         }
 
         return (
             <div>
 
                 {(this.state.ifShowModalError) && <ModalError ifShow={this.state.ifShowModalError}
-                                                              message={this.state.errorMessage}
-                                                              ifError={this.ifError}/>}
+                    message={this.state.errorMessage}
+                    ifError={this.ifError} />}
 
                 <Row id="title-row">
-                    <Col md={{span: 3, offset: 5}}>
+                    <Col md={{ span: 3, offset: 5 }}>
                         <h2 className="title-text"> Search Routes </h2>
                     </Col>
                 </Row>
 
                 <Container id="load-body">
-                    <Row style={{width: '100%'}}>
-                        <Col md={{span: 8, offset: 2}}>
+                    <Row style={{ width: '100%' }}>
+                        <Col md={{ span: 8, offset: 2 }}>
                             <Form onSubmit={this.submitHandler} onChange={this.handleChange}>
-                                <Row style={{paddingTop: '15px'}}>
+                                <Row style={{ paddingTop: '15px' }}>
                                     <Col>
                                         <Form.Label>
-                                            <h5 style={{color: "black"}}>Location:</h5>
+                                            <h5 style={{ color: "black" }}>Location:</h5>
                                         </Form.Label>
                                     </Col>
                                 </Row>
 
                                 <Row>
-                                    <Col md={{span: 5, offset: 0}}>
+                                    <Col md={{ span: 5, offset: 0 }}>
                                         <DropDownDeparture handleSelectedDeparture={this.handleSelectedDeparture}
-                                                           cities={this.state.citiesList}
-                                                           departure={this.state.departure}
+                                            cities={this.state.citiesList}
+                                            departure={this.state.departure}
                                         >
                                         </DropDownDeparture>
                                     </Col>
-                                    <Col md={{span: 1}} slyle={{display: "flex", alignItems: "center"}}>
+                                    <Col md={{ span: 1 }} slyle={{ display: "flex", alignItems: "center" }}>
                                         <Button type="button"
-                                                style={{backgroundColor: '#ff8e09', borderColor: '#999999'}}
-                                                onClick={() => {
-                                                    this.handleSwitch(this.state.arrival, this.state.departure)
-                                                }}>
+                                            style={{ backgroundColor: '#ff8e09', borderColor: '#999999' }}
+                                            onClick={() => {
+                                                this.handleSwitch(this.state.arrival, this.state.departure)
+                                            }}>
                                             &#8644;
                                         </Button>
                                     </Col>
-                                    <Col md={{span: 5, offset: 1}}>
+                                    <Col md={{ span: 5, offset: 1 }}>
                                         <DropDownArrival handleSelectedArrival={this.handleSelectedArrival}
-                                                         cities={this.state.citiesList}
-                                                         arrival={this.state.arrival}
+                                            cities={this.state.citiesList}
+                                            arrival={this.state.arrival}
                                         >
                                         </DropDownArrival>
                                     </Col>
                                 </Row>
 
-                                <Row style={{paddingTop: '15px'}}>
+                                <Row style={{ paddingTop: '15px' }}>
                                     <Col>
                                         <Form.Label>
-                                            <h5 style={{color: "black"}}>Cargo Information:</h5>
+                                            <h5 style={{ color: "black" }}>Cargo Information:</h5>
                                         </Form.Label>
                                     </Col>
                                 </Row>
 
                                 <Row>
                                     <Col>
-                                        <Form.Label style={{color: "black"}}>Weight (kg):</Form.Label>
+                                        <Form.Label style={{ color: "black" }}>Weight (kg):</Form.Label>
                                         <Form.Control type="number" name="weight" placeholder="kg" onInput={(e) => {
                                             if (parseInt(e.target.value) < 22000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
                                             } else {
                                                 e.target.value = 22000
                                             }
-                                        }}/>
+                                        }} />
                                     </Col>
                                     <Col>
-                                        <Form.Label style={{color: "black"}}>Length (cm):</Form.Label>
+                                        <Form.Label style={{ color: "black" }}>Length (cm):</Form.Label>
                                         <Form.Control type="number" name="length" placeholder="Length" onInput={(e) => {
                                             if (parseInt(e.target.value) < 3000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
                                             } else {
                                                 e.target.value = 3000
                                             }
-                                        }}/>
+                                        }} />
                                     </Col>
                                     <Col>
-                                        <Form.Label style={{color: "black"}}>Width (cm):</Form.Label>
+                                        <Form.Label style={{ color: "black" }}>Width (cm):</Form.Label>
                                         <Form.Control type="number" name="width" placeholder="Width" onInput={(e) => {
                                             if (parseInt(e.target.value) < 3000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
                                             } else {
                                                 e.target.value = 3000
                                             }
-                                        }}/>
+                                        }} />
                                     </Col>
                                     <Col>
-                                        <Form.Label style={{color: "black"}}>Height (cm):</Form.Label>
+                                        <Form.Label style={{ color: "black" }}>Height (cm):</Form.Label>
                                         <Form.Control type="number" name="height" placeholder="Height" onInput={(e) => {
                                             if (parseInt(e.target.value) < 3000) {
                                                 e.target.value = Math.max(0, parseInt(e.target.value)).toString()
                                             } else {
                                                 e.target.value = 3000
                                             }
-                                        }}/>
+                                        }} />
                                     </Col>
 
                                 </Row>
@@ -263,7 +264,7 @@ class MainPage extends React.Component {
                                 </Row>
 
                                 <Row>
-                                    <Col md={{span: 3, offset: 5}}>
+                                    <Col md={{ span: 3, offset: 5 }}>
 
                                         <Button id="body-button" onClick={this.submitHandler}>
                                             <h4>Search</h4>
@@ -272,12 +273,12 @@ class MainPage extends React.Component {
                                 </Row>
                             </Form>
                             {(parseInt(this.state.listOfBoxes.length) !== 0) &&
-                            <GenerateTable data={this.state} removeBox={this.removeBox}/>}
+                                <GenerateTable data={this.state} removeBox={this.removeBox} />}
                         </Col>
                     </Row>
                 </Container>
                 <MultipleCargo showFlag={this.state.showFlag} handleModal={this.handleModal}
-                               handleListOfBoxes={this.handleListOfBoxes}/>
+                    handleListOfBoxes={this.handleListOfBoxes} />
             </div>
         );
     }
@@ -296,25 +297,25 @@ function GenerateTable(props) {
             <Row>
                 <Table variant='dark' size='md' striped bordered hover>
                     <thead>
-                    <tr>
-                        <th className='text-center aling-middle'>#</th>
-                        <th className='text-center aling-middle'>Weight</th>
-                        <th className='text-center aling-middle'>Length</th>
-                        <th className='text-center aling-middle'>Width</th>
-                        <th className='text-center aling-middle'>Height</th>
-                        <th className='text-center aling-middle'>Actions</th>
-                    </tr>
+                        <tr>
+                            <th className='text-center aling-middle'>#</th>
+                            <th className='text-center aling-middle'>Weight</th>
+                            <th className='text-center aling-middle'>Length</th>
+                            <th className='text-center aling-middle'>Width</th>
+                            <th className='text-center aling-middle'>Height</th>
+                            <th className='text-center aling-middle'>Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {props.data.listOfBoxes.map((box, index) =>
-                        <tr key={index}>
-                            <td className='pl-3 align-middle'>{parseInt(index) + 1} </td>
-                            <td className='pl-3 align-middle'>{box.cargoWeight} kg</td>
-                            <td className='pl-4 align-middle'>{box.cargoLength} cm</td>
-                            <td className='pl-4 align-middle'>{box.cargoWidth} cm</td>
-                            <td className='pl-4 align-middle'>{box.cargoHeight} cm</td>
-                            <td className='text-center'>
-                                <Button variant="" style={{ backgroundColor: "#ff8e09", borderColor: "#999999", color: "white" }} title="action" size='md'
+                        {props.data.listOfBoxes.map((box, index) =>
+                            <tr key={index}>
+                                <td className='pl-3 align-middle'>{parseInt(index) + 1} </td>
+                                <td className='pl-3 align-middle'>{box.weight} kg</td>
+                                <td className='pl-4 align-middle'>{box.length} cm</td>
+                                <td className='pl-4 align-middle'>{box.width} cm</td>
+                                <td className='pl-4 align-middle'>{box.height} cm</td>
+                                <td className='text-center'>
+                                    <Button variant="" style={{ backgroundColor: "#ff8e09", borderColor: "#999999", color: "white" }} title="action" size='md'
                                         onClick={() => { props.removeBox(index) }}>
                                         Remove
                                     </Button>

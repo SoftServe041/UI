@@ -47,8 +47,8 @@ function ExtraFunctionalities(props) {
         }).then(response => {
             initialiseExistedTransportEntities(response.data.content);
         }).catch(error => {
-            // setIfShowModalError(true);
-            // setErrorMessage(error.message);
+            setIfShowModalError(true);
+            setErrorMessage(error.response.data.message);
         });
     }
     function createTransportEntity(props) {
@@ -65,6 +65,7 @@ function ExtraFunctionalities(props) {
                 type: type,
                 averageSpeed: averageSpeed,
                 pricePerKm: pricePerKm,
+                cellSize: 3
 
             },
         }).then(response => {
@@ -75,7 +76,7 @@ function ExtraFunctionalities(props) {
         }).catch(error => {
             setCreateTransportEntityFlag(false);
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
     function updateTransportEntity(props) {
@@ -103,7 +104,7 @@ function ExtraFunctionalities(props) {
         }).catch(error => {
             setUpdateTrEnFlag(false);
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
     function removeTransportEntity(id, props) {
@@ -121,7 +122,7 @@ function ExtraFunctionalities(props) {
             }
         }).catch(error => {
             setIfShowModalError(true);
-            setErrorMessage(error.message);
+            setErrorMessage(error.response.data.message);
         });
     }
     function hideModal() {
@@ -202,14 +203,7 @@ function ExtraFunctionalities(props) {
                         </Card.Body>
                     </Accordion.Collapse>
                 </Card>
-                <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="1">
-                        Functionality # Cargoes status and their carrying trucks
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey="1">
-                        <Card.Body>Hello! I'm another body</Card.Body>
-                    </Accordion.Collapse>
-                </Card>
+
             </Accordion>
             <Modal show={createTransportEntityFlag || updateTrEnFlag} onHide={() => hideModal()} animation='true'>
                 <Modal.Header closeButton>

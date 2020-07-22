@@ -16,7 +16,7 @@ class Result extends React.Component {
 	}
 
 	render() {
-		return (
+		return (	
 			<Container style={{ backgroundColor: '#c2c2c2' }}>
 				<Row>
 					<Col>
@@ -36,7 +36,7 @@ class Result extends React.Component {
 									departure={this.props.departure}
 									arrival={this.props.arrival}
 									data={this.props.routes.priceSorted}
-									userDetails={this.props.data}
+									userDetails={this.props.data.data}
 									cities={this.props.citiesList}
 									boxes={this.props.listOfBoxes}
 								/>
@@ -50,7 +50,7 @@ class Result extends React.Component {
 									departure={this.props.departure}
 									arrival={this.props.arrival}
 									data={this.props.routes.dateSorted}
-									userDetails={this.props.data}
+									userDetails={this.props.data.data}
 									cities={this.props.citiesList}
 									boxes={this.props.listOfBoxes}
 								/>

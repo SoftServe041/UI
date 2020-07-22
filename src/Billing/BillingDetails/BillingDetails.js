@@ -113,7 +113,7 @@ const BillingDetails = (props) => {
                 setFlag(true)
             }).catch((error) => {
                 setIfShowModalError(true);
-                setErrorMessage(error.message);
+                setErrorMessage(error.response.data.message);
             });
     }
 
@@ -129,7 +129,7 @@ const BillingDetails = (props) => {
 
             }).catch((error) => {
                 setIfShowModalError(true);
-                setErrorMessage(error.message);
+                setErrorMessage(error.response.data.message);
             });
         setFlag(true)
     }

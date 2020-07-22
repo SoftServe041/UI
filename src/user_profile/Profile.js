@@ -61,7 +61,7 @@ class Profile extends React.Component {
                     address: result.data.address,
                     phone: result.data.phoneNumber,
                 })
-            }).catch(error => this.refs.modError.showModal(error.message.toString()));
+            }).catch(error => this.refs.modError.showModal(error.response.data.message));
     }
 
     handleChange = (e) => {
@@ -145,7 +145,7 @@ class Profile extends React.Component {
                 }
             }).then(response => {                   
             }).catch(error => {
-                    this.refs.modError.showModal(error.message.toString());
+                    this.refs.modError.showModal(error.response.data.message);
                 });
 
             if (this.state.password.length > 4 && this.state.password === this.state.passwordRepeat) {
