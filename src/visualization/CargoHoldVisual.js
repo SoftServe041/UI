@@ -9,7 +9,7 @@ import Compartment from './Compartment.js';
 import Box from './Box.js';
 import Plane from './Plane.js';
 import SidePanel from './SidePanel.js';
-import { Modal } from "react-bootstrap";
+import { Modal, Row, Button } from "react-bootstrap";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import * as THREE from 'three'
 import axios from 'axios';
@@ -22,14 +22,14 @@ extend({ OrbitControls });
 
 function Cargo3D(props) {
   const [data, setData] = useState([]);
-  const [showFlag, setShowFlag] = useState(props.showFlag);
+  const [showFlag, setShowFlag] = useState(true);
 
   // Initialize zero for coordinates
   const zeroWidth = -4;
   const zeroHeight = -4;
   const zeroDepth = -20;
 
-  const [flag, setFlag] = useState(props.showFlag);
+ // const [flag, setFlag] = useState(props.showFlag);
 
   function getBoxesDataForVisualisation() {
     axios({
@@ -43,27 +43,42 @@ function Cargo3D(props) {
     }).then(response => {
       if (response.status === 200) {
         setData(response.data);
+        console.log("positions", response.data);
       }
 
     }).catch((error) => {
-        console.log("visualize error");
+      console.log("visualize error");
     });
   }
 
   useEffect(() => {
-    if (flag ) {
-      getBoxesDataForVisualisation();
-      setShowFlag(true);
-      setFlag(false);
+    //setShowFlag(props.showFlag);
+    if (props.showFlag) {
+      if (showFlag) {
+        setInterval(getBoxesDataForVisualisation,2000);
+
+        setShowFlag(false);
+      }
     }
   });
-
   return (
     <div>
-      <Modal show={showFlag} onHide={() => setShowFlag(false)} animation='true'>
-        <Modal.Header className="visual-header" closeButton>
+      <Modal show={props.showFlag} animation='true' onHide={() => setShowFlag(false)} slyle={{backgroundColor: "#2d292"}}>
+        <Modal.Header className="visual-header" >
           <Modal.Title className="font-weight-bold ml-3">
-            <h4 style={{ color: 'darkorange' }}>Compartment Visualization</h4>
+            <Row>
+
+            <h4 style={{ color: 'darkorange' }}>Compartment Visualization&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+              <Button variant="warning" slyte={{backgroundColor: "#ff8e09" }} onClick={() => {getBoxesDataForVisualisation()}}>
+                Refresh
+              </Button>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <Button variant="warning" slyte={{backgroundColor: "#ff8e09" }} onClick={() => {props.disable(); setShowFlag(true)}}>
+              X
+            </Button>
+
+            </Row>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="visual-body">

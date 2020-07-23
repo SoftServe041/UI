@@ -208,7 +208,7 @@ function ExtraFunctionalities(props) {
 
         }).then(response => {
             if (response.status === 200) {
-                alert("clearing has been started");
+                alert("clearing finished");
             }
         }).catch(error => {
             setIfShowModalError(true);
@@ -332,7 +332,7 @@ function ExtraFunctionalities(props) {
                                 </Col>
                                 <Col sm="3">
                                     <OverlayTrigger placement='top' overlay={
-                                        <Tooltip>drop all data in Neo4j, MySQL stores</Tooltip>}>
+                                        <Tooltip>drop all data after simulation in dataMySQL storage</Tooltip>}>
                                         <Button variant="danger" onClick={() => simulationClear(props.token)} block>Clear</Button>
                                     </OverlayTrigger>
                                 </Col>

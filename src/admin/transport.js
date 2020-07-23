@@ -219,8 +219,12 @@ function Transports(props) {
     }
     function visualize(transport) {
         console.log("visualiar transport .js",transport);
-        setCurrentTransport(transport);
         setVisualizeFlag(true);
+        setCurrentTransport(transport);
+    }
+
+    function disable(){
+        setVisualizeFlag(false);
     }
     
     useEffect(() => {
@@ -415,10 +419,11 @@ function Transports(props) {
                     <Button className='col-md-5 mr-4' variant='secondary' onClick={() => closeCreateUpdateModalWindow()}>cancel</Button>
                 </Modal.Footer>
             </Modal>
-            {
-                visualizeFlag ? <Cargo3D showFlag="true" id={currentTransport.id ? currentTransport.id : 1000} token={props.token} /> : <div></div>
+            <Cargo3D showFlag={visualizeFlag} disable={disable} id={currentTransport.id ? currentTransport.id : 1000} token={props.token} />
+            {/*
+                visualizeFlag ? <Cargo3D showFlag="true" id={currentTransport.id ? currentTransport.id : 1000} token={props.token} /> : <div>{console.log(visualizeFlag)}</div>
+                */
             }
-            
         </div>
     );
 }
