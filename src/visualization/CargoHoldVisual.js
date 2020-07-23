@@ -21,8 +21,6 @@ import './visualization.css';
 extend({ OrbitControls });
 
 function Cargo3D(props) {
-  let setIfShowModalError = props.setIfShowModalError;
-  let setErrorMessage = props.setErrorMessage;
   const [data, setData] = useState([]);
   const [showFlag, setShowFlag] = useState(props.showFlag);
 
@@ -31,12 +29,12 @@ function Cargo3D(props) {
   const zeroHeight = -4;
   const zeroDepth = -20;
 
-  const [flag, setFlag] = useState(true);
+  const [flag, setFlag] = useState(props.showFlag);
 
   function getBoxesDataForVisualisation() {
     axios({
       'method': 'GET',
-      'url': "http://localhost:9041/admin/hub/cargosByTransporter?id=" + props.id,
+      'url': "http://localhost:9041/admin/cargosByTransporter?id=" + props.id,
       'headers': {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -48,14 +46,14 @@ function Cargo3D(props) {
       }
 
     }).catch((error) => {
-      setIfShowModalError(true);
-      setErrorMessage(error.response.data.message);
+        console.log("visualize error");
     });
   }
 
   useEffect(() => {
-    if (flag) {
+    if (flag ) {
       getBoxesDataForVisualisation();
+      setShowFlag(true);
       setFlag(false);
     }
   });

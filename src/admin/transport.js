@@ -36,6 +36,7 @@ function Transports(props) {
     const [currentTransport, setCurrentTransport] = useState({});
     let [ifShowModalError, setIfShowModalError] = useState(false);
     let [errorMessage, setErrorMessage] = useState('');
+    const [visualizeFlag, setVisualizeFlag] = useState(false);
 
     function ifError() {
         let temp = !ifShowModalError;
@@ -216,10 +217,12 @@ function Transports(props) {
         setCompartments(transport.compartments);
         setUpdateModalFlag(true);
     }
-    function visualize(transport, props) {
-        return <Cargo3D showFlag='true' id={transport.id} token={props.token} 
-        setIfShowModalError={setIfShowModalError()} setErrorMessage={setErrorMessage()}/>
-    } 
+    function visualize(transport) {
+        console.log("visualiar transport .js",transport);
+        setCurrentTransport(transport);
+        setVisualizeFlag(true);
+    }
+    
     useEffect(() => {
         if (flag) {
             getAllTransports(props.token);
@@ -280,7 +283,7 @@ function Transports(props) {
                                             <Dropdown.Divider />
                                             <Dropdown.Item as="button" onSelect={() => removeTransport(transport, props)}>Delete</Dropdown.Item>
                                             <Dropdown.Divider />
-                                            <Dropdown.Item as="button" onSelect={() => visualize(transport, props)}>Show</Dropdown.Item>
+                                            <Dropdown.Item as="button" onSelect={() => visualize(transport)}>Show</Dropdown.Item>
                                         </DropdownMenu>
                                     </Dropdown>
                                 </td>
@@ -412,8 +415,12 @@ function Transports(props) {
                     <Button className='col-md-5 mr-4' variant='secondary' onClick={() => closeCreateUpdateModalWindow()}>cancel</Button>
                 </Modal.Footer>
             </Modal>
+            {
+                visualizeFlag ? <Cargo3D showFlag="true" id={currentTransport.id ? currentTransport.id : 1000} token={props.token} /> : <div></div>
+            }
+            
         </div>
     );
 }
-
+ 
 export default Transports;
