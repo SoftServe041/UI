@@ -1,7 +1,6 @@
-import React, { useEffect, useState, Suspense, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Canvas,
-  useLoader,
   useFrame,
   extend,
   useThree,
@@ -10,9 +9,10 @@ import Compartment from './Compartment.js';
 import Box from './Box.js';
 import Plane from './Plane.js';
 import SidePanel from './SidePanel.js';
-import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col, Container } from "react-bootstrap";
+import { Button, Form, Modal, Row, Col } from "react-bootstrap";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import * as THREE from 'three'
+import axios from 'axios';
 
 // Calling extend with the native OrbitControls class from Three.js
 // will make orbitControls available as a native JSX element.
@@ -20,6 +20,10 @@ import * as THREE from 'three'
 extend({ OrbitControls });
 
 function Cargo3D(props) {
+  // let setIfShowModalError = props.setIfShowModalError;
+  // let setErrorMessage = props.setErrorMessage;
+  const [data, setData] = useState([]);
+  const [showFlag, setShowFlag] = useState(props.showFlag);
 
   // Initialize zero for coordinates
   const zeroWidth = -4;
@@ -28,16 +32,62 @@ function Cargo3D(props) {
 
   const [flag, setFlag] = useState(true);
 
+  function getBoxesDataForVisualisation() {
+    axios({
+      'method': 'GET',
+      'url': "http://localhost:9041/admin/hub/cargosByTransporter?id=" + props.truckId,
+      'headers': {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer_${props.token}`,
+      },
+    }).then(response => {
+      if (response.status === 200) {
+        setData(response.data);
+      }
+
+    }).catch((error) => {
+      // setIfShowModalError(true);
+      // setErrorMessage(error.response.data.message);
+      setData([
+        {
+          width: 1.2,
+          length: 1.2,
+          height: 1.2,
+          widthPos: 0,
+          heightPos: 0,
+          lengthPos: 0,
+        },
+        {
+          width: 0.9,
+          length: 0.9,
+          height: 0.9,
+          widthPos: 4,
+          heightPos: 4,
+          lengthPos: 4,
+        },
+        {
+          width: 2.4,
+          length: 1.2,
+          height: 1.2,
+          widthPos: 0,
+          heightPos: 0,
+          lengthPos: 4,
+        }
+      ]);
+    });
+  }
+
   useEffect(() => {
     if (flag) {
+      getBoxesDataForVisualisation();
       setFlag(false);
     }
   });
 
-  // Метод формирования боксов входные параметры брать из админа из базы, получает массив, возвращает массив коробок
   return (
     <div>
-      <Modal style={{ width: '800px', height: '600px', backgroundColor: "#2d2929" }} show={props.showFlag} onHide={() => { }} animation='true' aria-labelledby="contained-modal-title-vcenter"
+      <Modal style={{ width: '800px', height: '600px', backgroundColor: "#2d2929" }} show={showFlag} onHide={() => setShowFlag(false)} animation='true' aria-labelledby="contained-modal-title-vcenter"
         centered>
         <Modal.Header>
           <Modal.Title className="font-weight-bold ml-3">
@@ -53,40 +103,21 @@ function Cargo3D(props) {
                   gl.outputEncoding = THREE.sRGBEncoding
                 }}>
                   <CameraControls />
-
                   <pointLight position={[0, 10, 0]} intensity={0.3} />
                   <spotLight intensity={0.75} position={[-15, 30, 20]} angle={2.0} penumbra={1} castShadow />
                   <spotLight intensity={0.25} position={[15, 30, -20]} angle={1.5} penumbra={1} castShadow />
                   <spotLight intensity={0.2} position={[-30, 20, 0]} angle={1.5} penumbra={1} castShadow />
-
                   <Plane zPos={-4} xPos={0} yPos={0} xAxis={-1.57} zAxis={0} yAxis={0} />
-
                   <SidePanel zPos={95} xPos={0} yPos={-99} xAxis={0} zAxis={0} yAxis={0} />
                   <SidePanel zPos={95} xPos={0} yPos={99} xAxis={0} zAxis={0} yAxis={9.425} />
                   <SidePanel zPos={95} xPos={-99} yPos={0} xAxis={0} zAxis={0} yAxis={1.57} />
                   <SidePanel zPos={95} xPos={99} yPos={0} xAxis={0} zAxis={0} yAxis={-1.57} />
-
                   <Compartment position={[0, 0, 0]} depth={40} height={8} width={8} />
-
-                  <Box position={[zeroDepth + 0 + 2, zeroHeight + 0 + 2, zeroWidth + 0 + 2]} depth={4} height={4} width={4} />
-                  <Box position={[zeroDepth + 0 + 2, zeroHeight + 4 + 2, zeroWidth + 0 + 2]} depth={4} height={4} width={4} />
-                  <Box position={[zeroDepth + 0 + 2, zeroHeight + 0 + 1, zeroWidth + 4 + 1]} depth={4} height={2} width={2} />
-                  <Box position={[zeroDepth + 0 + 2, zeroHeight + 2 + 1, zeroWidth + 4 + 1]} depth={4} height={2} width={2} />
-                  <Box position={[zeroDepth + 0 + 2, zeroHeight + 0 + 1, zeroWidth + 6 + 1]} depth={4} height={2} width={2} />
-                  <Box position={[zeroDepth + 0 + 2, zeroHeight + 2 + 1, zeroWidth + 6 + 1]} depth={4} height={2} width={2} />
-                  <Box position={[zeroDepth + 0 + 2, zeroHeight + 4 + 2, zeroWidth + 5 + 1]} depth={4} height={4} width={2} />
-                  <Box position={[zeroDepth + 0 + 1, zeroHeight + 4 + 0.5, zeroWidth + 4 + 0.5]} depth={2} height={1} width={1} />
-                  <Box position={[zeroDepth + 4 + 2, zeroHeight + 0 + 2, zeroWidth + 0 + 2]} depth={4} height={4} width={4} />
-                  <Box position={[zeroDepth + 4 + 2, zeroHeight + 4 + 2, zeroWidth + 4 + 2]} depth={4} height={4} width={4} />
-                  <Box position={[zeroDepth + 4 + 2, zeroHeight + 0 + 2, zeroWidth + 4 + 2]} depth={4} height={4} width={4} />
-                  <Box position={[zeroDepth + 4 + 2, zeroHeight + 4 + 2, zeroWidth + 0 + 2]} depth={4} height={4} width={4} />
-                  <Box position={[zeroDepth + 8 + 2, zeroHeight + 0 + 2, zeroWidth + 2 + 2]} depth={4} height={4} width={4} />
-                  <Box position={[zeroDepth + 8 + 2, zeroHeight + 0 + 2, zeroWidth + 0 + 1]} depth={4} height={4} width={2} />
-                  <Box position={[zeroDepth + 8 + 2, zeroHeight + 4 + 1, zeroWidth + 0 + 1]} depth={4} height={2} width={2} />
-                  <Box position={[zeroDepth + 8 + 2, zeroHeight + 6 + 1, zeroWidth + 0 + 1]} depth={4} height={2} width={2} />
-                  <Box position={[zeroDepth + 12 + 4, zeroHeight + 0 + 1, zeroWidth + 0 + 2]} depth={8} height={2} width={4} />
-                  <Box position={[zeroDepth + 12 + 1, zeroHeight + 2 + 1, zeroWidth + 0 + 1]} depth={2} height={2} width={2} />
-                  {/* Box position={[zeroDepth + box.getDepthPos() + box.getDepthInCells() / 2]} */}
+                  {
+                    data.map(box => {
+                      return <Box position={[zeroDepth + box.lengthPos + (box.length / 0.6), zeroHeight + box.heightPos + (box.height / 0.6), zeroWidth + box.widthPos + (box.width / 0.6)]} depth={box.length / 0.3} height={box.height / 0.3} width={box.width / 0.3} />
+                    })
+                  }
                 </Canvas>
               </Col>
             </Form.Group>
@@ -103,8 +134,6 @@ function Cargo3D(props) {
 const CameraControls = () => {
   // Get a reference to the Three.js Camera, and the canvas html element.
   // We need these to setup the OrbitControls class.
-  // https://threejs.org/docs/#examples/en/controls/OrbitControls
-
   const {
     camera,
     gl: { domElement }

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 function Plane(props) {
     return (
         <mesh visible position={[props.xPos, props.zPos, props.yPos]} rotation={[props.xAxis, props.yAxis, props.zAxis]} receiveShadow>
