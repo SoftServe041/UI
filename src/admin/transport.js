@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Pagination, Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
+import { Pagination, Table, Dropdown, Button, Form, Modal, Row, Col } from "react-bootstrap";
 import axios from 'axios';
+import ModalError from "../error/modalErrorFF.js";
+import DropdownMenu from 'react-bootstrap/DropdownMenu';
 
 function Transports(props) {
     let url = 'http://localhost:9041/admin/transport';
@@ -10,30 +12,45 @@ function Transports(props) {
     let existedHubs = props.existedHubs;
     const [flag, setFlag] = useState(true);
     const [transports, setTransports] = useState([]);
-    const [transportTypes, setTransportTypes] = useState([]);
+    let transportTypes = props.transportTypes;
+    let setTransportTypes = props.setTransportTypes;
     const [boundedHub, setBoundedHub] = useState('');
     const [compartments, setCompartments] = useState([
         {
             maximumWeight: 22,
             volume: {
-                width: 240,
-                height: 240,
-                length: 1200,
+                width: 2.4,
+                height: 2.4,
+                length: 12,
             }
         },
     ]);
     const [type, setType] = useState('');
     const [createModalFlag, setCreateModalFlag] = useState(false);
     const [weight, setWeight] = useState(22);
-    const [width, setWidth] = useState(240);
-    const [height, setHeight] = useState(240);
-    const [length, setLength] = useState(1200);
+    const [width, setWidth] = useState(2.4);
+    const [height, setHeight] = useState(2.4);
+    const [length, setLength] = useState(12);
     const [updateModalFlag, setUpdateModalFlag] = useState(false);
     const [currentTransport, setCurrentTransport] = useState({});
+    let [ifShowModalError, setIfShowModalError] = useState(false);
+    let [errorMessage, setErrorMessage] = useState('');
 
-    if (transportTypes.length === 0) {
-        getAllTransportTypes();
+    function ifError() {
+        let temp = !ifShowModalError;
+        setIfShowModalError(temp);
     }
+    const style = {
+        Button: {
+            "backgroundColor": "#ff8e09",
+            "border": "none"
+        }
+    }
+    
+    if (transportTypes.length === 0) {
+        getAllTransportTypes(props);
+    }
+
     function initializeData(data) {
         setTransports(data.content);
         setPagination(formPagination(activePage, data.totalPages));
@@ -54,50 +71,47 @@ function Transports(props) {
         }
         return itemsArray;
     }
-    function getAllTransports() {
+    function getAllTransports(props) {
         axios({
             'method': 'GET',
-            'url': url + '?page='+ activePage+'&size=5',
+            'url': url + '?page=' + activePage + '&size=5',
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props}`,
             },
             'params': {
                 'search': 'parameter',
             },
         }).then(response => {
-            if(response.status === 200){
+            if (response.status === 200) {
                 initializeData(response.data);
             }
 
-        }).catch(error => {
-            console.log('erroring from getAllTrans: ', error);
+        }).catch((error) => {
+            console.log(error);
+            setIfShowModalError(true);
+            setErrorMessage(error.response.data.message);
         });
     }
-    function getAllTransportTypes() {
+    function getAllTransportTypes(props) {
         axios({
             'method': 'GET',
             'url': urlForTransportTypes,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props.token}`,
             },
         }).then(response => {
             if (response.status === 200) {
                 setTransportTypes(response.data)
             }
-
         }).catch(error => {
             console.log('erroring from getAllTransTypes: ', error);
         });
     }
-    function createTransport() {
+    function createTransport(props) {
         compartments.map(compartment => {
             compartment.id = null;
             compartment.volume.id = null;
@@ -108,9 +122,7 @@ function Transports(props) {
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props.token}`,
             },
             data:
             {
@@ -120,33 +132,31 @@ function Transports(props) {
             },
 
         }).then(response => {
-            console.log('responsing from create transport: ', response.status);
             if (response.status === 201) {
                 setFlag(true);
                 setCreateModalFlag(false);
             }
-        }).catch(error => {
-            console.log('erroring from create trans: ', error);
+        }).catch((error) => {
+            setIfShowModalError(true);
+            setErrorMessage(error.response.data.message);
             setCreateModalFlag(false);
         });
     }
-    function updateTransport() {
+    function updateTransport(props) {
         axios({
             'method': 'PUT',
             'url': url,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props.token}`,
             },
             data:
             {
                 "id": currentTransport.id,
                 "hubName": boundedHub ? boundedHub : currentTransport.hubName,
                 "compartments": compartments,
-                "type": type ? type: currentTransport.type,
+                "type": type ? type : currentTransport.type,
             },
 
         }).then(response => {
@@ -155,30 +165,29 @@ function Transports(props) {
                 setCreateModalFlag(false);
                 setUpdateModalFlag(false);
             }
-        }).catch(error => {
-            console.log('erroring from update trans: ', error);
+        }).catch((error) => {
+            setIfShowModalError(true);
+            setErrorMessage(error.response.data.message);
             setCreateModalFlag(false);
             setUpdateModalFlag(false);
         });
     }
-    function removeTransport(transport) {
+    function removeTransport(transport, props) {
         axios({
             'method': 'DELETE',
             'url': url + '/' + transport.id,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props.token}`,
             }
-
         }).then(response => {
             if (response.status === 200) {
                 setFlag(true);
             }
-        }).catch(error => {
-            console.log('erroring from remove transport: ', error);
+        }).catch((error) => {
+            setIfShowModalError(true);
+            setErrorMessage(error.response.data.message);
         });
     }
     function addNewCompartment() {
@@ -191,7 +200,6 @@ function Transports(props) {
                 length: length,
             }
         }]);
-
     }
     function removeCompartment(index) {
         let newCompartments = [].concat(compartments);
@@ -209,18 +217,21 @@ function Transports(props) {
     }
     useEffect(() => {
         if (flag) {
-            getAllTransports();
+            getAllTransports(props.token);
             setFlag(false);
         }
-    });
+    }, [flag, getAllTransports, props.token]);
     return (
         <div>
+            {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
+                message={errorMessage}
+                ifError={ifError} />}
             <div className='component'>
                 <Table variant='dark' size='md' striped bordered hover >
                     <thead>
                         <tr>
-                            <th className='text-center mb-1'><h4>Number</h4></th>
-                            <th className='text-center mb-1'><h4>Bound hub</h4></th>
+                            <th className='text-center mb-1'>Number</th>
+                            <th className='text-center mb-1'>Bound hub</th>
                             <th className='text-center mb-1'>
                                 <h4>Compartments</h4>
                                 <Row>
@@ -232,8 +243,8 @@ function Transports(props) {
                                     <Col sm="2">Length</Col>
                                 </Row>
                             </th>
-                            <th className='text-center aling-top'><h4>Type</h4></th>
-                            <th className='text-center aling-middle'><h4>Actions</h4></th>
+                            <th className='text-center aling-top'>Type</th>
+                            <th className='text-center aling-middle'>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -257,11 +268,14 @@ function Transports(props) {
                                 </td>
                                 <td className='pl-4 align-middle'>{transport.type}</td>
                                 <td className='text-center align-middle'>
-                                    <DropdownButton variant="info" title="action" size='md' >
-                                        <Dropdown.Item as="button" onSelect={() => handleUpdateTransport(transport)}>Update</Dropdown.Item>
-                                        <Dropdown.Divider />
-                                        <Dropdown.Item as="button" onSelect={() => removeTransport(transport)}>Delete</Dropdown.Item>
-                                    </DropdownButton>
+                                    <Dropdown size='md' >
+                                        <Dropdown.Toggle style={style.Button}>Action</Dropdown.Toggle>
+                                        <DropdownMenu>
+                                            <Dropdown.Item as="button" onSelect={() => handleUpdateTransport(transport)}>Update</Dropdown.Item>
+                                            <Dropdown.Divider />
+                                            <Dropdown.Item as="button" onSelect={() => removeTransport(transport, props)}>Delete</Dropdown.Item>
+                                        </DropdownMenu>
+                                    </Dropdown>
                                 </td>
                             </tr>
                         )}
@@ -368,13 +382,13 @@ function Transports(props) {
                                 <Form.Control type="number" className='text-left' size='sm' defaultValue={weight} onChange={(e) => setWeight(e.target.value)} />
                             </Col>
                             <Col>
-                                <Form.Control type="number" size='sm' defaultValue={width} onChange={(e) => setWidth(e.target.value)} />
+                                <Form.Control type="number" size='sm' defaultValue={width} onChange={(e) => setWidth(e.target.value/100)} />
                             </Col>
                             <Col>
-                                <Form.Control type="number" size='sm' defaultValue={height} onChange={(e) => setHeight(e.target.value)} />
+                                <Form.Control type="number" size='sm' defaultValue={height} onChange={(e) => setHeight(e.target.value/100)} />
                             </Col>
                             <Col sm="3">
-                                <Form.Control type="number" size='sm' defaultValue={length} onChange={(e) => setLength(e.target.value)} />
+                                <Form.Control type="number" size='sm' defaultValue={length} onChange={(e) => setLength(e.target.value/100)} />
                             </Col>
                             <Col className="align-middle text-center">
                                 <Button onClick={() => addNewCompartment()} size="sm">+</Button>
@@ -383,7 +397,7 @@ function Transports(props) {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='col-md-5 mr-3' onClick={() => (createModalFlag) ? createTransport() : updateTransport()}>
+                    <Button className='col-md-5 mr-3' onClick={() => (createModalFlag) ? createTransport(props) : updateTransport(props)}>
                         {
                             (createModalFlag) ? "Create" : 'Update'
                         }
@@ -393,8 +407,6 @@ function Transports(props) {
             </Modal>
         </div>
     );
-
 }
-
 
 export default Transports;

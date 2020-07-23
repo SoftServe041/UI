@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import axios from 'axios';
 import '../App.css';
+import ModalError from "../error/modalError.js";
 
 const formValid = ({ formErrors, email, password }) => {
     let valid = true;
@@ -17,12 +18,7 @@ const formValid = ({ formErrors, email, password }) => {
     return valid;
 }
 
-//RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
-// Final RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+[a-zA-Z0-9-]$/)
-//Marina's RegExp(/^((\w+.*\w+)@(\w+.\w+))$/)
 const emailRegex = RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+[a-zA-Z0-9-]$/)
-
-
 
 class LogInMenu extends React.Component {
     constructor(props) {
@@ -30,16 +26,13 @@ class LogInMenu extends React.Component {
         this.state = {
             email: '',
             password: '',
-
             formErrors: {
                 email: "",
                 password: ""
             },
             ifFieldsEmpty: false,
             ifLoginDetailsIncorrect: false,
-
         }
-
     }
 
     handleChange = (e) => {
@@ -89,37 +82,31 @@ class LogInMenu extends React.Component {
                     this.props.disableModal();
                 })
                 .catch(error => {
-                    this.setState({ ifLoginDetailsIncorrect: true });
+                    this.refs.modError.showModal(error.response.data.message);
                 });
         } else {
             this.setState({ ifShowFormErrors: true })
-
         }
-
     }
 
     render() {
         const email = this.email;
         const { formErrors } = this.state;
         return (
-
             <Modal
                 show={this.props.ifShowModal}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
-
             >
+                <ModalError ref='modError'/>
                 <Container id="modal-window">
-
                     <Form onSubmit={this.submitHandler}>
-
                         <Row id="space-between-rows">
                             <Col md={{ offset: 5 }}>
                                 {(this.state.ifLoginDetailsIncorrect) && (<span className="Span">Email or password are incorrect</span>)}
                             </Col>
                         </Row>
-
 
                         <Row >
                             <Col md={{ span: 1, offset: 3 }}>
@@ -138,7 +125,6 @@ class LogInMenu extends React.Component {
                             </Col>
                         </Row>
 
-
                         <Row >
                             <Col md={{ span: 1, offset: 3 }}>
                                 <p >    Password:      </p>
@@ -150,13 +136,11 @@ class LogInMenu extends React.Component {
                             </Col>
                         </Row>
 
-
                         <Row id="space-between-rows">
                             <Col md={{ offset: 5 }}>
                                 {this.state.ifShowFormErrors && (<span className="Span">{formErrors.password}</span>)}
                             </Col>
                         </Row>
-
 
                         <Row id="space-between-rows">
                             <Col md={{ offset: 5 }}>
@@ -176,21 +160,12 @@ class LogInMenu extends React.Component {
                                 </Button>
                             </Col>
                         </Row>
-
-
                     </Form>
                 </Container>
             </Modal>
-
-
         )
-
     }
-
 }
-
-
-
 
 export default LogInMenu;
 

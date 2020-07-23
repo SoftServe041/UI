@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import '../main_page/main_page.css';
 import './error.css';
 import '../index.css';
@@ -36,17 +36,16 @@ export default class ModalError extends Component {
       this.setState({ show: false });
     };
 
-
   render(){
        return(
             <div>
                  <Modal show={this.state.show} onHide={this.hideModal} animation='true' centered>
-                   <Modal.Header  closeButton className = "bg-warning"> 
+                   <Modal.Header  closeButton style={{backgroundColor: "#ff8e09"}}> 
                         <Modal.Title >OOPS!</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>{this.state.errorBody}</Modal.Body>
                     <Modal.Footer>
-                       <Button variant="outline-warning"  block onClick={this.hideModal}>
+                       <Button style={{backgroundColor: "#ff8e09"}}  block onClick={this.hideModal}>
                             Close
                         </Button>
                     </Modal.Footer>

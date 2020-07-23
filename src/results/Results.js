@@ -6,69 +6,86 @@ import axios from 'axios'
 import Result from './Result'
 import '../App.css'
 import './style-result.css'
+import ModalError from "../error/modalErrorFF.js";
+
 
 const routesArr = {
-    "dateSorted": [
-        {
-            "trackingId": "ch42971",
-            "price": 4090,
-            "estimatedDeliveryDate": "2020-07-04"
-        }
-    ],
-    "priceSorted": [
-        {
-            "trackingId": "ch42971",
-            "price": 4090,
-            "estimatedDeliveryDate": "2020-07-04"
-        }
-    ]
+	"dateSorted": [
+		{
+			"trackingId": "ch42971",
+			"price": 4090,
+			"estimatedDeliveryDate": "2020-07-04"
+		}
+	],
+	"priceSorted": [
+		{
+			"trackingId": "ch42971",
+			"price": 4090,
+			"estimatedDeliveryDate": "2020-07-04"
+		}
+	]
 }
 
 class Results extends React.Component {
 	constructor(props) {
 		super(props);
-		console.log("props", this.props);
 		this.state = {
 			departure: 'Departure',
 			arrival: 'Arrival',
-			weight: '',
-			height: '',
-			width: '',
-			length: '',
 			ifFormIncorrect: false,
 			ifSameHubSelected: false,
 			routes: routesArr,
-			citiesList: []
+			citiesList: [],
+			listOfBoxes: [],
+			ifShowModalError: false,
+			errorMessage: ''
 		}
 
 		this.submitHandler = this.submitHandler.bind(this)
 		this.handleChange = this.handleChange.bind(this)
 		this.handleSelectedDeparture = this.handleSelectedDeparture.bind(this)
 		this.handleSelectedArrival = this.handleSelectedArrival.bind(this)
+		this.ifError = this.ifError.bind(this)
+
+	}
+
+	ifError() {
+		this.setState({ ifShowModalError: false });
 	}
 
 	componentDidMount() {
+
+		let sessionDeparture = sessionStorage.getItem('departure');
+        let sessionArrival = sessionStorage.getItem('arrival');
+		let sessionListOfBoxes = JSON.parse(sessionStorage.getItem('listOfBoxes'));
+		let convertToMeters = [];
+		if (!(parseInt(sessionListOfBoxes).length > 0 || sessionListOfBoxes === undefined || sessionListOfBoxes === null)) {
+			(sessionListOfBoxes.map((box) => {
+				let temp = (box) = {
+					weight: box.weight,
+					width: box.width / 100,
+					height: box.height / 100,
+					length: box.length / 100,
+				}
+				convertToMeters.push(temp);
+			}))
+		}
 		const dataFromMainPage = {
-			cargoWeight: history.location.weight,
-			cargoLength: history.location.length / 100,
-			cargoWidth: history.location.width / 100,
-			cargoHeight: history.location.height / 100,
-			departureHub: history.location.arrival,
-			arrivalHub: history.location.departure
+			sizeList: convertToMeters,
+			departureHub: sessionArrival,
+			arrivalHub: sessionDeparture,
 		}
 		this.getData(dataFromMainPage);
 		this.loadCities();
 
-		if (history.location.departure != undefined) {
+		if (sessionDeparture !== undefined) {
 			this.setState({
-				departure: history.location.departure,
-				arrival: history.location.arrival,
-				weight: history.location.weight,
-				height: history.location.height,
-				width: history.location.width,
-				length: history.location.length,
+				departure: sessionDeparture,
+				arrival: sessionArrival,
+				listOfBoxes: convertToMeters
 			});
 		}
+
 
 	}
 
@@ -76,8 +93,7 @@ class Results extends React.Component {
 		await axios.get(`http://localhost:9041/cities`)
 			.then(res => {
 				this.setState({ citiesList: res.data })
-			})
-			.catch(error => console.log('Cities cannot be loaded' + error));
+			});
 	}
 
 	async getData(dataToSend) {
@@ -93,25 +109,17 @@ class Results extends React.Component {
 				data: dataToSend
 			}
 		).then((response) => {
-			console.log(response);
 			this.setState({ routes: response.data });
 		}).catch((error) => {
-			console.log(error);
-			if (error.status === 404) {
-				window.location = '/error';
-			}
-		})
+			this.setState({ ifShowModalError: true, errorMessage: error.response.data.message });
+		});
 	}
-	
 
 	submitHandler = (e) => {
 		e.preventDefault();
 		this.setState({ ifFormIncorrect: false, ifSameHubSelected: false });
 		let dataToSend = {
-			cargoWeight: this.state.weight,
-			cargoLength: this.state.length / 100,
-			cargoWidth: this.state.width / 100,
-			cargoHeight: this.state.height / 100,
+			sizeList: this.state.listOfBoxes,
 			departureHub: this.state.arrival,
 			arrivalHub: this.state.departure
 		};
@@ -120,7 +128,6 @@ class Results extends React.Component {
 			this.getData(dataToSend);
 		} else {
 			this.setState({ ifFormIncorrect: true })
-			console.error('Invalid form')
 		}
 	}
 
@@ -138,7 +145,7 @@ class Results extends React.Component {
 		this.setState({ arrival: e })
 	}
 
-	formValid = ({ departure, arrival, weight, length, width, height }) => {
+	formValid = ({ departure, arrival }) => {
 		let valid = true
 
 		if (departure === arrival) {
@@ -153,39 +160,38 @@ class Results extends React.Component {
 			valid = false
 		}
 
-		if (weight.length < 1) { return false }
-		if (height.length < 1) { return false }
-		if (length.length < 1) { return false }
-		if (width.length < 1) { return false }
-
 		return valid
 	}
 
 	render() {
 		return (
 			<div>
+				{(this.state.ifShowModalError) && <ModalError ifShow={this.state.ifShowModalError}
+					message={this.state.errorMessage}
+					ifError={this.ifError} />}
 				<Row id='results'>
 					<Col md={{ span: 8, offset: 2 }}>
 						<SearchForm
 							departure={this.state.departure}
 							arrival={this.state.arrival}
 							weight={this.state.weight}
-							height={this.state.height}
-							width={this.state.width}
-							length={this.state.length}
 							ifFormIncorrect={this.state.ifFormIncorrect}
 							submitHandler={this.submitHandler}
 							handleChange={this.handleChange}
-							handleSelectedDeparture={
-								this.handleSelectedDeparture
-							}
+							handleSelectedDeparture={this.handleSelectedDeparture}
 							handleSelectedArrival={this.handleSelectedArrival}
 							data={this.state}
 							citiesList={this.state.citiesList}
+							listOfBoxes={this.state.listOfBoxes}
 						/>
 					</Col>
 				</Row>
-				<Result routes={this.state.routes} />
+				<Result routes={this.state.routes}
+					data={this.props}
+					listOfBoxes={this.state.listOfBoxes}
+					citiesList={this.state.citiesList}
+					departure={this.state.departure}
+					arrival={this.state.arrival} />
 			</div>
 		)
 	}

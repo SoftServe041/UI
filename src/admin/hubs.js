@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Dropdown, DropdownButton, Button, Form, Modal, Row, Col } from "react-bootstrap";
+import { Table, Dropdown, Button, Form, Modal, Row, Col } from "react-bootstrap";
 import cities from './admin_resource/cities.json';
 import axios from 'axios';
+import ModalError from "../error/modalErrorFF.js";
 
+const style = {
+    Button: {
+        "backgroundColor": "#ff8e09",
+        "border": "none"
+    }
+}
 
 function Hubs(props) {
     let url = 'http://localhost:9041/admin/hub';
     let urlForReltion = 'http://localhost:9041/admin/hub/relation';
-    // const [existedHubs, setExistedHubs] = useState([]);
     let existedHubs = props.existedHubs;
     let setExistedHubs = props.setExistedHubs;
     const [flag, setFlag] = useState(true);
@@ -17,6 +23,14 @@ function Hubs(props) {
     const [currentHub, setCurrentHub] = useState({});
     const [relationListForCurrentHub, setRelationListForCurrentHub] = useState([]);
     const [newHubName, setNewHubName] = useState('');
+    let [ifShowModalError, setIfShowModalError] = useState(false);
+    let [errorMessage, setErrorMessage] = useState('');
+
+    function ifError() {
+        let temp = !ifShowModalError;
+        setIfShowModalError(temp);
+    }
+
     function initialiseExistedHubs(hubs) {
         setFlag(false);
         setExistedHubs(hubs);
@@ -30,36 +44,31 @@ function Hubs(props) {
         existingCitiesNames = existingCitiesNames.filter(city => !relationHubs.includes(city));
         return existingCitiesNames;
     }
-    function getExistedHubs() {
+    function getExistedHubs(props) {
         axios({
             'method': 'GET',
             'url': url,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props.token}`,
             },
         }).then(response => {
-            console.log('responsing from getExistedHubs: ', response);
-            if(response.status === 200){
+            if (response.status === 200) {
                 initialiseExistedHubs(response.data);
             }
         }).catch(error => {
             console.log('erroring from getExistedHubs: ', error);
         });
     }
-    function createHub() {
+    function createHub(props) {
         axios({
             'method': 'POST',
             'url': url,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
-                'content-type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer_${props.token}`,
             },
             data:
             {
@@ -67,137 +76,125 @@ function Hubs(props) {
             },
 
         }).then(response => {
-            console.log('responsing from create Hub: ', response.status);
             if (response.status === 201) {
                 setFlag(true);
                 setCreateHubFlag(false);
             }
-        }).catch(error => {
-            console.log('erroring from create Hub: ', error);
+        }).catch((error) => {
+            setIfShowModalError(true);
+            setErrorMessage(error.response.data.message);
             setCreateHubFlag(false);
         });
     }
-    function handleUpdateHubAction(hubToUpdate) {
+    function handleUpdateHubAction(hubToUpdate, props) {
         setCurrentHub(hubToUpdate);
         setUpdateHubFlag(true);
     }
-    function updateHub() {
-        console.log("newHubName", newHubName);
+    function updateHub(props) {
         axios({
             method: 'PATCH',
             url: url + '/' + currentHub.name,
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'content-type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props.token}`,
             },
             data:
             {
                 newName: newHubName,
-            },
+            }
         }).then(response => {
-            console.log('responsing from update Hub: ', response);
             if (response.status === 200) {
                 setUpdateHubFlag(false);
                 setFlag(true);
             }
         }).catch(error => {
-            console.log('erroring from update Hub: ', error);
+            setIfShowModalError(true);
+            if ( error.response !== undefined) {
+                setErrorMessage(error.response.data.message);
+            }
+            else {
+                setErrorMessage(error.message);
+            }
             setUpdateHubFlag(false);
             setFlag(true);
         });
     }
-    function removeHub(hub) {
+    function removeHub(hub, props) {
         axios({
             'method': 'DELETE',
             'url': url + "/" + hub.name,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'content-type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props.token}`,
             },
-
         }).then(response => {
-            console.log('responsing from remove Hub: ', response.status);
             if (response.status === 200) {
                 setFlag(true);
             }
         }).catch(error => {
-            console.log('erroring from remove Hub: ', error);
+            setIfShowModalError(true);
+            setErrorMessage(error.response.data.message);
         });
     }
-    function handleShowRelation(hub) {
+    function handleShowRelation(hub, props) {
         setCurrentHub(hub);
-        showRelationForCurrentHub(hub);
+        showRelationForCurrentHub(hub, props);
     }
-    function showRelationForCurrentHub(hub) {
-        console.log('showRelation', hub);
+    function showRelationForCurrentHub(hub, props) {
         axios({
             'method': 'GET',
             'url': urlForReltion + '/' + hub.name,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'content-type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props.token}`,
             },
             data: {
                 id: hub.id,
                 name: hub.name,
             }
         }).then(response => {
-            console.log('responsing from showRelationForCurrentHub: ', response);
             initialiseRelationForCurrentHub(response.data);
         }).catch(error => {
             console.log('erroring from showRelationForCurrentHub: ', error);
-
         });
     }
     function initialiseRelationForCurrentHub(relations) {
         setRelationListForCurrentHub(relations);
         setRelationFlag(true);
     }
-    function createRelation() {
-        console.log('create relational hub', newHubName);
+    function createRelation(props) {
         axios({
             'method': 'POST',
             'url': urlForReltion,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'content-type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props.token}`,
             },
             data: {
                 newCity: currentHub.name,
                 connectedCity: newHubName,
             }
         }).then(response => {
-            console.log('responsing from create relation', response.status);
             if (response.status === 200) {
-                showRelationForCurrentHub(currentHub);
+                showRelationForCurrentHub(currentHub, props);
             }
         }).catch(error => {
-            console.log('erroring from create relation: ', error);
+            setIfShowModalError(true);
+            setErrorMessage(error.response.data.message);
         });
     }
-    function removeRelation(relationHubName) {
-        console.log('remove relational hub', relationHubName);
+    function removeRelation(relationHubName, props) {
         axios({
             'method': 'DELETE',
             'url': urlForReltion,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'content-type': 'application/json',
-                'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlcyI6WyJST0x' +
-                    'FX1VTRVIiLCJST0xFX0FETUlOIl0sImlhdCI6MTU5MjU0OTU2NywiZXhwIjo1MTkyNTQ5NTY3fQ.BeENEITc0RQWLcj' +
-                    'RbvorXdQ1GFrqZF5vXaSIOf8auME',
+                'Authorization': `Bearer_${props.token}`,
             },
             data: {
                 newCity: currentHub.name,
@@ -205,23 +202,24 @@ function Hubs(props) {
             }
 
         }).then(response => {
-            console.log('responsing from remove relation', response.status);
             if (response.status === 200) {
-                showRelationForCurrentHub(currentHub);
+                showRelationForCurrentHub(currentHub, props);
             }
         }).catch(error => {
-            console.log('erroring from remove relation: ', error);
+            setIfShowModalError(true);
+            setErrorMessage(error.response.data.message);
         });
     }
     useEffect(() => {
-        console.log('hubs effect', newHubName);
         if (flag) {
-            console.log('inside effect hub');
-            getExistedHubs();
+            getExistedHubs(props);
         }
     });
     return (
         <div className='component'>
+            {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
+                message={errorMessage}
+                ifError={ifError} />}
             <Table variant='dark' size='md' striped bordered hover >
                 <thead>
                     <tr>
@@ -239,14 +237,17 @@ function Hubs(props) {
                             <td className='pl-4 align-middle'>{hub.longitude}</td>
                             <td className='pl-4 align-middle'>{hub.latitude}</td>
                             <td className='text-center'>
-                                <Button variant='info' onClick={() => handleShowRelation(hub)}>show</Button>
+                                <Button variant='info' style={style.Button} onClick={() => handleShowRelation(hub, props)}>Show</Button>
                             </td>
                             <td className='text-center'>
-                                <DropdownButton variant="info" title="action" size='md' >
-                                    <Dropdown.Item as="button" onSelect={() => handleUpdateHubAction(hub)}>Update hub</Dropdown.Item>
-                                    <Dropdown.Divider />
-                                    <Dropdown.Item as="button" onSelect={() => removeHub(hub)}>Delete hub</Dropdown.Item>
-                                </DropdownButton>
+                                <Dropdown size='md' >
+                                    <Dropdown.Toggle style={style.Button}>Action</Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item as="button" onSelect={() => handleUpdateHubAction(hub)}>Update hub</Dropdown.Item>
+                                        <Dropdown.Divider />
+                                        <Dropdown.Item as="button" onSelect={() => removeHub(hub, props)}>Delete hub</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
                             </td>
                         </tr>
                     )}
@@ -290,9 +291,8 @@ function Hubs(props) {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='col-md-5 mr-3' onClick={() => updateHub()}>update</Button>
+                    <Button className='col-md-5 mr-3' onClick={() => updateHub(props)}>update</Button>
                     <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setUpdateHubFlag(false)}>cancel</Button>
-
                 </Modal.Footer>
             </Modal>
             <Modal show={createHubFlag} onHide={() => setCreateHubFlag(false)} animation='true'>
@@ -321,7 +321,7 @@ function Hubs(props) {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='col-md-5 mr-3' onClick={() => createHub()}>Create</Button>
+                    <Button className='col-md-5 mr-3' onClick={() => createHub(props)}>Create</Button>
                     <Button className='col-md-5 mr-4' variant='secondary' onClick={() => setCreateHubFlag(false)}>cancel</Button>
                 </Modal.Footer>
             </Modal>
@@ -345,7 +345,7 @@ function Hubs(props) {
                                         }
                                     </Form.Label>
                                     <Col className='text-center' sm="4">
-                                        <Button variant='danger' style={{borderRadius:30, width:50}} onClick={() => removeRelation(city)}>
+                                        <Button variant='danger' style={{ borderRadius: 30, width: 50 }} onClick={() => removeRelation(city, props)}>
                                             <strong>-</strong>
                                         </Button>
                                     </Col>
@@ -366,7 +366,7 @@ function Hubs(props) {
                                 </Form.Control>
                             </Col>
                             <Col className='text-center' sm="4">
-                                <Button style={{borderRadius:30, width:50}}  onClick={() => createRelation()}>
+                                <Button style={{ borderRadius: 30, width: 50 }} onClick={() => createRelation(props)}>
                                     <strong>+</strong>
                                 </Button>
                             </Col>

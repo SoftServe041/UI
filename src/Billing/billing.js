@@ -1,6 +1,6 @@
 import Footer from "../Footer/footer";
-import React, {useRef, createRef} from "react";
-import {Row, Col, Form, Container, Button} from 'react-bootstrap';
+import React from "react";
+import { Row, Col, Form, Container, Button } from 'react-bootstrap';
 
 import Header from "../header/Header";
 import HeaderButtons from "../header/HeaderButtons";
@@ -8,21 +8,18 @@ import HeaderButtons from "../header/HeaderButtons";
 import axios from 'axios'
 import ModalError from "../error/modalError.js";
 import MainPage from "../main_page/Main_page";
-import {Link, BrowserRouter, Route, Redirect} from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import './billing.css'
 
 const cscRegEx = /\b\d{3}\b/;
 const cardRegEx = /\b\d{16}\b/;
 
-
-const formValid = ({formErrors, ...rest}) => {
+const formValid = ({ formErrors, ...rest }) => {
     let valid = true;
-
 
     Object.values(formErrors).forEach(val => {
         val.length > 0 && (valid = false);
     });
-
 
     Object.values(rest).forEach(val => {
         val === null && (valid = false);
@@ -32,8 +29,6 @@ const formValid = ({formErrors, ...rest}) => {
 };
 
 class Billing extends React.Component {
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -51,11 +46,9 @@ class Billing extends React.Component {
         }
     }
 
-
     accessModError = (error) => {
         this.refs.modError.showModal(error);
     }
-
 
     handleSubmit = e => {
         e.preventDefault();
@@ -78,7 +71,6 @@ class Billing extends React.Component {
                     billingAddress: this.state.address
                 }],
             }).then(response => {
-                console.log('resp: ', response);
                 window.location = "/";
             })
                 .catch(error => {
@@ -89,9 +81,9 @@ class Billing extends React.Component {
 
     handleChange = e => {
         e.preventDefault();
-        const {name, value} = e.target;
+        const { name, value } = e.target;
 
-        let formErrors = {...this.state.formErrors};
+        let formErrors = { ...this.state.formErrors };
 
         switch (name) {
             case "cardNumber":
@@ -111,42 +103,39 @@ class Billing extends React.Component {
                         : "";
                 break;
         }
-
-        this.setState({formErrors, [name]: value});
-
+        this.setState({ formErrors, [name]: value });
     };
 
     render() {
-        const {formErrors} = this.state;
-
+        const { formErrors } = this.state;
         return (
             <BrowserRouter>
                 <div id='body'>
-                    <Header/>
-                    <HeaderButtons ifLoggedIn={this.state.ifLoggedIn} handleToken={this.state.handleToken}/>
+                    <Header />
+                    <HeaderButtons ifLoggedIn={this.state.ifLoggedIn} handleToken={this.state.handleToken} />
                     <Row id="title-row">
-                        <Col md={{span: 3, offset: 5}}>
+                        <Col md={{ span: 3, offset: 5 }}>
                             <h2 className="title-text"> Billing </h2>
                         </Col>
                     </Row>
 
                     <Container id="load-body">
                         <Row>
-                            <Col md={{span: 5, offset: 3}}>
+                            <Col md={{ span: 5, offset: 3 }}>
                                 <Form onSubmit={this.handleSubmit} onChange={this.handleChange}>
                                     <Row>
                                         <Col>
                                             <Form.Label column sm={8}>
-                                                Card number
+                                                Modal number
                                             </Form.Label>
                                         </Col>
                                     </Row>
 
                                     <Row>
-                                        <Col md={{span: 6, offset: 0}}>
+                                        <Col md={{ span: 6, offset: 0 }}>
                                             <Form.Control
                                                 type="text"
-                                                placeholder="Card Number"
+                                                placeholder="Modal Number"
                                                 name="cardNumber"
                                                 onChange={this.handleChange}
                                             />
@@ -164,7 +153,7 @@ class Billing extends React.Component {
                                     </Row>
 
                                     <Row>
-                                        <Col md={{span: 6, offset: 0}}>
+                                        <Col md={{ span: 6, offset: 0 }}>
                                             <Form.Control
                                                 type="password"
                                                 placeholder="csc"
@@ -184,7 +173,7 @@ class Billing extends React.Component {
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Col md={{span: 6, offset: 0}}>
+                                        <Col md={{ span: 6, offset: 0 }}>
                                             <Form.Control
                                                 placeholder="expDate"
                                                 type="date"
@@ -204,7 +193,7 @@ class Billing extends React.Component {
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Col md={{span: 6, offset: 0}}>
+                                        <Col md={{ span: 6, offset: 0 }}>
                                             <Form.Control
                                                 placeholder="Address"
                                                 type="text"
@@ -217,24 +206,20 @@ class Billing extends React.Component {
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Col md={{span: 3, offset: 5}}>
-
+                                        <Col md={{ span: 3, offset: 5 }}>
                                             <Button id="body-button" type="submit"
-                                                    onClick={this.handleSubmit}> Submit </Button>
-
+                                                onClick={this.handleSubmit}> Submit </Button>
                                         </Col>
                                     </Row>
                                 </Form>
-                                <ModalError ref='modError'/>
+                                <ModalError ref='modError' />
 
-                                {this.state.redirect && (<Route exact path="/" to component={MainPage}/>)}
+                                {this.state.redirect && (<Route exact path="/" to component={MainPage} />)}
 
                             </Col>
                         </Row>
                     </Container>
-
-
-                    <Footer/>
+                    <Footer />
                 </div>
             </BrowserRouter>
         );
