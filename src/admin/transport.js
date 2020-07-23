@@ -19,18 +19,18 @@ function Transports(props) {
         {
             maximumWeight: 22,
             volume: {
-                width: 240,
-                height: 240,
-                length: 1200,
+                width: 2.4,
+                height: 2.4,
+                length: 12,
             }
         },
     ]);
     const [type, setType] = useState('');
     const [createModalFlag, setCreateModalFlag] = useState(false);
     const [weight, setWeight] = useState(22);
-    const [width, setWidth] = useState(240);
-    const [height, setHeight] = useState(240);
-    const [length, setLength] = useState(1200);
+    const [width, setWidth] = useState(2.4);
+    const [height, setHeight] = useState(2.4);
+    const [length, setLength] = useState(12);
     const [updateModalFlag, setUpdateModalFlag] = useState(false);
     const [currentTransport, setCurrentTransport] = useState({});
     let [ifShowModalError, setIfShowModalError] = useState(false);
