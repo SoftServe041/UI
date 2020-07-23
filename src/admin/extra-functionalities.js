@@ -1,5 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Accordion, Card, Table, Dropdown, Button, Modal, Form, Col, Row, OverlayTrigger, Tooltip } from "react-bootstrap";
+import React, {useState, useEffect} from 'react';
+import {
+    Accordion,
+    Card,
+    Table,
+    Dropdown,
+    Button,
+    Modal,
+    Form,
+    Col,
+    Row,
+    OverlayTrigger,
+    Tooltip
+} from "react-bootstrap";
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import CsvHandler from './csv-handler.js';
 import axios from 'axios';
@@ -36,6 +48,7 @@ function ExtraFunctionalities(props) {
         setFlag(false);
         setTransportEntities(transportEntities);
     }
+
     function getExistedTransportEntities(props) {
         axios({
             'method': 'GET',
@@ -52,6 +65,7 @@ function ExtraFunctionalities(props) {
             setErrorMessage(error.response.data.message);
         });
     }
+
     function createTransportEntity(props) {
         axios({
             'method': 'POST',
@@ -62,13 +76,13 @@ function ExtraFunctionalities(props) {
                 'Authorization': `Bearer_${props}`,
             },
             data:
-            {
-                type: type,
-                averageSpeed: averageSpeed,
-                pricePerKm: pricePerKm,
-                cellSize: 3
+                {
+                    type: type,
+                    averageSpeed: averageSpeed,
+                    pricePerKm: pricePerKm,
+                    cellSize: 3
 
-            },
+                },
         }).then(response => {
             if (response.status === 201) {
                 setFlag(true);
@@ -80,6 +94,7 @@ function ExtraFunctionalities(props) {
             setErrorMessage(error.response.data.message);
         });
     }
+
     function updateTransportEntity(props) {
         axios({
             'method': 'PUT',
@@ -90,12 +105,12 @@ function ExtraFunctionalities(props) {
                 'Authorization': `Bearer_${props}`,
             },
             data:
-            {
-                id: idTransportEntity,
-                type: type,
-                averageSpeed: averageSpeed,
-                pricePerKm: pricePerKm,
-            },
+                {
+                    id: idTransportEntity,
+                    type: type,
+                    averageSpeed: averageSpeed,
+                    pricePerKm: pricePerKm,
+                },
 
         }).then(response => {
             if (response.status === 200) {
@@ -108,6 +123,7 @@ function ExtraFunctionalities(props) {
             setErrorMessage(error.response.data.message);
         });
     }
+
     function removeTransportEntity(id, props) {
         axios({
             'method': 'DELETE',
@@ -126,10 +142,12 @@ function ExtraFunctionalities(props) {
             setErrorMessage(error.response.data.message);
         });
     }
+
     function hideModal() {
         setCreateTransportEntityFlag(false);
         setUpdateTrEnFlag(false);
     }
+
     function handleUpdateTransportEntity(transportEntity) {
         setType(transportEntity.type);
         setAverageSpeed(transportEntity.averageSpeed);
@@ -157,6 +175,7 @@ function ExtraFunctionalities(props) {
             setErrorMessage(error.response.data.message);
         });
     }
+
     function simulationRun(props) {
         axios({
             'method': 'GET',
@@ -176,6 +195,7 @@ function ExtraFunctionalities(props) {
             setErrorMessage(error.response.data.message);
         });
     }
+
     function simulationLog(props) {
         axios({
             'method': 'GET',
@@ -195,6 +215,7 @@ function ExtraFunctionalities(props) {
             setErrorMessage(error.response.data.message);
         });
     }
+
     function simulationClear(props) {
         setLogs([]);
         axios({
@@ -215,28 +236,29 @@ function ExtraFunctionalities(props) {
             setErrorMessage(error.response.data.message);
         });
     }
+
     function formLogs() {
         if (logs.length == 0) {
             return;
         }
-        return <Table variant='dark' size='md' striped bordered hover >
-                    <thead>
-                        <tr>
-                            <th className='text-center mb-1'>Transport</th>
-                            <th className='text-center mb-1'>Date and time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            logs.map((log,index) => {
-                                return <tr key={index}>
-                                    <td className='pl-5 align-middle'>{log[0]}</td>
-                                    <td className='text-center align-middle'>{log[1]}</td>
-                                </tr>
-                            })
-                        }
-                    </tbody>
-                </Table>
+        return <Table variant='dark' size='md' striped bordered hover>
+            <thead>
+            <tr>
+                <th className='text-center mb-1'>Transport</th>
+                <th className='text-center mb-1'>Date and time</th>
+            </tr>
+            </thead>
+            <tbody>
+            {
+                logs.map((log, index) => {
+                    return <tr key={index}>
+                        <td className='pl-5 align-middle'>{log[0]}</td>
+                        <td className='text-center align-middle'>{log[1]}</td>
+                    </tr>
+                })
+            }
+            </tbody>
+        </Table>
     }
 
     useEffect(() => {
@@ -247,8 +269,8 @@ function ExtraFunctionalities(props) {
     return (
         <div>
             {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
-                message={errorMessage}
-                ifError={ifError} />}
+                                               message={errorMessage}
+                                               ifError={ifError}/>}
             <Accordion className='mt-5 ml-5 mr-5' defaultActiveKey="algorithm">
                 <Card>
                     <Accordion.Toggle as={Card.Header} eventKey="transport-detail">
@@ -257,40 +279,43 @@ function ExtraFunctionalities(props) {
                     <Accordion.Collapse className='grey-bg' eventKey="transport-detail">
                         <Card.Body>
                             <div className='component-small'>
-                                <Table variant='dark' size='md' striped bordered hover >
+                                <Table variant='dark' size='md' striped bordered hover>
                                     <thead>
-                                        <tr>
-                                            <th className='text-center mb-1'>Type</th>
-                                            <th className='text-center mb-1'>Average speed</th>
-                                            <th className='text-center aling-top'>Price per km</th>
-                                            <th className='text-center aling-middle'>Actions</th>
-                                        </tr>
+                                    <tr>
+                                        <th className='text-center mb-1'>Type</th>
+                                        <th className='text-center mb-1'>Average speed</th>
+                                        <th className='text-center aling-top'>Price per km</th>
+                                        <th className='text-center aling-middle'>Actions</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        {(transportEntities !== undefined) && transportEntities.map((transportEntity, index) =>
-                                            <tr key={index}>
-                                                <td className='text-center align-middle'>
-                                                    {transportEntity.type}
-                                                </td>
-                                                <td className='text-center align-middle'>{transportEntity.averageSpeed}</td>
-                                                <td className='text-center align-middle'>{transportEntity.pricePerKm}</td>
-                                                <td className='text-center align-middle'>
-                                                    <Dropdown size='md' >
-                                                        <Dropdown.Toggle style={style.Button}>Action</Dropdown.Toggle>
-                                                        <DropdownMenu>
-                                                            <Dropdown.Item as="button" onSelect={() => handleUpdateTransportEntity(transportEntity)}>Update</Dropdown.Item>
-                                                            <Dropdown.Divider />
-                                                            <Dropdown.Item as="button" onSelect={() => removeTransportEntity(transportEntity.id, props.token)}>Delete</Dropdown.Item>
-                                                        </DropdownMenu>
-                                                    </Dropdown>
-                                                </td>
-                                            </tr>
-                                        )}
+                                    {(transportEntities !== undefined) && transportEntities.map((transportEntity, index) =>
+                                        <tr key={index}>
+                                            <td className='text-center align-middle'>
+                                                {transportEntity.type}
+                                            </td>
+                                            <td className='text-center align-middle'>{transportEntity.averageSpeed}</td>
+                                            <td className='text-center align-middle'>{transportEntity.pricePerKm}</td>
+                                            <td className='text-center align-middle'>
+                                                <Dropdown size='md'>
+                                                    <Dropdown.Toggle style={style.Button}>Action</Dropdown.Toggle>
+                                                    <DropdownMenu>
+                                                        <Dropdown.Item as="button"
+                                                                       onSelect={() => handleUpdateTransportEntity(transportEntity)}>Update</Dropdown.Item>
+                                                        <Dropdown.Divider/>
+                                                        <Dropdown.Item as="button"
+                                                                       onSelect={() => removeTransportEntity(transportEntity.id, props.token)}>Delete</Dropdown.Item>
+                                                    </DropdownMenu>
+                                                </Dropdown>
+                                            </td>
+                                        </tr>
+                                    )}
                                     </tbody>
                                 </Table>
                             </div>
                             <div className="col text-right">
-                                <Button id='new-hub-img' variant="light" onClick={() => setCreateTransportEntityFlag(true)} />
+                                <Button id='new-hub-img' variant="light"
+                                        onClick={() => setCreateTransportEntityFlag(true)}/>
                             </div>
                         </Card.Body>
                     </Accordion.Collapse>
@@ -301,7 +326,7 @@ function ExtraFunctionalities(props) {
                     </Accordion.Toggle>
                     <Accordion.Collapse className='grey-bg' eventKey="csv-loader">
                         <Card.Body>
-                            <CsvHandler token={props.token} />
+                            <CsvHandler token={props.token}/>
                         </Card.Body>
                     </Accordion.Collapse>
                 </Card>
@@ -315,25 +340,29 @@ function ExtraFunctionalities(props) {
                                 <Col sm="3">
                                     <OverlayTrigger placement='top' overlay={
                                         <Tooltip>from Neo4j to MySQL</Tooltip>}>
-                                        <Button onClick={() => simulationMigration(props.token)} block>Import</Button>
+                                        <Button id="body-button3" onClick={() => simulationMigration(props.token)}
+                                                block>Import</Button>
                                     </OverlayTrigger>
                                 </Col>
                                 <Col sm="3">
                                     <OverlayTrigger placement='top' overlay={
                                         <Tooltip>simulation of algorithm</Tooltip>}>
-                                        <Button onClick={() => simulationRun(props.token)} block>Start</Button>
+                                        <Button id="body-button3" onClick={() => simulationRun(props.token)}
+                                                block>Start</Button>
                                     </OverlayTrigger>
                                 </Col>
                                 <Col sm="3">
                                     <OverlayTrigger placement='top' overlay={
                                         <Tooltip>logs of simulation</Tooltip>}>
-                                        <Button variant="info" onClick={() => simulationLog(props.token)} block>Show</Button>
+                                        <Button id="body-button3" onClick={() => simulationLog(props.token)}
+                                                block>Show</Button>
                                     </OverlayTrigger>
                                 </Col>
                                 <Col sm="3">
                                     <OverlayTrigger placement='top' overlay={
                                         <Tooltip>drop all data after simulation in dataMySQL storage</Tooltip>}>
-                                        <Button variant="danger" onClick={() => simulationClear(props.token)} block>Clear</Button>
+                                        <Button id="body-button3" onClick={() => simulationClear(props.token)}
+                                                block>Clear</Button>
                                     </OverlayTrigger>
                                 </Col>
                             </Row>
@@ -380,7 +409,9 @@ function ExtraFunctionalities(props) {
                                 Average speed
                             </Form.Label>
                             <Col sm="5">
-                                <Form.Control type="number" className='text-center' size='sm' defaultValue={averageSpeed} onChange={(e) => setAverageSpeed(e.target.value)} />
+                                <Form.Control type="number" className='text-center' size='sm'
+                                              defaultValue={averageSpeed}
+                                              onChange={(e) => setAverageSpeed(e.target.value)}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row}>
@@ -388,13 +419,15 @@ function ExtraFunctionalities(props) {
                                 Price per km
                             </Form.Label>
                             <Col sm="5">
-                                <Form.Control type="number" className='text-center' size='sm' defaultValue={pricePerKm} onChange={(e) => setPricePerKm(e.target.value)} />
+                                <Form.Control type="number" className='text-center' size='sm' defaultValue={pricePerKm}
+                                              onChange={(e) => setPricePerKm(e.target.value)}/>
                             </Col>
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='col-md-5 mr-3' onClick={() => createTransportEntityFlag ? createTransportEntity(props.token) : updateTransportEntity(props.token)}>
+                    <Button className='col-md-5 mr-3'
+                            onClick={() => createTransportEntityFlag ? createTransportEntity(props.token) : updateTransportEntity(props.token)}>
                         {
                             createTransportEntityFlag ? "Create" : "Update"
                         }
