@@ -3,6 +3,7 @@ import { Pagination, Table, Dropdown, Button, Form, Modal, Row, Col } from "reac
 import axios from 'axios';
 import ModalError from "../error/modalErrorFF.js";
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
+import Cargo3D from '../visualization/CargoHoldVisual.js';
 
 function Transports(props) {
     let url = 'http://localhost:9041/admin/transport';
@@ -35,6 +36,7 @@ function Transports(props) {
     const [currentTransport, setCurrentTransport] = useState({});
     let [ifShowModalError, setIfShowModalError] = useState(false);
     let [errorMessage, setErrorMessage] = useState('');
+    const [visualizeFlag, setVisualizeFlag] = useState(false);
 
     function ifError() {
         let temp = !ifShowModalError;
@@ -46,7 +48,7 @@ function Transports(props) {
             "border": "none"
         }
     }
-    
+
     if (transportTypes.length === 0) {
         getAllTransportTypes(props);
     }
@@ -215,6 +217,16 @@ function Transports(props) {
         setCompartments(transport.compartments);
         setUpdateModalFlag(true);
     }
+    function visualize(transport) {
+        console.log("visualiar transport .js",transport);
+        setVisualizeFlag(true);
+        setCurrentTransport(transport);
+    }
+
+    function disable(){
+        setVisualizeFlag(false);
+    }
+    
     useEffect(() => {
         if (flag) {
             getAllTransports(props.token);
@@ -274,6 +286,8 @@ function Transports(props) {
                                             <Dropdown.Item as="button" onSelect={() => handleUpdateTransport(transport)}>Update</Dropdown.Item>
                                             <Dropdown.Divider />
                                             <Dropdown.Item as="button" onSelect={() => removeTransport(transport, props)}>Delete</Dropdown.Item>
+                                            <Dropdown.Divider />
+                                            <Dropdown.Item as="button" onSelect={() => visualize(transport)}>Show</Dropdown.Item>
                                         </DropdownMenu>
                                     </Dropdown>
                                 </td>
@@ -382,13 +396,13 @@ function Transports(props) {
                                 <Form.Control type="number" className='text-left' size='sm' defaultValue={weight} onChange={(e) => setWeight(e.target.value)} />
                             </Col>
                             <Col>
-                                <Form.Control type="number" size='sm' defaultValue={width} onChange={(e) => setWidth(e.target.value/100)} />
+                                <Form.Control type="number" size='sm' defaultValue={width} onChange={(e) => setWidth(e.target.value / 100)} />
                             </Col>
                             <Col>
-                                <Form.Control type="number" size='sm' defaultValue={height} onChange={(e) => setHeight(e.target.value/100)} />
+                                <Form.Control type="number" size='sm' defaultValue={height} onChange={(e) => setHeight(e.target.value / 100)} />
                             </Col>
                             <Col sm="3">
-                                <Form.Control type="number" size='sm' defaultValue={length} onChange={(e) => setLength(e.target.value/100)} />
+                                <Form.Control type="number" size='sm' defaultValue={length} onChange={(e) => setLength(e.target.value / 100)} />
                             </Col>
                             <Col className="align-middle text-center">
                                 <Button onClick={() => addNewCompartment()} size="sm">+</Button>
@@ -405,8 +419,13 @@ function Transports(props) {
                     <Button className='col-md-5 mr-4' variant='secondary' onClick={() => closeCreateUpdateModalWindow()}>cancel</Button>
                 </Modal.Footer>
             </Modal>
+            <Cargo3D showFlag={visualizeFlag} disable={disable} id={currentTransport.id ? currentTransport.id : 1000} token={props.token} />
+            {/*
+                visualizeFlag ? <Cargo3D showFlag="true" id={currentTransport.id ? currentTransport.id : 1000} token={props.token} /> : <div>{console.log(visualizeFlag)}</div>
+                */
+            }
         </div>
     );
 }
-
+ 
 export default Transports;

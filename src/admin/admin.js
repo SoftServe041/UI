@@ -13,7 +13,6 @@ export default function Admin(props) {
     const [transportTypes, setTransportTypes] = useState([]);
 
     if (Boolean(props.data.ifAdmin) === false) {
-    //    return <Redirect to='/' />
     }
     return (
         <div>
