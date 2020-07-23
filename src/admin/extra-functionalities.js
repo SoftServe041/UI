@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Accordion, Card, Table, Dropdown, Button, Modal, Form, Col, Row } from "react-bootstrap";
+import { Accordion, Card, Table, Dropdown, Button, Modal, Form, Col, Row, OverlayTrigger, Tooltip } from "react-bootstrap";
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import CsvHandler from './csv-handler.js';
 import axios from 'axios';
@@ -25,6 +25,7 @@ function ExtraFunctionalities(props) {
     const [idTransportEntity, setIdTransportEntity] = useState(-1);
     let [ifShowModalError, setIfShowModalError] = useState(false);
     let [errorMessage, setErrorMessage] = useState('');
+    const [logs, setLogs] = useState([]);
 
     function ifError() {
         let temp = !ifShowModalError;
@@ -137,6 +138,107 @@ function ExtraFunctionalities(props) {
         setUpdateTrEnFlag(true);
     }
 
+    function simulationMigration(props) {
+        axios({
+            'method': 'GET',
+            'url': "http://localhost:9041/admin/neo4j/to/mysql",
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer_${props}`,
+            },
+
+        }).then(response => {
+            if (response.status === 200) {
+                alert("migration has been started");
+            }
+        }).catch(error => {
+            setIfShowModalError(true);
+            setErrorMessage(error.response.data.message);
+        });
+    }
+    function simulationRun(props) {
+        axios({
+            'method': 'GET',
+            'url': "http://localhost:9041/admin/simulation",
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer_${props}`,
+            },
+
+        }).then(response => {
+            if (response.status === 200) {
+                alert("simulation has been started");
+            }
+        }).catch(error => {
+            setIfShowModalError(true);
+            setErrorMessage(error.response.data.message);
+        });
+    }
+    function simulationLog(props) {
+        axios({
+            'method': 'GET',
+            'url': "http://localhost:9041/admin/transport/logs",
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer_${props}`,
+            },
+
+        }).then(response => {
+            if (response.status === 200) {
+                setLogs(response.data);
+            }
+        }).catch(error => {
+            setIfShowModalError(true);
+            setErrorMessage(error.response.data.message);
+        });
+    }
+    function simulationClear(props) {
+        setLogs([]);
+        axios({
+            'method': 'GET',
+            'url': "http://localhost:9041/admin/clear",
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer_${props}`,
+            },
+
+        }).then(response => {
+            if (response.status === 200) {
+                alert("clearing has been started");
+            }
+        }).catch(error => {
+            setIfShowModalError(true);
+            setErrorMessage(error.response.data.message);
+        });
+    }
+    function formLogs() {
+        if (logs.length == 0) {
+            return;
+        }
+        return <Table variant='dark' size='md' striped bordered hover >
+                    <thead>
+                        <tr>
+                            <th className='text-center mb-1'>Transport</th>
+                            <th className='text-center mb-1'>Date and time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            logs.map((log,index) => {
+                                return <tr key={index}>
+                                    <td className='pl-5 align-middle'>{log[0]}</td>
+                                    <td className='text-center align-middle'>{log[1]}</td>
+                                </tr>
+                            })
+                        }
+                    </tbody>
+                </Table>
+    }
+
     useEffect(() => {
         if (flag) {
             getExistedTransportEntities(props.token);
@@ -147,7 +249,7 @@ function ExtraFunctionalities(props) {
             {(ifShowModalError) && <ModalError ifShow={ifShowModalError}
                 message={errorMessage}
                 ifError={ifError} />}
-            <Accordion className='mt-5 ml-5 mr-5' defaultActiveKey="csv-loader">
+            <Accordion className='mt-5 ml-5 mr-5' defaultActiveKey="algorithm">
                 <Card>
                     <Accordion.Toggle as={Card.Header} eventKey="transport-detail">
                         <h3 className='text-center align-middle font-weight-bold'>Transport details</h3>
@@ -199,16 +301,48 @@ function ExtraFunctionalities(props) {
                     </Accordion.Toggle>
                     <Accordion.Collapse className='grey-bg' eventKey="csv-loader">
                         <Card.Body>
-                            <CsvHandler token = {props.token} />
+                            <CsvHandler token={props.token} />
                         </Card.Body>
                     </Accordion.Collapse>
                 </Card>
                 <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="1">
-                        Functionality # Cargoes status and their carrying trucks
+                    <Accordion.Toggle as={Card.Header} eventKey="algorithm">
+                        <h3 className='text-center align-middle font-weight-bold'>Algorithm runner</h3>
                     </Accordion.Toggle>
-                    <Accordion.Collapse eventKey="1">
-                        <Card.Body>Hello! I'm another body</Card.Body>
+                    <Accordion.Collapse className='grey-bg' eventKey="algorithm">
+                        <Card.Body>
+                            <Row>
+                                <Col sm="3">
+                                    <OverlayTrigger placement='top' overlay={
+                                        <Tooltip>from Neo4j to MySQL</Tooltip>}>
+                                        <Button onClick={() => simulationMigration(props.token)} block>Import</Button>
+                                    </OverlayTrigger>
+                                </Col>
+                                <Col sm="3">
+                                    <OverlayTrigger placement='top' overlay={
+                                        <Tooltip>simulation of algorithm</Tooltip>}>
+                                        <Button onClick={() => simulationRun(props.token)} block>Start</Button>
+                                    </OverlayTrigger>
+                                </Col>
+                                <Col sm="3">
+                                    <OverlayTrigger placement='top' overlay={
+                                        <Tooltip>logs of simulation</Tooltip>}>
+                                        <Button variant="info" onClick={() => simulationLog(props.token)} block>Show</Button>
+                                    </OverlayTrigger>
+                                </Col>
+                                <Col sm="3">
+                                    <OverlayTrigger placement='top' overlay={
+                                        <Tooltip>drop all data in Neo4j, MySQL stores</Tooltip>}>
+                                        <Button variant="danger" onClick={() => simulationClear(props.token)} block>Clear</Button>
+                                    </OverlayTrigger>
+                                </Col>
+                            </Row>
+                            <Row className='component-small'>
+                                {
+                                    formLogs()
+                                }
+                            </Row>
+                        </Card.Body>
                     </Accordion.Collapse>
                 </Card>
             </Accordion>
