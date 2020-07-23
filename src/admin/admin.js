@@ -3,12 +3,10 @@ import Users from './users.js';
 import Hubs from './hubs.js';
 import Transport from './transport.js';
 import ExtraFunctionalities from './extra-functionalities.js';
-import Demo from './Demo';
 import './admin.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tab, Nav, Container, Col, Row } from "react-bootstrap";
 import '../App.css';
-import { Redirect } from 'react-router-dom';
 
 export default function Admin(props) {
     const [existedHubs, setExistedHubs] = useState([]);
@@ -40,9 +38,6 @@ export default function Admin(props) {
                         <Nav.Item className='col-md-2 h4 font-weight-bold'>
                             <Nav.Link className='title-text grey-bg mb-1 mt-1' eventKey="extratab">Extra</Nav.Link>
                         </Nav.Item>
-                        <Nav.Item className='col-md-2 h4 font-weight-bold'>
-                            <Nav.Link className='title-text grey-bg mb-1 mt-1' eventKey="demo">Demo</Nav.Link>
-                        </Nav.Item>
                     </Nav>
                     <Tab.Content>
                         <Tab.Pane eventKey="extratab">
@@ -56,9 +51,6 @@ export default function Admin(props) {
                         </Tab.Pane>
                         <Tab.Pane eventKey="transports">
                             <Transport existedHubs={existedHubs} setTransportTypes={setTransportTypes} transportTypes={transportTypes} token={props.data.token}/>
-                        </Tab.Pane>
-                        <Tab.Pane eventKey="demo">
-                            <Demo />
                         </Tab.Pane>
                     </Tab.Content>
                 </Tab.Container>
