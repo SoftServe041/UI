@@ -3,6 +3,7 @@ import { Pagination, Table, Dropdown, Button, Form, Modal, Row, Col } from "reac
 import axios from 'axios';
 import ModalError from "../error/modalErrorFF.js";
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
+import Cargo3D from '../visualization/CargoHoldVisual.js';
 
 function Transports(props) {
     let url = 'http://localhost:9041/admin/transport';
@@ -46,7 +47,7 @@ function Transports(props) {
             "border": "none"
         }
     }
-    
+
     if (transportTypes.length === 0) {
         getAllTransportTypes(props);
     }
@@ -215,6 +216,10 @@ function Transports(props) {
         setCompartments(transport.compartments);
         setUpdateModalFlag(true);
     }
+    function visualize(transport, props) {
+        return <Cargo3D showFlag='true' id={transport.id} token={props.token} 
+        setIfShowModalError={setIfShowModalError()} setErrorMessage={setErrorMessage()}/>
+    } 
     useEffect(() => {
         if (flag) {
             getAllTransports(props.token);
@@ -274,6 +279,8 @@ function Transports(props) {
                                             <Dropdown.Item as="button" onSelect={() => handleUpdateTransport(transport)}>Update</Dropdown.Item>
                                             <Dropdown.Divider />
                                             <Dropdown.Item as="button" onSelect={() => removeTransport(transport, props)}>Delete</Dropdown.Item>
+                                            <Dropdown.Divider />
+                                            <Dropdown.Item as="button" onSelect={() => visualize(transport, props)}>Show</Dropdown.Item>
                                         </DropdownMenu>
                                     </Dropdown>
                                 </td>
@@ -382,13 +389,13 @@ function Transports(props) {
                                 <Form.Control type="number" className='text-left' size='sm' defaultValue={weight} onChange={(e) => setWeight(e.target.value)} />
                             </Col>
                             <Col>
-                                <Form.Control type="number" size='sm' defaultValue={width} onChange={(e) => setWidth(e.target.value/100)} />
+                                <Form.Control type="number" size='sm' defaultValue={width} onChange={(e) => setWidth(e.target.value / 100)} />
                             </Col>
                             <Col>
-                                <Form.Control type="number" size='sm' defaultValue={height} onChange={(e) => setHeight(e.target.value/100)} />
+                                <Form.Control type="number" size='sm' defaultValue={height} onChange={(e) => setHeight(e.target.value / 100)} />
                             </Col>
                             <Col sm="3">
-                                <Form.Control type="number" size='sm' defaultValue={length} onChange={(e) => setLength(e.target.value/100)} />
+                                <Form.Control type="number" size='sm' defaultValue={length} onChange={(e) => setLength(e.target.value / 100)} />
                             </Col>
                             <Col className="align-middle text-center">
                                 <Button onClick={() => addNewCompartment()} size="sm">+</Button>
