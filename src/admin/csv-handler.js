@@ -106,7 +106,7 @@ export default function CsvHandler(props) {
     console.log('create users: ', items);
     axios({
       method: 'POST',
-      url: 'http://localhost:8041/admin/batch/registration',
+      url: 'http://164.90.212.3:8041/admin/batch/registration',
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -150,7 +150,7 @@ export default function CsvHandler(props) {
     console.log('create transports: ', items);
     axios({
       method: 'POST',
-      url: 'http://localhost:9041/admin/transport/batch',
+      url: 'http://164.90.212.3:9041/admin/transport/batch',
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',

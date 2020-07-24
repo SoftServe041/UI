@@ -65,7 +65,7 @@ class LogInMenu extends React.Component {
     }
 
     submitHandler = e => {
-        const url = 'http://localhost:8041/login'
+        const url = 'http://164.90.212.3:8041/login'
         if (this.state.email.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.password.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         e.preventDefault()

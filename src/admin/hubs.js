@@ -12,8 +12,8 @@ const style = {
 }
 
 function Hubs(props) {
-    let url = 'http://localhost:9041/admin/hub';
-    let urlForReltion = 'http://localhost:9041/admin/hub/relation';
+    let url = 'http://164.90.212.3:9041/admin/hub';
+    let urlForReltion = 'http://164.90.212.3:9041/admin/hub/relation';
     let existedHubs = props.existedHubs;
     let setExistedHubs = props.setExistedHubs;
     const [flag, setFlag] = useState(true);

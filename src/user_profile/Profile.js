@@ -47,7 +47,7 @@ class Profile extends React.Component {
 
     async componentDidMount(props) {
 
-        axios.get(`http://localhost:8041/user/profile/${this.props.data.userId}`, {
+        axios.get(`http://164.90.212.3:8041/user/profile/${this.props.data.userId}`, {
             data: {},
             headers: {
                 'Content-Type': 'application/json',
@@ -120,8 +120,8 @@ class Profile extends React.Component {
     }
 
     submitHandler = (e, props) => {
-        const urlUpdateUser = `http://localhost:8041/user/profile/${this.props.data.userId}`;
-        const urlUpdatePassword = `http://localhost:8041/user/profile/reset-password/${this.props.data.userId}`;
+        const urlUpdateUser = `http://164.90.212.3:8041/user/profile/${this.props.data.userId}`;
+        const urlUpdatePassword = `http://164.90.212.3:8041/user/profile/reset-password/${this.props.data.userId}`;
 
         if (this.state.email.length < 1) { this.setState({ ifFieldsEmpty: true }) }
         if (this.state.firstName.length < 1) { this.setState({ ifFieldsEmpty: true }) }

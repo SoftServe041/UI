@@ -44,7 +44,7 @@ function Orders(props) {
     function getOrdersById() {
         axios({
             'method': 'GET',
-            'url': 'http://localhost:9041/' + props.data.userId + '/profile',
+            'url': 'http://164.90.212.3:9041/' + props.data.userId + '/profile',
             'headers': {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer_${token}`
@@ -66,7 +66,7 @@ function Orders(props) {
             getOrdersById();
             setFlag(false);
         }
-    });
+    }, [flag, getOrdersById]);
 
     return (
         <div>

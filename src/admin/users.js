@@ -11,8 +11,8 @@ const style = {
 }
 
 function Users(props) {
-    let urlForGetAllUsers = 'http://localhost:8041/admin/users?page=';
-    let urlForUpdateDeleteUser = 'http://localhost:8041/admin/users/';
+    let urlForGetAllUsers = 'http://164.90.212.3:8041/admin/users?page=';
+    let urlForUpdateDeleteUser = 'http://164.90.212.3:8041/admin/users/';
     const [pagination, setPagination] = useState([]);
     const [activePage, setActivePage] = useState(1);
     let totalPage = 1;

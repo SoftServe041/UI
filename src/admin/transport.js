@@ -6,8 +6,8 @@ import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import Cargo3D from '../visualization/CargoHoldVisual.js';
 
 function Transports(props) {
-    let url = 'http://localhost:9041/admin/transport';
-    let urlForTransportTypes = 'http://localhost:9041/admin/transport/types';
+    let url = 'http://164.90.212.3:9041/admin/transport';
+    let urlForTransportTypes = 'http://164.90.212.3:9041/admin/transport/types';
     const [pagination, setPagination] = useState([]);
     const [activePage, setActivePage] = useState(0);
     let existedHubs = props.existedHubs;

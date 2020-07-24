@@ -34,7 +34,7 @@ function Cargo3D(props) {
   function getBoxesDataForVisualisation() {
     axios({
       'method': 'GET',
-      'url': "http://localhost:9041/admin/cargosByTransporter?id=" + props.id,
+      'url': "http://164.90.212.3:9041/admin/cargosByTransporter?id=" + props.id,
       'headers': {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ function Cargo3D(props) {
         setShowFlag(false);
       }
     }
-  });
+  }, [props.showFlag, showFlag, getBoxesDataForVisualisation]);
   return (
     <div>
       <Modal show={props.showFlag} animation='true' onHide={() => setShowFlag(false)} slyle={{backgroundColor: "#2d292"}}>

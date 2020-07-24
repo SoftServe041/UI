@@ -91,7 +91,7 @@ function UserLoggedIn(props) {
 	async function logOut() {
 		await axios({
             'method': 'GET',
-            'url': 'http://localhost:8041/reset',
+            'url': 'http://164.90.212.3:8041/reset',
             'headers': {
                 'Authorization': `Bearer_${sessionStorage.getItem('token1')}`
             }

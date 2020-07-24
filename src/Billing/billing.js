@@ -55,7 +55,7 @@ class Billing extends React.Component {
 
         if (formValid(this.state)) {
 
-            axios.post('http://localhost:8041/registration', {
+            axios.post('http://164.90.212.3:8041/registration', {
                 firstName: this.props.data.firstName,
                 lastName: this.props.data.lastName,
                 email: this.props.data.email,

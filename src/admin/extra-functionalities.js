@@ -25,7 +25,7 @@ const style = {
 }
 
 function ExtraFunctionalities(props) {
-    let url = 'http://localhost:9041/admin/transport/details';
+    let url = 'http://164.90.212.3:9041/admin/transport/details';
     let transportTypes = props.transportTypes;
     const [transportEntities, setTransportEntities] = useState([]);
     const [flag, setFlag] = useState(true);
@@ -159,7 +159,7 @@ function ExtraFunctionalities(props) {
     function simulationMigration(props) {
         axios({
             'method': 'GET',
-            'url': "http://localhost:9041/admin/neo4j/to/mysql",
+            'url': "http://164.90.212.3:9041/admin/neo4j/to/mysql",
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
@@ -179,7 +179,7 @@ function ExtraFunctionalities(props) {
     function simulationRun(props) {
         axios({
             'method': 'GET',
-            'url': "http://localhost:9041/admin/simulation",
+            'url': "http://164.90.212.3:9041/admin/simulation",
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
@@ -199,7 +199,7 @@ function ExtraFunctionalities(props) {
     function simulationLog(props) {
         axios({
             'method': 'GET',
-            'url': "http://localhost:9041/admin/transport/logs",
+            'url': "http://164.90.212.3:9041/admin/transport/logs",
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
@@ -220,7 +220,7 @@ function ExtraFunctionalities(props) {
         setLogs([]);
         axios({
             'method': 'GET',
-            'url': "http://localhost:9041/admin/clear",
+            'url': "http://164.90.212.3:9041/admin/clear",
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',

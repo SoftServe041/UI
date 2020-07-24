@@ -90,7 +90,7 @@ class Results extends React.Component {
 	}
 
 	async loadCities() {
-		await axios.get(`http://localhost:9041/cities`)
+		await axios.get(`http://164.90.212.3:9041/cities`)
 			.then(res => {
 				this.setState({ citiesList: res.data })
 			});
@@ -100,7 +100,7 @@ class Results extends React.Component {
 		await axios(
 			{
 				method: 'POST',
-				url: 'http://localhost:9041/requestRoutes',
+				url: 'http://164.90.212.3:9041/requestRoutes',
 				headers: {
 					'Access-Control-Allow-Origin': '*',
 					'Content-Type': 'application/json',

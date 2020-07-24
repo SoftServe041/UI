@@ -42,7 +42,7 @@ class MainPage extends React.Component {
     }
 
     async componentDidMount(setIfShowModalError, setErrorMessage) {
-        await axios.get(`http://localhost:9041/cities`)
+        await axios.get(`http://164.90.212.3:9041/cities`)
             .then(res => {
                 this.setState({ citiesList: res.data })
             })

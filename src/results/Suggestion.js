@@ -110,7 +110,7 @@ function Suggestion(props) {
     const getCards = () => {
         axios({
             'method': 'GET',
-            'url': `http://localhost:8041/user/${userDetails.userId}/billing-details/`,
+            'url': `http://164.90.212.3:8041/user/${userDetails.userId}/billing-details/`,
             'headers': {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer_${userDetails.token}`

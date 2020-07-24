@@ -4,7 +4,7 @@ import axios from "axios";
 import { Col } from 'react-bootstrap';
 
 
-const url = "localhost:9041"
+const url = "164.90.212.3:9041"
 
 function Suggestions(props) {
 

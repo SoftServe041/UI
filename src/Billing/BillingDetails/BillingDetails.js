@@ -8,7 +8,7 @@ import ModalError from "../../error/modalErrorFF.js";
 const cscRegEx = /\b\d{3}\b/;
 const cardRegEx = /\b\d{16}\b/;
 
-const url = "localhost:8041";
+const url = "164.90.212.3:8041";
 
 const BillingDetails = (props) => {
 
